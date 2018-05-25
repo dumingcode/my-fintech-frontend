@@ -17,8 +17,8 @@
             </Card>
         </Row>
 
- 
-         
+         <Footer class="layout-footer-center">2011-2016 &copy; TalkingData</Footer>
+        
     </div>
 </template>
 
@@ -71,3 +71,8 @@ export default {
     }
 };
 </script>
+<style scoped>
+.layout-footer-center{
+    text-align: center;
+}
+</style>
