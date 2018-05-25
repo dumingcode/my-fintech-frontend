@@ -99,8 +99,33 @@ export const otherRouter = {
     ]
 };
 
-// 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
 export const appRouter = [{
+    path: '/component',
+    icon: 'social-buffer',
+    name: 'component',
+    title: '指数投资',
+    component: Main,
+    children: [{
+            path: 'text-editor',
+            icon: 'compose',
+            name: 'text-editor',
+            title: '待开放'
+                // component: () =>
+                //     import ('@/views/my-components/text-editor/text-editor.vue')
+        },
+        {
+            path: 'md-editor',
+            icon: 'pound',
+            name: 'md-editor',
+            title: '待开放'
+                // component: () =>
+                //     import ('@/views/my-components/markdown-editor/markdown-editor.vue')
+        }
+    ]
+}]
+
+// 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
+export const appRouter1 = [{
         path: '/access',
         icon: 'key',
         name: 'access',
