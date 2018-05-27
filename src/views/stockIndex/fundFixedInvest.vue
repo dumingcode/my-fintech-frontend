@@ -22,7 +22,7 @@
             <Card>
                 <p slot="title" class="card-title">
                     博格公式法估值定投-PE百分位
-                    <Icon type="help" title="定投基准金额 * 定投倍数 * (1.2-pe百分位)"></Icon>
+                    <Icon type="help" title="定投基准金额 * 定投倍数 * (pe机会值 / 当前pe)"></Icon>
                 </p>
                 <Table border :data="pePosTableData" :columns="columnsList"></Table>
             </Card>
@@ -34,7 +34,7 @@
             <Card>
                 <p slot="title" class="card-title">
                     博格公式法估值定投-PB百分位
-                     <Icon type="help" title="定投基准金额 * 定投倍数 * (1.2-pb百分位)"></Icon>
+                     <Icon type="help" title="定投基准金额 * 定投倍数 * (pb机会值 / 当前pb)"></Icon>
                 </p>
                 <Table border :data="pbPosTableData" :columns="columnsList"></Table>
             </Card>
@@ -89,6 +89,12 @@ export default {
           width: 120,
           align: "center"
         },
+          {
+          title: "机会值(20%百分位)",
+          key: "chanceVal",
+          width: 120,
+          align: "center"
+        },
         {
           title: "定投基准金额",
           key: "baseMoney",
@@ -105,15 +111,14 @@ export default {
       tableData: [],
       pePosTableData:[],
       pbPosTableData:[],      
-      yieldCalcIndex: ["000925", "000922", "000300"],
+      yieldCalcIndex: ['399550','10002', '000015',"000925", "000922", "000300"],
       pePosCalcIndex: ["399812", "399971", "000827", "000905"],
-      pbPosCalcIndex: ["399975", "399986"]
+      pbPosCalcIndex: ['399395','399998','399393',"399975", "399986"]
     };
   },
   methods: {
     composeIndexData(stockIndex) {
-      stockIndex["baseMoney"] = 1000;
-      
+      stockIndex["baseMoney"] = 1000;      
       stockIndex["pe"] = stockIndex["pe"].toFixed(2);
       stockIndex["pb"] = stockIndex["pb"].toFixed(2);
       stockIndex["pe_pos"] = (stockIndex["pe_pos"].toFixed(2) * 100).toFixed(0) + "%";
@@ -127,22 +132,28 @@ export default {
       let indexObj = JSON.parse(lxrIndexAllData.data.data);
       this.yieldCalcIndex.forEach(element => {
         let stockIndex = indexObj[element]
-        stockIndex["dtbs"] = 1;
+        if(!stockIndex) return
+        stockIndex['dtbs'] = 1;
+        stockIndex['chanceVal']=stockIndex.pe_chance_val.toFixed(2)
         stockIndex["curMoney"] = (10000 * stockIndex["dtbs"] / stockIndex.pe).toFixed(0);
         this.composeIndexData(stockIndex)
         this.tableData.push(stockIndex);
       });
       this.pePosCalcIndex.forEach(element => {
         let stockIndex = indexObj[element]
-        stockIndex["dtbs"] = 1//(25 / stockIndex.pe).toFixed(2);
-        stockIndex["curMoney"] = (1000 * stockIndex["dtbs"] * (1.2-stockIndex.pe_pos)).toFixed(0)
+        if(!stockIndex) return
+        stockIndex["dtbs"] = 1
+        stockIndex['chanceVal']=stockIndex.pe_chance_val.toFixed(2)
+        stockIndex["curMoney"] = (1000 * stockIndex["dtbs"] * (stockIndex.pe_chance_val/stockIndex.pe)).toFixed(0)
         this.composeIndexData(stockIndex)
         this.pePosTableData.push(stockIndex);
       });
        this.pbPosCalcIndex.forEach(element => {
         let stockIndex = indexObj[element]
-        stockIndex["dtbs"] = 1//(2.5 / stockIndex.pb).toFixed(2);
-        stockIndex["curMoney"] = (1000 * stockIndex["dtbs"] * (1.2-stockIndex.pb_pos)).toFixed(0)
+        if(!stockIndex) return
+        stockIndex["dtbs"] = 1
+        stockIndex['chanceVal']=stockIndex.pb_chance_val.toFixed(2)
+        stockIndex["curMoney"] = (1000 * stockIndex["dtbs"] * (stockIndex.pb_chance_val/stockIndex.pb)).toFixed(0)
         this.composeIndexData(stockIndex)
         this.pbPosTableData.push(stockIndex);
       });
