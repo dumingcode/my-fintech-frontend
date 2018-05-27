@@ -6,12 +6,9 @@
     <div class="home-main">
 
         <Row class="margin-top-10">
-            <Col span="16">
+            <Col span="24">
             <Card>
-                <p slot="title" class="card-title">
-                    <Icon type="ios-shuffle-strong"></Icon>
-                    指数定期不定额定投
-                </p>
+                
                 <div class="line-chart-con">
                     <fundFixedInvest></fundFixedInvest>
                 </div>
