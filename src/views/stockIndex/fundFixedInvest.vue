@@ -7,13 +7,15 @@
   <div>
     <Row>
       <Col span="24" class="padding-left-10 height-100">
-      
+
       <Card>
         <p slot="title" class="card-title">
           {{dealDate}}盈利收益率法估值定投
           <Icon type="help" title="定投基准金额 * 定投倍数 * (10/pe)"></Icon>
         </p>
-        <Table border :data="tableData" :columns="columnsList"></Table>
+
+        <can-edit-table refs="yieldTable" @on-cell-change="handleYieldCellChange" :editIncell="true" v-model="tableData" :columns-list="columnsList"></can-edit-table>
+
       </Card>
       </Col>
 
@@ -25,7 +27,9 @@
           {{dealDate}}博格公式法估值定投-PE
           <Icon type="help" title="定投基准金额 * 定投倍数 * (pe机会值 / 当前pe)"></Icon>
         </p>
-        <Table border :data="pePosTableData" :columns="columnsList"></Table>
+
+        <can-edit-table refs="peTable" @on-cell-change="handlePeCellChange" :editIncell="true" v-model="pePosTableData" :columns-list="columnsList"></can-edit-table>
+
       </Card>
       </Col>
 
@@ -37,7 +41,9 @@
           {{dealDate}}博格公式法估值定投-PB
           <Icon type="help" title="定投基准金额 * 定投倍数 * (pb机会值 / 当前pb)"></Icon>
         </p>
-        <Table border :data="pbPosTableData" :columns="columnsList"></Table>
+        <!-- <Table  :data="pbPosTableData" :columns="columnsList"></Table> -->
+        <can-edit-table refs="pbTable" @on-cell-change="handlePbCellChange" :editIncell="true" v-model="pbPosTableData" :columns-list="columnsList"></can-edit-table>
+
       </Card>
       </Col>
 
@@ -48,9 +54,10 @@
 
 <script>
 import axios from "axios";
+import canEditTable from "../tables/components/canEditTable.vue";
 export default {
   name: "dragable-table",
-  components: {},
+  components: { canEditTable },
   data() {
     return {
       columnsList: [
@@ -87,8 +94,9 @@ export default {
         {
           title: "定投倍数",
           key: "dtbs",
-          width: 120,
-          align: "center"
+          width: 160,
+          align: "center",
+          editable: true
         },
         {
           title: "机会值(20%百分位)",
@@ -99,8 +107,9 @@ export default {
         {
           title: "定投基准金额",
           key: "baseMoney",
-          width: 120,
-          align: "center"
+          width: 160,
+          align: "center",
+          editable: true
         },
         {
           title: "本期定投金额",
@@ -109,7 +118,7 @@ export default {
           align: "center"
         }
       ],
-      dealDate:'',
+      dealDate: "",
       tableData: [],
       pePosTableData: [],
       pbPosTableData: [],
@@ -126,6 +135,31 @@ export default {
     };
   },
   methods: {
+    handlePbCellChange(val, index, key) {
+      let pbObj = this.pbPosTableData[index];
+      pbObj["curMoney"] = (
+        pbObj["dtbs"] *
+        pbObj["baseMoney"] *
+        (pbObj["chanceVal"] / pbObj["pb"])
+      ).toFixed(0);
+    },
+    handlePeCellChange(val, index, key) {
+      let peObj = this.pePosTableData[index];
+      peObj["curMoney"] = (
+        peObj["dtbs"] *
+        peObj["baseMoney"] *
+        (peObj["chanceVal"] / peObj["pe"])
+      ).toFixed(0);
+    },
+    handleYieldCellChange(val, index, key) {
+      let yieldObj = this.tableData[index];
+      yieldObj["curMoney"] = (
+        yieldObj["dtbs"] *
+        yieldObj["baseMoney"] *
+        (10 / yieldObj["pe"])
+      ).toFixed(0);
+    },
+
     composeIndexData(stockIndex) {
       stockIndex["baseMoney"] = 1000;
       stockIndex["pe"] = stockIndex["pe"].toFixed(2);
@@ -139,7 +173,7 @@ export default {
       let lxrDealDate = await axios.get(
         "/api/indexInvest/queryLxrIndexDealDate.json"
       );
-      this.dealDate = (lxrDealDate.data.data).substr(0,10)
+      this.dealDate = lxrDealDate.data.data.substr(0, 10);
     },
     async getIndexData() {
       let lxrIndexAllData = await axios.get(
@@ -190,7 +224,7 @@ export default {
   created() {
     // 可在此从服务端获取表格数据
     this.getIndexData();
-    this.getDealDate()
+    this.getDealDate();
   }
 };
 </script>
