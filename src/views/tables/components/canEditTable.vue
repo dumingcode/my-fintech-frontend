@@ -4,7 +4,7 @@
 
 <template>
     <div>
-        <Table :ref="refs" :columns="columnsList" :data="thisTableData" border disabled-hover></Table>
+        <Table :ref="refs" :columns="columnsList" :data="thisTableData" :row-class-name="rowClassName" border disabled-hover></Table>
     </div>
 </template>
 
@@ -148,7 +148,8 @@ export default {
         hoverShow: {
             type: Boolean,
             default: false
-        }
+        },
+        rowClassName: Function
     },
     data () {
         return {

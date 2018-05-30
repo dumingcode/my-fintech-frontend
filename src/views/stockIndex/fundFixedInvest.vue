@@ -14,7 +14,7 @@
           <Icon type="help" title="定投基准金额 * 定投倍数 * (10/pe)"></Icon>
         </p>
 
-        <can-edit-table refs="yieldTable" @on-cell-change="handleYieldCellChange" :editIncell="true" v-model="tableData" :columns-list="columnsList"></can-edit-table>
+        <can-edit-table refs="yieldTable" :row-class-name="isYieldCheap"  @on-cell-change="handleYieldCellChange" :editIncell="true" v-model="tableData" :columns-list="columnsList"></can-edit-table>
 
       </Card>
       </Col>
@@ -28,7 +28,7 @@
           <Icon type="help" title="定投基准金额 * 定投倍数 * (pe机会值 / 当前pe)"></Icon>
         </p>
 
-        <can-edit-table refs="peTable" @on-cell-change="handlePeCellChange" :editIncell="true" v-model="pePosTableData" :columns-list="columnsList"></can-edit-table>
+        <can-edit-table refs="peTable" :row-class-name="isPeCheap" @on-cell-change="handlePeCellChange" :editIncell="true" v-model="pePosTableData" :columns-list="columnsList"></can-edit-table>
 
       </Card>
       </Col>
@@ -42,7 +42,7 @@
           <Icon type="help" title="定投基准金额 * 定投倍数 * (pb机会值 / 当前pb)"></Icon>
         </p>
         <!-- <Table  :data="pbPosTableData" :columns="columnsList"></Table> -->
-        <can-edit-table refs="pbTable" @on-cell-change="handlePbCellChange" :editIncell="true" v-model="pbPosTableData" :columns-list="columnsList"></can-edit-table>
+        <can-edit-table refs="pbTable" :row-class-name="isPbCheap" @on-cell-change="handlePbCellChange" :editIncell="true" v-model="pbPosTableData" :columns-list="columnsList"></can-edit-table>
 
       </Card>
       </Col>
@@ -135,6 +135,24 @@ export default {
     };
   },
   methods: {
+    isPbCheap(row, index) {
+      if (row['pb'] < row['chanceVal']) {
+        return "demo-table-info-row";
+      } 
+      return "";
+    },
+     isPeCheap(row, index) {
+      if (row['pe'] < row['chanceVal']) {
+        return "demo-table-info-row";
+      } 
+      return "";
+    },
+     isYieldCheap(row, index) {
+      if (row['pe'] < 10) {
+        return "demo-table-info-row";
+      } 
+      return "";
+    },
     handlePbCellChange(val, index, key) {
       let pbObj = this.pbPosTableData[index];
       pbObj["curMoney"] = (
@@ -228,3 +246,9 @@ export default {
   }
 };
 </script>
+<style>
+ .ivu-table .demo-table-info-row td{
+        background-color: #2db7f5;
+        color: #fff;
+    }
+</style>
