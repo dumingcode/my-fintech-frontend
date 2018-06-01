@@ -11,7 +11,7 @@
       <Card>
         <p slot="title" class="card-title">
           {{dealDate}}盈利收益率法估值定投
-          <Icon type="help" title="定投基准金额 * 定投倍数 * (10/pe)"></Icon>
+          <Icon type="help" title="定投基准金额  * (10/pe)"></Icon>
         </p>
 
         <can-edit-table refs="yieldTable" :row-class-name="isYieldCheap"  @on-cell-change="handleYieldCellChange" :editIncell="true" v-model="tableData" :columns-list="columnsList"></can-edit-table>
@@ -25,7 +25,7 @@
       <Card>
         <p slot="title" class="card-title">
           {{dealDate}}博格公式法估值定投-PE
-          <Icon type="help" title="定投基准金额 * 定投倍数 * (pe机会值 / 当前pe)"></Icon>
+          <Icon type="help" title="定投基准金额  * (pe机会值 / 当前pe)"></Icon>
         </p>
 
         <can-edit-table refs="peTable" :row-class-name="isPeCheap" @on-cell-change="handlePeCellChange" :editIncell="true" v-model="pePosTableData" :columns-list="columnsList"></can-edit-table>
@@ -39,7 +39,7 @@
       <Card>
         <p slot="title" class="card-title">
           {{dealDate}}博格公式法估值定投-PB
-          <Icon type="help" title="定投基准金额 * 定投倍数 * (pb机会值 / 当前pb)"></Icon>
+          <Icon type="help" title="定投基准金额  * (pb机会值 / 当前pb)"></Icon>
         </p>
         <!-- <Table  :data="pbPosTableData" :columns="columnsList"></Table> -->
         <can-edit-table refs="pbTable" :row-class-name="isPbCheap" @on-cell-change="handlePbCellChange" :editIncell="true" v-model="pbPosTableData" :columns-list="columnsList"></can-edit-table>
@@ -92,13 +92,6 @@ export default {
           align: "center"
         },
         {
-          title: "定投倍数",
-          key: "dtbs",
-          width: 160,
-          align: "center",
-          editable: true
-        },
-        {
           title: "机会值(20%百分位)",
           key: "chanceVal",
           width: 120,
@@ -136,19 +129,19 @@ export default {
   },
   methods: {
     isPbCheap(row, index) {
-      if (row['pb'] < row['chanceVal']) {
+      if (row['pb_pos'].replace("%","") <= 20) {
         return "demo-table-info-row";
       } 
       return "";
     },
      isPeCheap(row, index) {
-      if (row['pe'] < row['chanceVal']) {
+      if (row['pe_pos'].replace("%","") <= 20) {
         return "demo-table-info-row";
       } 
       return "";
     },
      isYieldCheap(row, index) {
-      if (row['pe'] < 10) {
+      if (row['pe'] <= 10) {
         return "demo-table-info-row";
       } 
       return "";
