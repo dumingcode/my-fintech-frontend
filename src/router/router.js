@@ -109,9 +109,9 @@ export const appRouter = [{
             path: 'text-editor',
             icon: 'compose',
             name: 'text-editor',
-            title: '待开放'
-                // component: () =>
-                //     import ('@/views/my-components/text-editor/text-editor.vue')
+            title: '场外指数基金',
+                component: () =>
+                    import ('@/views/stockIndex/mutualFund.vue')
         },
         {
             path: 'md-editor',
