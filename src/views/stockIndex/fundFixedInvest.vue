@@ -99,8 +99,9 @@
           {
             title: "机会值(20%百分位)",
             key: "chanceVal",
-            width: 80,
-            align: "center"
+            width: 120,
+            align: "center",
+            editable: true
           },
           {
             title: "最小值",
@@ -132,10 +133,9 @@
           "10002",
           "000015",
           "000925",
-          "000922",
-          "000300"
+          "000922"
         ],
-        pePosCalcIndex: ["399812", "399971", "000827", "000905"],
+        pePosCalcIndex: ["399812", "399971", "000827", "000905","000300"],
         pbPosCalcIndex: ["399395", "399998", "399393", "399975", "399986"]
       };
     },
@@ -229,7 +229,7 @@
         let curVal = Number(curVal1)
         let baseGap = Number(baseGap1)
         let baseMoney = Number(baseMoney1)
-        if (chanceVal < minVal || minVal < 0) {
+        if (chanceVal < minVal || minVal < 0 || chanceVal < 0) {
           this.$Message.error('最小值应小于机会值');
           return 'error'
         }
