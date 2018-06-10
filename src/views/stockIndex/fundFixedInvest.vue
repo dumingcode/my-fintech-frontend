@@ -7,11 +7,15 @@
   <div>
     <Row>
       <Col span="24" class="padding-left-10 height-100">
-
+      <Card>
+        <p slot="title" class="card-title">理性人数据格林尼治时间{{dealDate}}</p>
+        <p slot="title" class="card-title">且慢数据更新北京时间{{qmDealDate}}</p>
+      </Card>
       <Card>
         <p slot="title" class="card-title">
-          {{dealDate}}盈利收益率法估值定投
+          盈利收益率法估值定投
           <Icon type="help" title="机会值(PE=10)与最小值之间均分成10份，当前值若等于机会值则投基准金额，当前值若等于或小于最小值则投2倍基准金额，其余则根据当前值在机会值和最小值之间所处位置等比例换算定投金额"></Icon>
+
         </p>
 
         <can-edit-table refs="yieldTable" :row-class-name="isYieldCheap" @on-cell-change="handleYieldCellChange" :editIncell="true" v-model="tableData" :columns-list="columnsList"></can-edit-table>
@@ -24,7 +28,7 @@
       <Col span="24" class="padding-left-10 height-100">
       <Card>
         <p slot="title" class="card-title">
-          {{dealDate}}博格公式法估值定投-PE
+          博格公式法估值定投-PE
           <Icon type="help" title="机会值与最小值之间均分成10份，当前值若等于机会值则投基准金额，当前值若等于或小于最小值则投2倍基准金额，其余则根据当前值在机会值和最小值之间所处位置等比例换算定投金额"></Icon>
 
         </p>
@@ -39,10 +43,11 @@
       <Col span="24" class="padding-left-10 height-100">
       <Card>
         <p slot="title" class="card-title">
-          {{dealDate}}博格公式法估值定投-PB
+          博格公式法估值定投-PB
           <Icon type="help" title="机会值与最小值之间均分成10份，当前值若等于机会值则投基准金额，当前值若等于或小于最小值则投2倍基准金额，其余则根据当前值在机会值和最小值之间所处位置等比例换算定投金额"></Icon>
 
         </p>
+
         <!-- <Table  :data="pbPosTableData" :columns="columnsList"></Table> -->
         <can-edit-table refs="pbTable" :row-class-name="isPbCheap" @on-cell-change="handlePbCellChange" :editIncell="true" v-model="pbPosTableData" :columns-list="columnsList"></can-edit-table>
 
@@ -128,6 +133,7 @@ export default {
         }
       ],
       dealDate: "",
+      qmDealDate: "",
       tableData: [],
       pePosTableData: [],
       pbPosTableData: [],
@@ -163,7 +169,10 @@ export default {
       return "";
     },
     isPeCheap(row, index) {
-      if (row["pe_pos"].replace("%", "") <= 20) {
+      if (
+        row["pe_pos"].replace("%", "") != "" &&
+        row["pe_pos"].replace("%", "") <= 20
+      ) {
         return "demo-table-info-row";
       }
       return "";
@@ -228,6 +237,12 @@ export default {
         "/api/indexInvest/queryLxrIndexDealDate.json"
       );
       this.dealDate = lxrDealDate.data.data.substr(0, 10);
+    },
+    async getQmDealDate() {
+      let lxrDealDate = await axios.get(
+        "/api/indexInvest/queryQmIndexDealDate.json"
+      );
+      this.qmDealDate = lxrDealDate.data.data.substr(0, 10);
     },
     async getIndexData() {
       let lxrIndexAllData = await axios.get(
@@ -308,6 +323,7 @@ export default {
     // 可在此从服务端获取表格数据
     this.getIndexData();
     this.getDealDate();
+    this.getQmDealDate();
   }
 };
 </script>
