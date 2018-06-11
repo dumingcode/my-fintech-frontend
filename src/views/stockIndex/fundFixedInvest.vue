@@ -210,7 +210,7 @@ export default {
       yieldObj["curMoney"] = this.calcDtje(
         yieldObj["baseMoney"],
         10,
-        10,
+         yieldObj["chanceVal"],
         yieldObj["minVal"],
         yieldObj["pe"]
       );
