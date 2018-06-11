@@ -152,6 +152,7 @@ export default {
         "000827",
         "000905",
         "000300",
+        '399701',
         "CSPSADRP.CI",
         "HSI.HI",
         "SPX.GI",
