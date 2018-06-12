@@ -152,7 +152,7 @@ export default {
         "000827",
         "000905",
         "000300",
-        '399701',
+        "399701",
         "CSPSADRP.CI",
         "HSI.HI",
         "SPX.GI",
@@ -176,9 +176,28 @@ export default {
       ) {
         return "demo-table-info-row";
       }
+      if (row["cname"] == "500低波动" && row["pe"] <= 27) {
+        return "demo-table-info-row";
+      } else {
+        return "";
+      }
+      if (row["cname"] == "深证F60" && row["pe"] <= 18) {
+        return "demo-table-info-row";
+      } else {
+        return "";
+      }
+      if (row["cname"] == "标普红利" && row["pe"] <= 15) {
+        return "demo-table-info-row";
+      } else {
+        return "";
+      }
+
       return "";
     },
     isYieldCheap(row, index) {
+      if (row["cname"] == "恒生国企" && row["pe"] <= 9.1) {
+        return "demo-table-info-row";
+      } 
       if (row["pe"] <= 10) {
         return "demo-table-info-row";
       }
@@ -210,7 +229,7 @@ export default {
       yieldObj["curMoney"] = this.calcDtje(
         yieldObj["baseMoney"],
         10,
-         yieldObj["chanceVal"],
+        yieldObj["chanceVal"],
         yieldObj["minVal"],
         yieldObj["pe"]
       );
@@ -256,6 +275,9 @@ export default {
         stockIndex["dtbs"] = 1;
         stockIndex["minVal"] = stockIndex.pe_min_val.toFixed(2);
         stockIndex["chanceVal"] = 10.0;
+        if (element == "HSCEI.HI") {
+          stockIndex["chanceVal"] = 9.1;
+        }
         stockIndex["curMoney"] = this.calcDtje(
           1000,
           10,
