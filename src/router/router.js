@@ -100,29 +100,55 @@ export const otherRouter = {
 };
 
 export const appRouter = [{
-    path: '/component',
-    icon: 'social-buffer',
-    name: 'component',
-    title: '指数投资',
-    component: Main,
-    children: [{
-            path: 'text-editor',
-            icon: 'compose',
-            name: 'text-editor',
-            title: '场外指数基金',
+        path: '/component',
+        icon: 'social-buffer',
+        name: 'component',
+        title: '指数投资',
+        component: Main,
+        children: [{
+                path: 'text-editor',
+                icon: 'compose',
+                name: 'text-editor',
+                title: '场外指数基金',
                 component: () =>
                     import ('@/views/stockIndex/mutualFund.vue')
-        },
-        {
-            path: 'md-editor',
-            icon: 'pound',
-            name: 'md-editor',
-            title: '待开放'
-                // component: () =>
-                //     import ('@/views/my-components/markdown-editor/markdown-editor.vue')
-        }
-    ]
-}]
+            },
+            {
+                path: 'md-editor',
+                icon: 'pound',
+                name: 'md-editor',
+                title: '待开放'
+                    // component: () =>
+                    //     import ('@/views/my-components/markdown-editor/markdown-editor.vue')
+            }
+        ]
+    },
+    {
+        path: '/component',
+        icon: 'key',
+        name: 'bigdata',
+        title: '大数投资',
+        component: Main,
+        children: [{
+                path: 'cover',
+                icon: 'compose',
+                name: 'cover',
+                title: '补仓查询',
+                component: () =>
+                    import ('@/views/bigdata/cover.vue')
+            },
+            {
+                path: 'md-editor',
+                icon: 'pound',
+                name: 'md-editor',
+                title: '待开放'
+                    // component: () =>
+                    //     import ('@/views/my-components/markdown-editor/markdown-editor.vue')
+            }
+        ]
+    }
+
+]
 
 // 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
 export const appRouter1 = [{
