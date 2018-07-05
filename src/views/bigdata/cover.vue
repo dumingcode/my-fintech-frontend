@@ -4,73 +4,78 @@
 </style>
 
 <template>
-    <div>
-        <Row>
-            <Col span="24" class="padding-left-10 height-100">
-            <Card>
-                <p slot="title" class="card-title">大数投资补仓查询</p>
-            </Card>
-            <Card>
-                <Input v-model="stock" placeholder="输入股票代码" clearable style="width: 300px"></Input>
-                <Button type="info" @click="addToOption">添加到自选</Button>
-            </Card>
+  <div>
+    <Row>
+      <Col span="24" class="padding-left-10 height-100">
+      <Card>
+        <p slot="title" class="card-title">大数投资补仓查询</p>
+      </Card>
+      <Card>
+        <Input v-model="stock" type="textarea" :rows="4" placeholder="输入实例(逗号间隔):600010,002013,002011" clearable style="width: 40%"></Input>
+        <Button type="info" @click="addToOption">添加到自选</Button>
+      </Card>
 
-            <Card>
-                <p slot="title" class="card-title">
-                    自选股补仓表
-                </p>
-                <can-edit-table refs="coverTable" :row-class-name="isYieldCheap" @on-cell-change="handleYieldCellChange" :editIncell="true" v-model="tableData" :columns-list="columnsList"></can-edit-table>
-            </Card>
-            </Col>
+      <Card>
+        <p slot="title" class="card-title">
+          自选股补仓表
+        </p>
+        <can-edit-table refs="coverTable" @on-cell-change="handleTargetPriceChange" :editIncell="true" v-model="tableData" :columns-list="columnsList"></can-edit-table>
+      </Card>
+      </Col>
 
-        </Row>
+    </Row>
 
-    </div>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
+import collect from "collect";
 import canEditTable from "../tables/components/canEditTable.vue";
+import { setStore, getStore, removeStore } from "../../utils/storageUtil";
+import { isIntNum } from "../../utils/validate";
 export default {
   name: "cover",
   components: { canEditTable },
   data() {
     return {
       stock: "",
+      tableData: [],
       columnsList: [
         {
           title: "个股名称",
-          key: "cname",
+          key: "name",
           width: 120,
           align: "center"
         },
         {
           title: "个股代码",
-          key: "pe",
+          key: "code",
           width: 120,
           align: "center"
         },
         {
           title: "当前时间",
-          key: "pb",
-          width: 120,
+          key: "time",
+          width: 160,
           align: "center"
         },
         {
           title: "现价",
-          key: "pb",
+          key: "price",
           width: 120,
           align: "center"
         },
         {
           title: "目标价",
-          key: "pb",
+          key: "targetPrice",
           width: 120,
-          align: "center"
+          align: "center",
+          editable: true
         },
         {
           title: "距离补仓点百分比",
-          key: "pb",
+          key: "position",
           width: 120,
           align: "center"
         }
@@ -78,30 +83,72 @@ export default {
     };
   },
   methods: {
-    async addToOption() {
-      console.log(this.stock);
-      if(this.stock){
-          this.$Message.warning({content:"请输入股票代码"})
-          return
-      }
-      let queryStock = "";
-      if (this.stock.startsWith("60")) {
-        queryStock = `http://hq.sinajs.cn/list=sh${this.stock}`;
-      }
-      let stockInfo = await axios.get(
-        queryStock
-      )
-      console.log(stockInfo)
+    handleTargetPriceChange(val, index, key) {
+      let coverObj = this.coverTable[index];
+
+      // pbObj["curMoney"] = this.calcDtje(
+      //   pbObj["baseMoney"],
+      //   10,
+      //   pbObj["chanceVal"],
+      //   pbObj["minVal"],
+      //   pbObj["pb"]
+      // );
     },
-    async getQmDealDate() {
-      let lxrDealDate = await axios.get(
-        "/api/indexInvest/queryQmIndexDealDate.json"
+    async initMyStock() {
+      let myStocksStore = getStore("myStocks");
+      if (!myStocksStore) {
+        return;
+      }
+      let retData = await axios.get(
+        `/api/bigdata/querySinaStockGet.json?codes=${myStocksStore}`
       );
-      this.qmDealDate = lxrDealDate.data.data.substr(0, 10);
+      if (retData.code <= 0) {
+        this.$Message.error({
+          content: `添加失败，错误原因：${retData.msg}`
+        });
+        return;
+      }
+
+      this.tableData = retData.data["data"];
+    },
+    async addToOption() {
+      if (!this.stock) {
+        this.$Message.warning({ content: "请输入股票代码" });
+        return;
+      }
+      this.stock = this.stock.replace(/，/g, ",");
+      let stockArr = this.stock.split(",");
+      let myStocksStore = "";
+      stockArr.forEach(code => {
+        if (isIntNum(code) && code.length == 6) {
+          myStocksStore = getStore("myStocks");
+          if (!myStocksStore) {
+            myStocksStore = code;
+          } else {
+            if (myStocksStore.indexOf(code) < 0) {
+              myStocksStore += `,${code}`;
+            }
+          }
+        }
+      });
+      //持久化个人选股
+      setStore("myStocks", myStocksStore);
+
+      let retData = await axios.get(
+        `/api/bigdata/querySinaStockGet.json?codes=${myStocksStore}`
+      );
+      if (retData.code <= 0) {
+        this.$Message.error({
+          content: `添加失败，错误原因：${retData.msg}`
+        });
+        return;
+      }
+
+      this.tableData = retData.data["data"];
     }
   },
   created() {
-    // 可在此从服务端获取表格数据
+    this.initMyStock();
   }
 };
 </script>
