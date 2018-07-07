@@ -19,7 +19,7 @@
         <p slot="title" class="card-title">
           自选股补仓表
         </p>
-        <can-edit-table refs="coverTable" @on-cell-change="handleTargetPriceChange" :editIncell="true" v-model="tableData" :columns-list="columnsList"></can-edit-table>
+        <can-edit-table refs="coverTable" :row-class-name="isBelowThreshld" @on-cell-change="handleTargetPriceChange" :editIncell="true" v-model="tableData" :columns-list="columnsList"></can-edit-table>
       </Card>
       </Col>
 
@@ -34,6 +34,7 @@ import collect from "collect";
 import canEditTable from "../tables/components/canEditTable.vue";
 import { setStore, getStore, removeStore } from "../../utils/storageUtil";
 import { isIntNum } from "../../utils/validate";
+import table2excel from "@/libs/table2excel.js";
 export default {
   name: "cover",
   components: { canEditTable },
@@ -41,6 +42,15 @@ export default {
     return {
       stock: "",
       tableData: [],
+      excelFileName: "myStock",
+      selectMinRow: 1,
+      selectMinCol: 1,
+      maxRow: 0,
+      minRow: 1,
+      maxCol: 0,
+      minCol: 1,
+      csvFileName: "",
+      fontSize: 16,
       columnsList: [
         {
           title: "个股名称",
@@ -77,12 +87,34 @@ export default {
           title: "距离补仓点百分比",
           key: "position",
           width: 120,
-          align: "center"
+          align: "center",
+          sortable: true,
+          sortMethod: function(a, b, type) {
+            const aa = parseFloat(a.replace("%"));
+            const bb = parseFloat(b.replace("%"));
+            if (type == "asc") {
+              return aa < bb;
+            } else {
+              return aa >= bb;
+            }
+          }
         }
       ]
     };
   },
   methods: {
+    isBelowThreshld(row, index) {
+      if (row["position"]) {
+        let pos = parseFloat(row["position"].replace("%"));
+        if (pos <= 5) {
+          return "demo-table-info-row";
+        } else {
+          return "";
+        }
+      } else {
+        return "";
+      }
+    },
     handleTargetPriceChange(val, index, key) {
       let coverObj = this.tableData[index];
       if (coverObj["targetPrice"] <= 0) {
