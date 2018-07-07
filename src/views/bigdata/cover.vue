@@ -33,7 +33,6 @@
 
 <script>
 import axios from "axios";
-import collect from "collect";
 import canEditTable from "../tables/components/canEditTable.vue";
 import { setStore, getStore, removeStore } from "../../utils/storageUtil";
 import { isIntNum } from "../../utils/validate";
