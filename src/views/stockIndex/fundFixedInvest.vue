@@ -355,4 +355,9 @@ export default {
   background-color: #2db7f5;
   color: #fff;
 }
+  .ivu-table .demo-table-info-cell-name {
+        background-color: #2db7f5;
+        color: #fff;
+    }
+
 </style>
