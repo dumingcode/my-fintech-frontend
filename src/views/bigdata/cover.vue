@@ -84,15 +84,34 @@ export default {
   },
   methods: {
     handleTargetPriceChange(val, index, key) {
-      let coverObj = this.coverTable[index];
+      let coverObj = this.tableData[index];
+      if (coverObj["targetPrice"] <= 0) {
+        this.$Message.error({
+          content: "目标值不能小于等于0"
+        });
+        return;
+      }
+      coverObj["position"] =
+        (
+          (
+            (coverObj["price"] - coverObj["targetPrice"]) /
+            coverObj["targetPrice"]
+          ).toFixed(2) * 100
+        ).toFixed(0) + "%";
 
-      // pbObj["curMoney"] = this.calcDtje(
-      //   pbObj["baseMoney"],
-      //   10,
-      //   pbObj["chanceVal"],
-      //   pbObj["minVal"],
-      //   pbObj["pb"]
-      // );
+      console.log(coverObj);
+
+      //存储目标值键值对
+      let myStocksTarget = getStore("myStocksTarget");
+      if (myStocksTarget) {
+        let myStocksJson = JSON.parse(myStocksTarget);
+        myStocksJson[coverObj.code] = coverObj["targetPrice"];
+        setStore("myStocksTarget", JSON.stringify(myStocksJson));
+      } else {
+        let obj = {};
+        obj[coverObj.code] = coverObj["targetPrice"];
+        setStore("myStocksTarget", obj);
+      }
     },
     async initMyStock() {
       let myStocksStore = getStore("myStocks");
@@ -110,6 +129,23 @@ export default {
       }
 
       this.tableData = retData.data["data"];
+      let myStocksTarget = getStore("myStocksTarget");
+      //从storageClient中找出目标值键值对
+      if (myStocksTarget) {
+        let myStocksJson = JSON.parse(myStocksTarget);
+        this.tableData.forEach(element => {
+          if (myStocksJson[element["code"]]) {
+            element["targetPrice"] = myStocksJson[element["code"]];
+            element["position"] =
+              (
+                (
+                  (element["price"] - element["targetPrice"]) /
+                  element["targetPrice"]
+                ).toFixed(2) * 100
+              ).toFixed(0) + "%";
+          }
+        });
+      }
     },
     async addToOption() {
       if (!this.stock) {
