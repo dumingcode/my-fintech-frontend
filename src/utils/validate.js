@@ -7,3 +7,12 @@ export const isIntNum = (val) => {
         return false;
     }
 }
+
+export const isPositiveFloat = (val) => {
+    var regPos = /^\d+(\.\d+)?$/; // 非负浮点数
+    if (!val || regPos.test(val)) {
+        return true;
+    } else {
+        return false;
+    }
+}

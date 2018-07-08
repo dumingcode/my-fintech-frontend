@@ -11,7 +11,8 @@ module.exports = {
     entry: {
         main: '@/main',
         'vender-base': '@/vendors/vendors.base.js',
-        'vender-exten': '@/vendors/vendors.exten.js'
+        'vender-exten': '@/vendors/vendors.exten.js',
+        app: ["babel-polyfill","./src/main.js"]
     },
     output: {
         path: path.resolve(__dirname, '../dist/dist')
