@@ -25,8 +25,7 @@
 
         </p>
         <p>
-          输入首次买入价，若补仓价为空，则补仓价为首次买入价格的80%。<br/> 若补仓价不为空，则改变首次买入价不会对补仓价造成影响。
-          <br/> 多次补仓或者自定义补仓规则请直接修改补仓价，忽略首次买入价。
+          默认补仓规则：首次建仓价每跌20%补仓。<br/>若10元建仓，则股价跌到8元、6元、4元、2元分别补仓。
         </p>
         <can-edit-table @on-delete="handleDel" refs="coverTable" :row-class-name="isBelowThreshld" @on-cell-change="handleTargetPriceChange" :editIncell="true" v-model="tableData" :columns-list="columnsList"></can-edit-table>
 
@@ -94,11 +93,18 @@ export default {
           editable: true
         },
         {
-          title: "补仓价",
-          key: "targetPrice",
+          title: "已补仓次数（默认0）",
+          key: "coverTime",
           width: 120,
           align: "center",
           editable: true
+        },
+        {
+          title: "下一次补仓价",
+          key: "targetPrice",
+          width: 120,
+          align: "center"
+          // editable: true
         },
         {
           title: "距离补仓点百分比",
@@ -106,7 +112,7 @@ export default {
           width: 120,
           align: "center",
           sortable: true,
-          sortType: 'asc',
+          // sortType: "asc",
           sortMethod: function(a, b, type) {
             if (a && b) {
               const aa = parseFloat(a.replace("%"));
@@ -116,7 +122,7 @@ export default {
               } else {
                 return bb - aa;
               }
-            } 
+            }
           }
         },
         {
@@ -146,30 +152,50 @@ export default {
       }
       //删除自选股
       let myStocksStore = getStore("myStocks");
-      if (!myStocksStore) {
-        return;
-      }
-      let delCodePos = myStocksStore.indexOf(delCode + ",");
-      if (delCodePos >= 0) {
-        setStore("myStocks", myStocksStore.replace(delCode + ",", ""));
-      } else {
-        delCodePos = myStocksStore.indexOf(delCode);
+      if (myStocksStore) {
+        let delCodePos = myStocksStore.indexOf(delCode + ",");
         if (delCodePos >= 0) {
-          setStore("myStocks", myStocksStore.replace(delCode, ""));
+          setStore("myStocks", myStocksStore.replace(delCode + ",", ""));
+        } else {
+          delCodePos = myStocksStore.indexOf(delCode);
+          if (delCodePos >= 0) {
+            setStore("myStocks", myStocksStore.replace(delCode, ""));
+          }
         }
       }
+
       //删除自选股目标值
       let myStocksTarget = getStore("myStocksTarget");
-      if (!myStocksTarget) {
-        return;
+      if (myStocksTarget) {
+        let myStocksJson = JSON.parse(myStocksTarget);
+        let delTargetObj = myStocksJson[delCode];
+        if (delTargetObj) {
+          delete myStocksJson[delCode];
+          setStore("myStocksTarget", JSON.stringify(myStocksJson));
+        }
       }
-      let myStocksJson = JSON.parse(myStocksTarget);
-      let delTargetObj = myStocksJson[delCode];
-      if (!delTargetObj) {
-        return;
+
+      //删除自选股已补仓次数
+      let myStocksCoverTime = getStore("myStocksCoverTime");
+      if (myStocksCoverTime) {
+        let myStocksCoverTimeJson = JSON.parse(myStocksCoverTime);
+        let delCoverObj = myStocksCoverTimeJson[delCode];
+        if (delCoverObj>=0) {
+          delete myStocksCoverTimeJson[delCode];
+          setStore("myStocksCoverTime", JSON.stringify(myStocksCoverTimeJson));
+        }
       }
-      delete myStocksJson[delCode];
-      setStore("myStocksTarget", JSON.stringify(myStocksJson));
+
+      //删除自选股成本
+      let myStocksCost = getStore("myStocksCost");
+      if (myStocksCost) {
+        let myStocksCostJson = JSON.parse(myStocksCost);
+        let delCostObj = myStocksCostJson[delCode];
+        if (delCostObj) {
+          delete myStocksCostJson[delCode];
+          setStore("myStocksCost", JSON.stringify(myStocksCostJson));
+        }
+      }
 
       console.log("handleDel");
     },
@@ -194,19 +220,41 @@ export default {
         coverObj["cost"] = "";
         return;
       }
-      if (!isPositiveFloat(coverObj["targetPrice"])) {
+      // if (!isPositiveFloat(coverObj["targetPrice"])) {
+      //   this.$Message.error({
+      //     content: "补仓价格式错误"
+      //   });
+      //   coverObj["targetPrice"] = "";
+      //   return;
+      // }
+      if (!isIntNum(coverObj["coverTime"])) {
         this.$Message.error({
-          content: "补仓价格式错误"
+          content: "补仓次数格式错误，只能输入小于5大于等于0的数字"
         });
-        coverObj["targetPrice"] = "";
+        coverObj["coverTime"] = "";
         return;
       }
 
-      //输入买入价格后，如果补仓价格为空则自动算出来第一次补仓价格
-      if (coverObj["cost"] && !coverObj["targetPrice"]) {
-        coverObj["targetPrice"] = (parseFloat(coverObj["cost"]) * 0.8).toFixed(
-          2
-        );
+      //补仓次数为
+      if (!coverObj["coverTime"]) {
+        coverObj["coverTime"] = 0;
+      }
+
+      let coverTimeInt = parseInt(coverObj["coverTime"]);
+      if (coverTimeInt < 0 || coverTimeInt >= 5) {
+        this.$Message.error({
+          content: "补仓次数格式错误，只能输入小于5大于等于0的数字"
+        });
+        coverObj["coverTime"] = "";
+        return;
+      }
+
+      let coverBs = 1 - 0.2 * (1 + coverTimeInt);
+
+      if (coverObj["cost"]) {
+        coverObj["targetPrice"] = (
+          parseFloat(coverObj["cost"]) * coverBs
+        ).toFixed(2);
       }
 
       coverObj["position"] =
@@ -242,49 +290,17 @@ export default {
         obj[coverObj.code] = coverObj["cost"];
         setStore("myStocksCost", obj);
       }
-    },
-    async initMyStock() {
-      let myStocksStore = getStore("myStocks");
-      if (!myStocksStore) {
-        return;
-      }
-      let retData = await axios.get(
-        `/api/bigdata/querySinaStockGet.json?codes=${myStocksStore}`
-      );
-      if (retData.code <= 0) {
-        this.$Message.error({
-          content: `添加失败，错误原因：${retData.msg}`
-        });
-        return;
-      }
 
-      this.tableData = retData.data["data"];
-      let myStocksTarget = getStore("myStocksTarget");
-      //从storageClient中找出目标值键值对
-      if (myStocksTarget) {
-        let myStocksJson = JSON.parse(myStocksTarget);
-        this.tableData.forEach(element => {
-          if (myStocksJson[element["code"]]) {
-            element["targetPrice"] = myStocksJson[element["code"]];
-            element["position"] =
-              (
-                (
-                  (element["price"] - element["targetPrice"]) /
-                  element["price"]
-                ).toFixed(2) * 100
-              ).toFixed(0) + "%";
-          }
-        });
-      }
-      let myStocksCost = getStore("myStocksCost");
-      //从storageClient中找出成本价键值对
-      if (myStocksCost) {
-        let myStocksJson = JSON.parse(myStocksCost);
-        this.tableData.forEach(element => {
-          if (myStocksJson[element["code"]]) {
-            element["cost"] = myStocksJson[element["code"]];
-          }
-        });
+      //存储已补仓次数
+      let myStocksCoverTime = getStore("myStocksCoverTime");
+      if (myStocksCoverTime) {
+        let myStocksCoverTimeJson = JSON.parse(myStocksCoverTime);
+        myStocksCoverTimeJson[coverObj.code] = coverObj["coverTime"];
+        setStore("myStocksCoverTime", JSON.stringify(myStocksCoverTimeJson));
+      } else {
+        let obj = {};
+        obj[coverObj.code] = coverObj["coverTime"];
+        setStore("myStocksCoverTime", obj);
       }
     },
     async refreshMyStock() {
@@ -333,7 +349,20 @@ export default {
           }
         });
       }
-     
+
+      let myStocksCoverTime = getStore("myStocksCoverTime");
+      //从storageClient中找出成本价键值对
+      if (myStocksCoverTime) {
+        let myStocksCoverTimeJson = JSON.parse(myStocksCoverTime);
+        this.tableData.forEach(element => {
+          if (myStocksCoverTimeJson[element["code"]]) {
+            element["coverTime"] = myStocksCoverTimeJson[element["code"]];
+          } else {
+            element["coverTime"] = 0;
+          }
+        });
+      }
+
       this.loading = false;
     },
     async addToOption() {
@@ -362,23 +391,11 @@ export default {
           }
         }
       });
-
-      let retData = await axios.get(
-        `/api/bigdata/querySinaStockGet.json?codes=${myStocksStore}`
-      );
-      if (retData.code <= 0) {
-        this.$Message.error({
-          content: `添加失败，错误原因：${retData.msg}`
-        });
-        return;
-      }
-
-      this.tableData = retData.data["data"];
       this.refreshMyStock();
     }
   },
   created() {
-    this.initMyStock();
+    this.refreshMyStock();
   }
 };
 </script>
