@@ -213,7 +213,7 @@ export default {
         (
           (
             (coverObj["price"] - coverObj["targetPrice"]) /
-            coverObj["targetPrice"]
+            coverObj["price"]
           ).toFixed(2) * 100
         ).toFixed(0) + "%";
 
@@ -270,7 +270,7 @@ export default {
               (
                 (
                   (element["price"] - element["targetPrice"]) /
-                  element["targetPrice"]
+                  element["price"]
                 ).toFixed(2) * 100
               ).toFixed(0) + "%";
           }
@@ -317,7 +317,7 @@ export default {
               (
                 (
                   (element["price"] - element["targetPrice"]) /
-                  element["targetPrice"]
+                  element["price"]
                 ).toFixed(2) * 100
               ).toFixed(0) + "%";
           }
