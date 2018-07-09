@@ -27,7 +27,7 @@
           
         </p>
         <p>
-        输入首次买入价，若补仓价为空，则补仓价为首次买入价格的80%。
+        输入首次买入价，若补仓价为空，则补仓价为首次买入价格的80%。<br/>
         若补仓价不为空，则改变首次买入价不会对补仓价造成影响。<br/>
         多次补仓或者自定义补仓规则请直接修改补仓价，忽略首次买入价。
         </p>
@@ -110,7 +110,7 @@
             width: 120,
             align: "center",
             sortable: true,
-            sortType: 'desc',
+            // sortType: 'desc',
             sortMethod: function (a, b, type) {
               if (a && b) {
                 const aa = parseFloat(a.replace("%"));
