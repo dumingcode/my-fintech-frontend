@@ -52,14 +52,8 @@ export default {
       stock: "",
       tableData: [],
       excelFileName: "myStock",
-      selectMinRow: 1,
-      selectMinCol: 1,
-      maxRow: 0,
-      minRow: 1,
-      maxCol: 0,
-      minCol: 1,
       csvFileName: "",
-      fontSize: 16,
+      myStocksTargetPrice: [],
       columnsList: [
         {
           title: "个股名称",
@@ -164,23 +158,12 @@ export default {
         }
       }
 
-      //删除自选股目标值
-      let myStocksTarget = getStore("myStocksTarget");
-      if (myStocksTarget) {
-        let myStocksJson = JSON.parse(myStocksTarget);
-        let delTargetObj = myStocksJson[delCode];
-        if (delTargetObj) {
-          delete myStocksJson[delCode];
-          setStore("myStocksTarget", JSON.stringify(myStocksJson));
-        }
-      }
-
       //删除自选股已补仓次数
       let myStocksCoverTime = getStore("myStocksCoverTime");
       if (myStocksCoverTime) {
         let myStocksCoverTimeJson = JSON.parse(myStocksCoverTime);
         let delCoverObj = myStocksCoverTimeJson[delCode];
-        if (delCoverObj>=0) {
+        if (delCoverObj >= 0) {
           delete myStocksCoverTimeJson[delCode];
           setStore("myStocksCoverTime", JSON.stringify(myStocksCoverTimeJson));
         }
@@ -220,13 +203,7 @@ export default {
         coverObj["cost"] = "";
         return;
       }
-      // if (!isPositiveFloat(coverObj["targetPrice"])) {
-      //   this.$Message.error({
-      //     content: "补仓价格式错误"
-      //   });
-      //   coverObj["targetPrice"] = "";
-      //   return;
-      // }
+
       if (!isIntNum(coverObj["coverTime"])) {
         this.$Message.error({
           content: "补仓次数格式错误，只能输入小于5大于等于0的数字"
@@ -265,19 +242,6 @@ export default {
           ).toFixed(2) * 100
         ).toFixed(0) + "%";
 
-      console.log(coverObj);
-
-      //存储目标值键值对
-      let myStocksTarget = getStore("myStocksTarget");
-      if (myStocksTarget) {
-        let myStocksJson = JSON.parse(myStocksTarget);
-        myStocksJson[coverObj.code] = coverObj["targetPrice"];
-        setStore("myStocksTarget", JSON.stringify(myStocksJson));
-      } else {
-        let obj = {};
-        obj[coverObj.code] = coverObj["targetPrice"];
-        setStore("myStocksTarget", obj);
-      }
 
       //存储成本价格键值对
       let myStocksCost = getStore("myStocksCost");
@@ -322,23 +286,7 @@ export default {
       }
 
       this.tableData = retData.data["data"];
-      let myStocksTarget = getStore("myStocksTarget");
-      //从storageClient中找出目标值键值对
-      if (myStocksTarget) {
-        let myStocksJson = JSON.parse(myStocksTarget);
-        this.tableData.forEach(element => {
-          if (myStocksJson[element["code"]]) {
-            element["targetPrice"] = myStocksJson[element["code"]];
-            element["position"] =
-              (
-                (
-                  (element["price"] - element["targetPrice"]) /
-                  element["price"]
-                ).toFixed(2) * 100
-              ).toFixed(0) + "%";
-          }
-        });
-      }
+
       let myStocksCost = getStore("myStocksCost");
       //从storageClient中找出成本价键值对
       if (myStocksCost) {
@@ -356,9 +304,23 @@ export default {
         let myStocksCoverTimeJson = JSON.parse(myStocksCoverTime);
         this.tableData.forEach(element => {
           if (myStocksCoverTimeJson[element["code"]]) {
-            element["coverTime"] = myStocksCoverTimeJson[element["code"]];
+            element["coverTime"] = parseInt(myStocksCoverTimeJson[element["code"]]);
           } else {
             element["coverTime"] = 0;
+          }
+          let coverBs = 1 - 0.2 * (1 + element["coverTime"]);
+
+          if (element["cost"]) {
+            element["targetPrice"] = (
+              parseFloat(element["cost"]) * coverBs
+            ).toFixed(2);
+            element["position"] =
+              (
+                (
+                  (element["price"] - element["targetPrice"]) /
+                  element["price"]
+                ).toFixed(2) * 100
+              ).toFixed(0) + "%";
           }
         });
       }
