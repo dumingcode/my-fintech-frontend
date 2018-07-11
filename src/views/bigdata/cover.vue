@@ -310,7 +310,7 @@ export default {
           }
           let coverBs = 1 - 0.2 * (1 + element["coverTime"]);
 
-          if (element["cost"]) {
+          if (element["cost"] && element["price"] >0) {
             element["targetPrice"] = (
               parseFloat(element["cost"]) * coverBs
             ).toFixed(2);
