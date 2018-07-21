@@ -8,8 +8,8 @@
     <Row>
       <Col span="24" class="padding-left-10 height-100">
       <Card>
-        <p slot="title" class="card-title">理性人数据格林尼治时间{{dealDate}}</p>
-        <p slot="title" class="card-title">且慢数据更新北京时间{{qmDealDate}}</p>
+        <p slot="title" class="card-title">理性人数据格林尼治时间{{dealDate}}，且慢数据更新北京时间{{qmDealDate}}</p>
+        <p slot="title" class="card-title">本期定投指数{{sumDtzsNum}}个，本期基准定投额{{sumBaseMoney}}，本期实际定投额{{sumInvestMoney}}，定投倍数{{calcDtbs}}</p>
       </Card>
       <Card>
         <p slot="title" class="card-title">
@@ -67,6 +67,9 @@ export default {
   components: { canEditTable },
   data() {
     return {
+      sumBaseMoney:0,
+      sumInvestMoney:0,
+      sumDtzsNum:0,
       columnsList: [
         {
           title: "指数名称",
@@ -162,6 +165,14 @@ export default {
       pbPosCalcIndex: ["399395", "399998", "399393", "399975", "399986"]
     };
   },
+  computed:{
+      calcDtbs(){
+         if(this.sumBaseMoney > 0){
+            return (this.sumInvestMoney / this.sumBaseMoney).toFixed(2)
+         }
+         return 0
+      }
+  },
   methods: {
     isPbCheap(row, index) {
       if (row["pb_pos"].replace("%", "") <= 20) {
@@ -205,7 +216,6 @@ export default {
     },
     handlePbCellChange(val, index, key) {
       let pbObj = this.pbPosTableData[index];
-
       pbObj["curMoney"] = this.calcDtje(
         pbObj["baseMoney"],
         10,
@@ -213,6 +223,9 @@ export default {
         pbObj["minVal"],
         pbObj["pb"]
       );
+      this.sumBaseMoney += Number(pbObj["baseMoney"])
+      this.sumInvestMoney += Number(pbObj["curMoney"])
+      this.sumDtzsNum += 1
     },
     handlePeCellChange(val, index, key) {
       let peObj = this.pePosTableData[index];
@@ -223,6 +236,9 @@ export default {
         peObj["minVal"],
         peObj["pe"]
       );
+      this.sumBaseMoney += Number(peObj["baseMoney"])
+      this.sumInvestMoney += Number(peObj["curMoney"])
+      this.sumDtzsNum += 1
     },
     handleYieldCellChange(val, index, key) {
       let yieldObj = this.tableData[index];
@@ -232,7 +248,10 @@ export default {
         yieldObj["chanceVal"],
         yieldObj["minVal"],
         yieldObj["pe"]
-      );
+      )
+      this.sumBaseMoney += Number(yieldObj["baseMoney"])
+      this.sumInvestMoney += Number(yieldObj["curMoney"])
+      this.sumDtzsNum += 1
     },
 
     composeIndexData(stockIndex) {
@@ -347,6 +366,8 @@ export default {
     this.getIndexData();
     this.getDealDate();
     this.getQmDealDate();
+    this.sumBaseMoney=0
+    this.sumInvestMoney=0
   }
 };
 </script>
@@ -358,6 +379,6 @@ export default {
   .ivu-table .demo-table-info-cell-name {
         background-color: #2db7f5;
         color: #fff;
-    }
+    }  
 
 </style>
