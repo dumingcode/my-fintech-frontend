@@ -138,6 +138,14 @@ export const appRouter = [{
                     import ('@/views/bigdata/cover.vue')
             },
             {
+                path: 'stopProfit',
+                icon: 'compose',
+                name: 'stopProfit',
+                title: '止盈查询',
+                component: () =>
+                    import ('@/views/bigdata/stopProfit.vue')
+            },
+            {
                 path: 'md-editor',
                 icon: 'pound',
                 name: 'md-editor',
