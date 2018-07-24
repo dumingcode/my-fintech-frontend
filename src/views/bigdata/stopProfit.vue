@@ -23,18 +23,18 @@
           自选股止盈表------数量{{tableData.length}}
         </p>
       </Card>
-        <Card>
-          <span style="font-weight:bold">首次止盈点选择</span>
-          <Select v-model="firstProfit" style="width:200px" @on-change="changeFirstProfit">
-            <Option  value="50" key="50">一年最低点上涨50%</Option>
-            <Option  value="100" key="100">一年最低点上涨100%</Option>
-          </Select>
-          
+      <Card>
+        <span style="font-weight:bold">首次止盈点选择</span>
+        <Select v-model="firstProfit" style="width:200px" @on-change="changeFirstProfit">
+          <Option value="50" key="50">一年最低点上涨50%</Option>
+          <Option value="100" key="100">一年最低点上涨100%</Option>
+        </Select>
+
         <span>
           默认补仓规则：一年内最低点涨幅50%、100%、200%、300%分别止盈。
         </span>
-        </Card>
-        <Card>
+      </Card>
+      <Card>
         <can-edit-table @on-delete="handleDel" refs="profitTable" :row-class-name="isBelowThreshld" @on-cell-change="handleTargetPriceChange" :editIncell="true" v-model="tableData" :columns-list="columnsList"></can-edit-table>
 
       </Card>
@@ -56,7 +56,7 @@ export default {
   components: { canEditTable },
   data() {
     return {
-      firstProfit: '50',
+      firstProfit: "50",
       loading: false,
       stock: "",
       tableData: [],
@@ -141,14 +141,14 @@ export default {
     //计算首次止盈价
     calcTargetPrice(yearLow, profitTime) {
       //首次止盈50%
-      if (this.firstProfit == '50') {
+      if (this.firstProfit == "50") {
         if (profitTime == 0) {
           return (yearLow * 1.5).toFixed(2);
         } else {
           return (yearLow * (profitTime + 1)).toFixed(2);
         }
       }
-      if (this.firstProfit == '100') {
+      if (this.firstProfit == "100") {
         return (yearLow * (profitTime + 2)).toFixed(2);
       }
     },
@@ -229,10 +229,15 @@ export default {
 
       let stopProfit = this.calcTargetPrice(coverObj["yearLow"], profitTimeInt);
       coverObj["targetPrice"] = stopProfit;
+      if (coverObj["price"] > 0) {
       coverObj["position"] =
         (
-          ((coverObj["targetPrice"] -coverObj["price"])/ coverObj["price"]).toFixed(2) * 100
-        ).toFixed(0) + "%";
+          (
+            (coverObj["targetPrice"] - coverObj["price"]) /
+            coverObj["price"]
+          ).toFixed(2) * 100
+        ).toFixed(0) + "%"
+      }
 
       //存储已补仓次数
       let myStocksProfitTime = getStore("myStocksProfitTime");
@@ -275,10 +280,15 @@ export default {
           element["profitTime"]
         );
         element["targetPrice"] = stopProfit;
-        element["position"] =
-          (
-            ((element["targetPrice"]-element["price"]) / element["price"]).toFixed(2) * 100
-          ).toFixed(0) + "%";
+        if (element["price"] > 0) {
+          element["position"] =
+            (
+              (
+                (element["targetPrice"] - element["price"]) /
+                element["price"]
+              ).toFixed(2) * 100
+            ).toFixed(0) + "%";
+        }
       });
 
       this.loading = false;
@@ -319,8 +329,8 @@ export default {
         return pTable;
       });
     },
-    changeFirstProfit(){
-        this.refreshMyStock();
+    changeFirstProfit() {
+      this.refreshMyStock();
     },
     async addToOption() {
       if (!this.stock) {
@@ -351,11 +361,11 @@ export default {
       this.refreshMyStock();
     }
   },
-  created(){
-    this.$set(this,'firstProfit','50')
+  created() {
+    this.$set(this, "firstProfit", "50");
     this.refreshMyStock();
   }
-}
+};
 </script>
 <style>
 .ivu-table .demo-table-info-row td {
