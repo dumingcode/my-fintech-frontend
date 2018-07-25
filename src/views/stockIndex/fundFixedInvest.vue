@@ -8,7 +8,7 @@
     <Row>
       <Col span="24" class="padding-left-10 height-100">
       <Card>
-        <p slot="title" class="card-title">理性人数据格林尼治时间{{dealDate}}，且慢数据更新北京时间{{qmDealDate}}</p>
+        <p slot="title" class="card-title">理性人数据北京时间{{dealDate}}，且慢数据更新北京时间{{qmDealDate}}</p>
         <p slot="title" class="card-title">本期定投指数{{sumDtzsNum}}个，本期基准定投额{{sumBaseMoney}}，本期实际定投额{{sumInvestMoney}}，定投倍数{{calcDtbs}}</p>
       </Card>
       <Card>
