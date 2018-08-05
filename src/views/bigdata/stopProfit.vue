@@ -20,7 +20,7 @@
 
       <Card>
         <p slot="title" class="card-title">
-          自选股止盈表------数量{{tableData.length}}
+          自选股止盈表------数量{{tableData.length}}--------覆盖中信一级行业<span style="color:red">{{citics1VNum}}</span>/29-------覆盖中信二级行业<span style="color:red">{{citics2VNum}}</span>/83
         </p>
       </Card>
       <Card>
@@ -56,6 +56,8 @@ export default {
   components: { canEditTable },
   data() {
     return {
+      citics1VNum: 0,
+      citics2VNum: 0,
       firstProfit: "50",
       loading: false,
       stock: "",
@@ -230,13 +232,13 @@ export default {
       let stopProfit = this.calcTargetPrice(coverObj["yearLow"], profitTimeInt);
       coverObj["targetPrice"] = stopProfit;
       if (coverObj["price"] > 0) {
-      coverObj["position"] =
-        (
+        coverObj["position"] =
           (
-            (coverObj["targetPrice"] - coverObj["price"]) /
-            coverObj["price"]
-          ).toFixed(2) * 100
-        ).toFixed(0) + "%"
+            (
+              (coverObj["targetPrice"] - coverObj["price"]) /
+              coverObj["price"]
+            ).toFixed(2) * 100
+          ).toFixed(0) + "%";
       }
 
       //存储已补仓次数
@@ -302,6 +304,9 @@ export default {
       ]).then(values => {
         let pObj = values[0];
         let lObj = values[1];
+        let c1vSet = new Set()
+        let c2vSet = new Set()
+        
 
         pObj = pObj.data;
         lObj = lObj.data;
@@ -313,8 +318,12 @@ export default {
           for (let i = 0; i < lTable.length; i++) {
             let obj = JSON.parse(lTable[i]);
             lMap[obj["code"]] = obj["low"];
+            c1vSet.add(obj['citiV1'])
+            c2vSet.add(obj['citiV2'])
           }
         }
+        this.citics1VNum = c1vSet.size;
+        this.citics2VNum = c2vSet.size;
 
         if (pObj && pObj.code > 0) {
           pTable = pObj.data;
@@ -323,6 +332,7 @@ export default {
             let code = element["code"];
             if (lMap[code]) {
               element["yearLow"] = lMap[code];
+
             }
           }
         }
@@ -363,6 +373,8 @@ export default {
   },
   created() {
     this.$set(this, "firstProfit", "50");
+    this.$set(this, "citics1VNum", 0);
+    this.$set(this, "citics2VNum", 0);
     this.refreshMyStock();
   }
 };
