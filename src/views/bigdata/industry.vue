@@ -6,7 +6,7 @@
 <template>
   <div>
     <Row>
-      <Col span="8" class="padding-left-10 height-100">
+      <Col span="12" class="padding-left-10 height-100">
       <Card>
         <p slot="title" class="card-title">大数投资持仓中信一级行业查询</p>
       </Card>
@@ -14,7 +14,7 @@
         <Table stripe   :data="fstIndData" :columns="fstColumnsList"></Table>
       </Card>
       </Col>
-      <Col span="8" class="padding-left-10 height-100">
+      <Col span="12" class="padding-left-10 height-100">
         <Card>
           <p slot="title" class="card-title">大数投资持仓中信二级行业查询</p>
         </Card>
@@ -57,8 +57,8 @@ export default {
                 {
                     title: '个股名称',
                     key: 'name',
-                    width: 200,
-                    align: 'center'
+                    width: 400,
+                    align: 'left'
                 }
             ],
             sndColumnsList: [
@@ -77,8 +77,8 @@ export default {
                 {
                     title: '个股名称',
                     key: 'name',
-                    width: 200,
-                    align: 'center'
+                    width: 400,
+                    align: 'left'
                 }
             ]
         };
@@ -93,15 +93,15 @@ export default {
                 
                 this.fstInd.forEach((val, index) => {
                     let stockName = '';
-                    this.stockInfo.map(stock => { return JSON.parse(stock); }).filter((stock) => { return stock.citiV1 === val; }).map(stock => { return stock.name; }).forEach((name) => {
-                        stockName += `${name}\r\n`;
+                    this.stockInfo.map(stock => { return JSON.parse(stock); }).filter((stock) => { return val.indexOf(stock.citiV1) >= 0; }).map(stock => { return stock.name; }).forEach((name) => {
+                        stockName += `${name}|`;
                     });
                     this.fstIndData.push({'no': index + 1, 'fstInd': val, 'name': stockName});
                 });
                 this.sndInd.forEach((val, index) => {
                     let stockName = '';
-                    this.stockInfo.map(stock => { return JSON.parse(stock); }).filter((stock) => { return stock.citiV2 === val; }).map(stock => { return stock.name; }).forEach((name) => {
-                        stockName += `${name}\r\n`;
+                    this.stockInfo.map(stock => { return JSON.parse(stock); }).filter((stock) => { return val.indexOf(stock.citiV2) >= 0; }).map(stock => { return stock.name; }).forEach((name) => {
+                        stockName += `${name}|`;
                     });
                     this.sndIndData.push({'no': index + 1, 'sndInd': val, 'name': stockName});
                 });
