@@ -6,33 +6,48 @@
 <template>
   <div>
     <Row>
-      <Col span="24" class="padding-left-10 height-100">
+      <Col span="8" class="padding-left-10 height-100">
       <Card>
-        <p slot="title" class="card-title">大数投资持仓行业查询</p>
+        <p slot="title" class="card-title">大数投资持仓中信一级行业查询</p>
       </Card>
-
       <Card>
-        <Table refs="profitTable" :data="tableData" :columns-list="columnsList"></Table>
+        <Table stripe   :data="fstIndData" :columns="fstColumnsList"></Table>
       </Card>
       </Col>
-
+      <Col span="8" class="padding-left-10 height-100">
+        <Card>
+          <p slot="title" class="card-title">大数投资持仓中信二级行业查询</p>
+        </Card>
+        <Card>
+          <Table stripe  :data="sndIndData" :columns="sndColumnsList"></Table>
+        </Card>
+        </Col>
+  
     </Row>
 
   </div>
 </template>
 
 <script>
-//  import { getStore } from "../../utils/storageUtil"
-import { queryCitiFstIndustryInfo, queryCitiSndIndustryInfo } from '../../service/getData';
+import { getStore } from '../../utils/storageUtil';
+import { queryCitiFstIndustryInfo, queryCitiSndIndustryInfo, queryStockIndInfo } from '../../service/getData';
 export default {
     name: 'industry',
     data () {
         return {
             loading: false,
-            tableData: [],
+            fstIndData: [],
+            sndIndData: [],
             fstInd: [],
             sndInd: [],
-            columnsList: [
+            stockInfo: [],
+            fstColumnsList: [
+                {
+                    title: '序号',
+                    key: 'no',
+                    width: 60,
+                    align: 'center'
+                },
                 {
                     title: '一级行业',
                     key: 'fstInd',
@@ -42,13 +57,27 @@ export default {
                 {
                     title: '个股名称',
                     key: 'name',
-                    width: 120,
+                    width: 200,
+                    align: 'center'
+                }
+            ],
+            sndColumnsList: [
+                {
+                    title: '序号',
+                    key: 'no',
+                    width: 60,
                     align: 'center'
                 },
                 {
-                    title: '个股代码',
-                    key: 'code',
-                    width: 120,
+                    title: '二级行业',
+                    key: 'sndInd',
+                    width: 160,
+                    align: 'center'
+                },
+                {
+                    title: '个股名称',
+                    key: 'name',
+                    width: 200,
                     align: 'center'
                 }
             ]
@@ -56,13 +85,27 @@ export default {
     },
     methods: {
         getIndData () {
-            let funcArr = [queryCitiFstIndustryInfo, queryCitiSndIndustryInfo];
-            Promise.all(funcArr).then((vals) => {
+            let myStocksStore = getStore('myStocks');
+            return Promise.all([queryCitiFstIndustryInfo(), queryCitiSndIndustryInfo(), queryStockIndInfo(myStocksStore)]).then((vals) => {
                 this.fstInd = vals[0].data.data;
                 this.sndInd = vals[1].data.data;
-                this.fstInd.forEach((val) => {
-                    this.tableData.push({'fstInd': val});
+                this.stockInfo = vals[2].data.data;
+                
+                this.fstInd.forEach((val, index) => {
+                    let stockName = '';
+                    this.stockInfo.map(stock => { return JSON.parse(stock); }).filter((stock) => { return stock.citiV1 === val; }).map(stock => { return stock.name; }).forEach((name) => {
+                        stockName += `${name}\r\n`;
+                    });
+                    this.fstIndData.push({'no': index + 1, 'fstInd': val, 'name': stockName});
                 });
+                this.sndInd.forEach((val, index) => {
+                    let stockName = '';
+                    this.stockInfo.map(stock => { return JSON.parse(stock); }).filter((stock) => { return stock.citiV2 === val; }).map(stock => { return stock.name; }).forEach((name) => {
+                        stockName += `${name}\r\n`;
+                    });
+                    this.sndIndData.push({'no': index + 1, 'sndInd': val, 'name': stockName});
+                });
+                
             });
         }
 
