@@ -93,14 +93,14 @@ export default {
                 
                 this.fstInd.forEach((val, index) => {
                     let stockName = '';
-                    this.stockInfo.map(stock => { return JSON.parse(stock); }).filter((stock) => { return val.indexOf(stock.citiV1) >= 0; }).map(stock => { return stock.name; }).forEach((name) => {
+                    this.stockInfo.map(stock => { return JSON.parse(stock); }).filter((stock) => { return val === stock.citiV1; }).map(stock => { return stock.name; }).forEach((name) => {
                         stockName += `${name}|`;
                     });
                     this.fstIndData.push({'no': index + 1, 'fstInd': val, 'name': stockName});
                 });
                 this.sndInd.forEach((val, index) => {
                     let stockName = '';
-                    this.stockInfo.map(stock => { return JSON.parse(stock); }).filter((stock) => { return val.indexOf(stock.citiV2) >= 0; }).map(stock => { return stock.name; }).forEach((name) => {
+                    this.stockInfo.map(stock => { return JSON.parse(stock); }).filter((stock) => { return val === stock.citiV2; }).map(stock => { return stock.name; }).forEach((name) => {
                         stockName += `${name}|`;
                     });
                     this.sndIndData.push({'no': index + 1, 'sndInd': val, 'name': stockName});
