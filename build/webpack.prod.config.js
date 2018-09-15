@@ -75,7 +75,7 @@ module.exports = merge(webpackBaseConfig, {
         }),
         new HtmlWebpackPlugin({
             title: '滚雪球',
-            favicon: './td_icon.ico',
+            favicon: '../favicon.ico',
             filename: '../index.html',
             template: '!!ejs-loader!./src/template/index.ejs',
             inject: false
