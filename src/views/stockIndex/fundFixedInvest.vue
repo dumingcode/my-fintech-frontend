@@ -160,7 +160,8 @@ export default {
         "HSI.HI",
         "SPX.GI",
         "930782.CSI",
-        "NDX.GI"
+        "NDX.GI",
+        "000932"
       ],
       pbPosCalcIndex: ["399395", "399998", "399393", "399975", "399986"]
     };
