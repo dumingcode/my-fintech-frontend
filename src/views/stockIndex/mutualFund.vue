@@ -15,7 +15,7 @@
                     <Card>
                         <h4 slot="title">
                             <Icon type="android-archive"></Icon>
-                            2018年第一季度
+                            2019年Q1
                         </h4>
                         <Row>
                             <Col span='6' class="padding-left-10">
@@ -46,34 +46,34 @@
 </template>
 
 <script>
-import { mutualFundData, mutualFundColumns } from "./data/stockIndex.js";
-import table2excel from "@/libs/table2excel.js";
+import { mutualFundData, mutualFundColumns } from './data/stockIndex.js';
+import table2excel from '@/libs/table2excel.js';
 export default {
-  name: "exportable-table",
-  data() {
-    return {
-      table2excelData: mutualFundData,
-      excelColumns: mutualFundColumns,
-      selectMinRow: 1,
-      selectMinCol: 1,
-      maxRow: 0,
-      minRow: 1,
-      maxCol: 0,
-      minCol: 1,
-      csvFileName: "",
-      excelFileName: "",
-      tableExcel: {},
-      fontSize: 16
-    };
-  },
-  methods: {
-    exportExcel() {
-      table2excel.transform(
-        this.$refs.tableExcel,
-        "hrefToExportTable",
-        this.excelFileName
-      );
+    name: 'exportable-table',
+    data () {
+        return {
+            table2excelData: mutualFundData,
+            excelColumns: mutualFundColumns,
+            selectMinRow: 1,
+            selectMinCol: 1,
+            maxRow: 0,
+            minRow: 1,
+            maxCol: 0,
+            minCol: 1,
+            csvFileName: '',
+            excelFileName: '',
+            tableExcel: {},
+            fontSize: 16
+        };
+    },
+    methods: {
+        exportExcel () {
+            table2excel.transform(
+                this.$refs.tableExcel,
+                'hrefToExportTable',
+                this.excelFileName
+            );
+        }
     }
-  }
 };
 </script>

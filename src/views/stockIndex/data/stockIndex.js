@@ -19,32 +19,12 @@ export const mutualFundColumns = [
         'sortable': true
     },
     {
-        'title': '3年年化',
-        'key': 'ret3',
+        'title': '总费用(%)',
+        'key': 'zfy',
         'sortable': true
     },
     {
-        'title': '5年年化',
-        'key': 'ret5',
-        'sortable': true
-    },
-    {
-        'title': '规模(亿)',
-        'key': 'size',
-        'sortable': true
-    },
-    {
-        'title': '3年夏普比率',
-        'key': 'sharpe3',
-        'sortable': true
-    },
-    {
-        'title': '5年夏普比率',
-        'key': 'sharpe5',
-        'sortable': true
-    },
-    {
-        'title': '低估标准',
+        'title': '低估-高估阈值',
         'key': 'cheapJudge'
     }
 
@@ -55,6 +35,7 @@ export const mutualFundData = [
         pdCode: '100032',
         glf: 1.2,
         tgf: 0.2,
+        zfy: 1.4,
         ret3: -1.06,
         ret5: 15.59,
         size: 19.94,
@@ -67,6 +48,7 @@ export const mutualFundData = [
         pdCode: '090010',
         glf: 0.75,
         tgf: 0.15,
+        zfy: 0.9,
         ret3: -3.57,
         ret5: 14.86,
         size: 2.08,
@@ -79,66 +61,85 @@ export const mutualFundData = [
         pdCode: '501029',
         glf: 0.75,
         tgf: 0.15,
+        zfy: 0.9,
         ret3: Number.NEGATIVE_INFINITY,
         ret5: 14.69,
         size: 13.69,
         sharpe3: Number.NEGATIVE_INFINITY,
         sharpe5: Number.NEGATIVE_INFINITY,
-        cheapJudge: 'PE<15'
+        cheapJudge: '13<PE<20'
     },
     {
         pdName: '景顺长城中证500行业中性低波动指数型证券投资基金',
         pdCode: '003318',
         glf: 0.5,
         tgf: 0.1,
+        zfy: 0.6,
         ret3: Number.NEGATIVE_INFINITY,
         ret5: Number.NEGATIVE_INFINITY,
         size: 3.78,
         sharpe3: Number.NEGATIVE_INFINITY,
         sharpe5: Number.NEGATIVE_INFINITY,
-        cheapJudge: 'PE<27'
+        cheapJudge: '24<PE<30'
     },
     {
         pdName: '南方中证500指数ETF联接 ',
         pdCode: '160119',
         glf: 0.6,
         tgf: 0.12,
+        zfy: 0.72,
         ret3: -16.39,
         ret5: 8.88,
         size: 58.94,
         sharpe3: Number.NEGATIVE_INFINITY,
         sharpe5: '0.52',
-        cheapJudge: 'PE<25'
+        cheapJudge: '25<PE<35'
     },
     {
         pdName: '建信中证500指数增强A ',
         pdCode: '000478',
         glf: 1,
         tgf: 0.2,
+        zfy: 1.2,
         ret3: -8.06,
         ret5: Number.NEGATIVE_INFINITY,
         size: 32,
         sharpe3: '0.31',
         sharpe5: Number.NEGATIVE_INFINITY,
-        cheapJudge: 'PE<25'
+        cheapJudge: '25<PE<40'
     },
     {
         pdName: '易方达证券公司指数分级证券投资基金  ',
         pdCode: '502010',
         glf: 1,
         tgf: 0.2,
+        zfy: 1.2,
         ret3: Number.NEGATIVE_INFINITY,
         ret5: Number.NEGATIVE_INFINITY,
         size: 4.23,
         sharpe3: '0.31',
         sharpe5: Number.NEGATIVE_INFINITY,
-        cheapJudge: ''
+        cheapJudge: '1.6<PB<2.2'
     },
     {
         pdName: '国联安中证医药100指数  ',
         pdCode: '000059',
         glf: 0.8,
         tgf: 0.2,
+        zfy: 1.0,
+        ret3: -10.56,
+        ret5: Number.NEGATIVE_INFINITY,
+        size: 16.87,
+        sharpe3: '0.11',
+        sharpe5: Number.NEGATIVE_INFINITY,
+        cheapJudge: ''
+    },
+    {
+        pdName: '天弘中证医药100指数型发起式 A  ',
+        pdCode: '000059',
+        glf: 0.5,
+        tgf: 0.1,
+        zfy: 0.6,
         ret3: -10.56,
         ret5: Number.NEGATIVE_INFINITY,
         size: 16.87,
@@ -151,6 +152,7 @@ export const mutualFundData = [
         pdCode: '110031',
         glf: 0.6,
         tgf: 0.2,
+        zfy: 0.8,
         ret3: -1.76,
         ret5: 4.17,
         size: 18.22,
@@ -163,18 +165,20 @@ export const mutualFundData = [
         pdCode: '000968',
         glf: 0.5,
         tgf: 0.1,
+        zfy: 0.6,
         ret3: -10.93,
         ret5: Number.NEGATIVE_INFINITY,
         size: 4.54,
         sharpe3: '0.04',
         sharpe5: Number.NEGATIVE_INFINITY,
-        cheapJudge: ''
+        cheapJudge: '21<PE<27'
     },
     {
         pdName: '易方达沪深300量化增强  ',
         pdCode: '110030',
         glf: 0.8,
         tgf: 0.15,
+        zfy: 0.95,
         ret3: -2.14,
         ret5: Number.NEGATIVE_INFINITY,
         size: 13.55,
@@ -187,6 +191,7 @@ export const mutualFundData = [
         pdCode: '110020',
         glf: 0.2,
         tgf: 0.1,
+        zfy: 0.3,
         ret3: -6.78,
         ret5: 9.34,
         size: 42.44,
@@ -199,6 +204,7 @@ export const mutualFundData = [
         pdCode: '000311',
         glf: 1,
         tgf: 0.2,
+        zfy: 1.2,
         ret3: -0.18,
         ret5: Number.NEGATIVE_INFINITY,
         size: 84.07,
@@ -211,6 +217,7 @@ export const mutualFundData = [
         pdCode: '160706',
         glf: 0.5,
         tgf: 0.1,
+        zfy: 0.6,
         ret3: -7.32,
         ret5: 9.26,
         size: 164.01,
@@ -223,6 +230,7 @@ export const mutualFundData = [
         pdCode: '501050',
         glf: 0.5,
         tgf: 0.1,
+        zfy: 0.6,
         ret3: Number.NEGATIVE_INFINITY,
         ret5: Number.NEGATIVE_INFINITY,
         size: 6.14,
@@ -235,6 +243,7 @@ export const mutualFundData = [
         pdCode: '110003',
         glf: 1.2,
         tgf: 0.2,
+        zfy: 1.4,
         ret3: 3.16,
         ret5: 14.85,
         size: 101.4,
@@ -247,18 +256,20 @@ export const mutualFundData = [
         pdCode: '530015',
         glf: 0.5,
         tgf: 0.1,
+        zfy: 0.6,
         ret3: 3.04,
         ret5: 15.6,
         size: 3.3,
         sharpe3: '0.51',
         sharpe5: '0.71',
-        cheapJudge: '预测盈利增速法 18-23以下低估'
+        cheapJudge: '17<PE<20'
     },
     {
         pdName: '华夏上证50ETF联接A',
         pdCode: '001051',
         glf: 0.5,
         tgf: 0.1,
+        zfy: 0.6,
         ret3: -5.38,
         ret5: Number.NEGATIVE_INFINITY,
         size: 7.5,
@@ -271,6 +282,7 @@ export const mutualFundData = [
         pdCode: '160716',
         glf: 1,
         tgf: 0.18,
+        zfy: 1.18,
         ret3: 0.89,
         ret5: 15.89,
         size: 18,
@@ -283,6 +295,7 @@ export const mutualFundData = [
         pdCode: '165312',
         glf: 0.1,
         tgf: 0.22,
+        zfy: 1.22,
         ret3: 4.41,
         ret5: 15.01,
         size: 13.41,
@@ -295,6 +308,7 @@ export const mutualFundData = [
         pdCode: '481012',
         glf: 0.5,
         tgf: 0.1,
+        zfy: 0.6,
         ret3: 2.82,
         ret5: 15.72,
         size: 7.09,
