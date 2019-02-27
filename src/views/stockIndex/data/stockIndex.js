@@ -54,6 +54,7 @@ export const mutualFundData = [
         size: 2.08,
         sharpe3: 0.36,
         sharpe5: 0.66,
+        choice: 'good',
         cheapJudge: 'PE<10'
     },
     {
@@ -80,6 +81,7 @@ export const mutualFundData = [
         size: 3.78,
         sharpe3: Number.NEGATIVE_INFINITY,
         sharpe5: Number.NEGATIVE_INFINITY,
+        choice: 'good',
         cheapJudge: '24<PE<30'
     },
     {
@@ -122,6 +124,20 @@ export const mutualFundData = [
         cheapJudge: '1.6<PB<2.2'
     },
     {
+        pdName: '国泰中证申万证券行业指数（LOF）',
+        pdCode: '501016',
+        glf: 0.5,
+        tgf: 0.15,
+        zfy: 0.65,
+        ret3: Number.NEGATIVE_INFINITY,
+        ret5: Number.NEGATIVE_INFINITY,
+        size: 4.23,
+        sharpe3: '0.31',
+        sharpe5: Number.NEGATIVE_INFINITY,
+        choice: 'good',
+        cheapJudge: '1.6<PB<2.2'
+    },
+    {
         pdName: '国联安中证医药100指数  ',
         pdCode: '000059',
         glf: 0.8,
@@ -136,7 +152,7 @@ export const mutualFundData = [
     },
     {
         pdName: '天弘中证医药100指数型发起式 A  ',
-        pdCode: '000059',
+        pdCode: '001550',
         glf: 0.5,
         tgf: 0.1,
         zfy: 0.6,
@@ -145,6 +161,7 @@ export const mutualFundData = [
         size: 16.87,
         sharpe3: '0.11',
         sharpe5: Number.NEGATIVE_INFINITY,
+        choice: 'good',
         cheapJudge: ''
     },
     {
@@ -158,6 +175,7 @@ export const mutualFundData = [
         size: 18.22,
         sharpe3: '0.05',
         sharpe5: '0.15',
+        choice: 'good',
         cheapJudge: 'PE<9.1'
     },
     {
@@ -171,6 +189,7 @@ export const mutualFundData = [
         size: 4.54,
         sharpe3: '0.04',
         sharpe5: Number.NEGATIVE_INFINITY,
+        choice: 'good',
         cheapJudge: '21<PE<27'
     },
     {
@@ -191,12 +210,13 @@ export const mutualFundData = [
         pdCode: '110020',
         glf: 0.2,
         tgf: 0.1,
-        zfy: 0.3,
+        zfy: 0.4,
         ret3: -6.78,
         ret5: 9.34,
         size: 42.44,
         sharpe3: '0.11',
         sharpe5: '0.48',
+        choice: 'good',
         cheapJudge: ''
     },
     {
@@ -226,6 +246,20 @@ export const mutualFundData = [
         cheapJudge: ''
     },
     {
+        pdName: '申万菱信沪深300价值指数',
+        pdCode: '310398',
+        glf: 0.65,
+        tgf: 0.15,
+        zfy: 0.8,
+        ret3: -7.32,
+        ret5: 9.26,
+        size: 164.01,
+        sharpe3: '0.09',
+        sharpe5: '0.48',
+        choice: 'good',
+        cheapJudge: 'PE<10'
+    },
+    {
         pdName: '华夏沪港通上证50AH优选指数  ',
         pdCode: '501050',
         glf: 0.5,
@@ -236,6 +270,7 @@ export const mutualFundData = [
         size: 6.14,
         sharpe3: Number.NEGATIVE_INFINITY,
         sharpe5: Number.NEGATIVE_INFINITY,
+        choice: 'good',
         cheapJudge: 'PE<10'
     },
     {
@@ -262,6 +297,7 @@ export const mutualFundData = [
         size: 3.3,
         sharpe3: '0.51',
         sharpe5: '0.71',
+        choice: 'good',
         cheapJudge: '17<PE<20'
     },
     {
@@ -314,6 +350,8 @@ export const mutualFundData = [
         size: 7.09,
         sharpe3: '0.44',
         sharpe5: '0.7',
+        choice: 'good',
+        cellClassName: {zfy: 'demo-table-info-cell-cheap'},
         cheapJudge: ''
     }
 ]

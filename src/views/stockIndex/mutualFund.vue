@@ -31,10 +31,16 @@
                                 <Button type="primary" size="large" @click="exportExcel">下载表格数据</Button>
                             </div>
                             </Col>
+
+                            <Col span='6'>
+                            <div class="margin-top-20">
+                                  <p slot="title" class="card-title">底色为蓝色指数基金费用较低可优先选择</p>
+                            </div>
+                            </Col>
                         </Row>
                         <Row>
                             <Col span="24" class="margin-top-10">
-                            <Table :columns="excelColumns" height="990px" :data="table2excelData" size="small" ref="tableExcel"></Table>
+                            <Table :row-class-name="isCheap" :columns="excelColumns" height="990px" :data="table2excelData" size="small" ref="tableExcel"></Table>
                             </Col>
 
                         </Row>
@@ -73,7 +79,29 @@ export default {
                 'hrefToExportTable',
                 this.excelFileName
             );
+        },
+        isCheap (row, index) {
+            if (row['choice'] === 'good') {
+                return 'demo-table-info-row';
+            }
+            return '';
         }
     }
 };
 </script>
+
+<style scoped>
+.ivu-table .demo-table-info-row td {
+  background-color: #2db7f5;
+  color: #fff;
+}
+  .ivu-table .demo-table-info-cell-name {
+        background-color: #2db7f5;
+        color: #fff;
+    }  
+  .ivu-table .demo-table-info-cell-cheap {
+        background-color: #2db7f5;
+        color: #fff;
+    }
+
+</style>
