@@ -24,6 +24,10 @@ export const mutualFundColumns = [
         'sortable': true
     },
     {
+        'title': '赎回费(%)',
+        'key': 'shf'
+    },
+    {
         'title': '低估-高估阈值',
         'key': 'cheapJudge'
     }
@@ -41,6 +45,7 @@ export const mutualFundData = [
         size: 19.94,
         sharpe3: 0.43,
         sharpe5: 0.71,
+        shf: 'A>7天0.5%',
         cheapJudge: 'PE<10'
     },
     {
@@ -54,6 +59,7 @@ export const mutualFundData = [
         size: 2.08,
         sharpe3: 0.36,
         sharpe5: 0.66,
+        shf: 'A>2年0%',
         choice: 'good',
         cheapJudge: 'PE<10'
     },
@@ -66,6 +72,7 @@ export const mutualFundData = [
         ret3: Number.NEGATIVE_INFINITY,
         ret5: 14.69,
         size: 13.69,
+        shf: 'A>1年0%',
         sharpe3: Number.NEGATIVE_INFINITY,
         sharpe5: Number.NEGATIVE_INFINITY,
         cheapJudge: '13<PE<20'
@@ -82,6 +89,7 @@ export const mutualFundData = [
         sharpe3: Number.NEGATIVE_INFINITY,
         sharpe5: Number.NEGATIVE_INFINITY,
         choice: 'good',
+        shf: 'A>2年0%',
         cheapJudge: '24<PE<30'
     },
     {
@@ -95,6 +103,7 @@ export const mutualFundData = [
         size: 58.94,
         sharpe3: Number.NEGATIVE_INFINITY,
         sharpe5: '0.52',
+        shf: 'A>5年0%',
         cheapJudge: '25<PE<35'
     },
     {
@@ -108,6 +117,7 @@ export const mutualFundData = [
         size: 32,
         sharpe3: '0.31',
         sharpe5: Number.NEGATIVE_INFINITY,
+        shf: 'A>2年0%',
         cheapJudge: '25<PE<40'
     },
     {
@@ -121,6 +131,7 @@ export const mutualFundData = [
         size: 4.23,
         sharpe3: '0.31',
         sharpe5: Number.NEGATIVE_INFINITY,
+        shf: 'A>2年0%',
         cheapJudge: '1.6<PB<2.2'
     },
     {
@@ -135,6 +146,7 @@ export const mutualFundData = [
         sharpe3: '0.31',
         sharpe5: Number.NEGATIVE_INFINITY,
         choice: 'good',
+        shf: 'A>2年0%',
         cheapJudge: '1.6<PB<2.2'
     },
     {
@@ -148,6 +160,7 @@ export const mutualFundData = [
         size: 16.87,
         sharpe3: '0.11',
         sharpe5: Number.NEGATIVE_INFINITY,
+        shf: 'A>2年0%',
         cheapJudge: ''
     },
     {
@@ -162,6 +175,7 @@ export const mutualFundData = [
         sharpe3: '0.11',
         sharpe5: Number.NEGATIVE_INFINITY,
         choice: 'good',
+        shf: 'A>30天0.05%',
         cheapJudge: ''
     },
     {
@@ -176,6 +190,7 @@ export const mutualFundData = [
         sharpe3: '0.05',
         sharpe5: '0.15',
         choice: 'good',
+        shf: 'A>2年0%',
         cheapJudge: 'PE<9.1'
     },
     {
@@ -190,6 +205,7 @@ export const mutualFundData = [
         sharpe3: '0.04',
         sharpe5: Number.NEGATIVE_INFINITY,
         choice: 'good',
+        shf: 'A>2年0%',
         cheapJudge: '21<PE<27'
     },
     {
@@ -203,6 +219,7 @@ export const mutualFundData = [
         size: 13.55,
         sharpe3: '0.32',
         sharpe5: Number.NEGATIVE_INFINITY,
+        shf: 'A>2年0%',
         cheapJudge: ''
     },
     {
@@ -217,6 +234,7 @@ export const mutualFundData = [
         sharpe3: '0.11',
         sharpe5: '0.48',
         choice: 'good',
+        shf: 'A>2年0%',
         cheapJudge: ''
     },
     {
@@ -230,6 +248,7 @@ export const mutualFundData = [
         size: 84.07,
         sharpe3: '0.43',
         sharpe5: Number.NEGATIVE_INFINITY,
+        shf: 'A>2年0%',
         cheapJudge: ''
     },
     {
@@ -243,6 +262,7 @@ export const mutualFundData = [
         size: 164.01,
         sharpe3: '0.09',
         sharpe5: '0.48',
+        shf: 'A>2年0%',
         cheapJudge: ''
     },
     {
@@ -257,6 +277,7 @@ export const mutualFundData = [
         sharpe3: '0.09',
         sharpe5: '0.48',
         choice: 'good',
+        shf: 'A>2年0%',
         cheapJudge: 'PE<10'
     },
     {
@@ -271,6 +292,7 @@ export const mutualFundData = [
         sharpe3: Number.NEGATIVE_INFINITY,
         sharpe5: Number.NEGATIVE_INFINITY,
         choice: 'good',
+        shf: 'A>1年0%',
         cheapJudge: 'PE<10'
     },
     {
@@ -284,6 +306,7 @@ export const mutualFundData = [
         size: 101.4,
         sharpe3: '0.45',
         sharpe5: '0.62',
+        shf: 'A>2年0%',
         cheapJudge: 'PE<10'
     },
     {
@@ -298,6 +321,7 @@ export const mutualFundData = [
         sharpe3: '0.51',
         sharpe5: '0.71',
         choice: 'good',
+        shf: 'A>2年0%',
         cheapJudge: '17<PE<20'
     },
     {
@@ -311,6 +335,7 @@ export const mutualFundData = [
         size: 7.5,
         sharpe3: '0.51',
         sharpe5: '0.71',
+        shf: 'A>1年0%',
         cheapJudge: 'PE<10'
     },
     {
@@ -324,6 +349,7 @@ export const mutualFundData = [
         size: 18,
         sharpe3: 0.41,
         sharpe5: 0.63,
+        shf: 'A>2年0%',
         cheapJudge: 'PE<10'
     },
     {
@@ -337,6 +363,7 @@ export const mutualFundData = [
         size: 13.41,
         sharpe3: '0.64',
         sharpe5: '0.75',
+        shf: 'A>2年0%',
         cheapJudge: 'PE<10'
     },
     {
@@ -351,6 +378,7 @@ export const mutualFundData = [
         sharpe3: '0.44',
         sharpe5: '0.7',
         choice: 'good',
+        shf: 'A>2年0%',
         cellClassName: {zfy: 'demo-table-info-cell-cheap'},
         cheapJudge: ''
     }
