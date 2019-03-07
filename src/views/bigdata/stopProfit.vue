@@ -20,7 +20,7 @@
 
       <Card>
         <p slot="title" class="card-title">
-          自选股止盈表------数量{{tableData.length}}--------覆盖中信一级行业<span style="color:red">{{citics1VNum}}</span>/29-------覆盖中信二级行业<span style="color:red">{{citics2VNum}}</span>/83
+          自选股止盈表------数量{{tableData.length}}--------覆盖中信一级行业<span style="color:red">{{citics1VNum}}</span>/29-------覆盖中信二级行业<span style="color:red">{{citics2VNum}}</span>/83-----距离止盈点平均值<span style="color:red">{{avgPos}}</span>
         </p>
       </Card>
       <Card>
@@ -65,6 +65,7 @@ export default {
       excelFileName: "myStock",
       csvFileName: "",
       myStocksTargetPrice: [],
+      avgPos: 0,
       columnsList: [
         {
           title: "个股名称",
@@ -269,6 +270,7 @@ export default {
       if (myStocksProfitTime) {
         myStocksProfitTimeJson = JSON.parse(myStocksProfitTime);
       }
+      this.avgPos = 0
       this.tableData.forEach(element => {
         if (myStocksProfitTimeJson && myStocksProfitTimeJson[element["code"]]) {
           element["profitTime"] = parseInt(
@@ -290,8 +292,17 @@ export default {
                 element["price"]
               ).toFixed(2) * 100
             ).toFixed(0) + "%";
+
+            this.avgPos += parseInt(element["position"].replace('%',''))
         }
       });
+      
+      if(this.tableData.length > 0){
+         this.avgPos = (this.avgPos / this.tableData.length).toFixed(2)    
+      }else{
+        this.avgPos = 0
+      }
+      
 
       this.loading = false;
     },
