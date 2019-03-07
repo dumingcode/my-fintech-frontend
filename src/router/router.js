@@ -170,6 +170,30 @@ export const appRouter = [{
                     //     import ('@/views/my-components/markdown-editor/markdown-editor.vue')
             }
         ]
+    },
+    {
+        path: '/component',
+        icon: 'crop',
+        name: 'cbond',
+        title: '可转债',
+        component: Main,
+        children: [{
+                path: 'cbStopProfit',
+                icon: 'compose',
+                name: 'cbStopProfit',
+                title: '转债止盈',
+                component: () =>
+                    import ('@/pages/cb/cbStopProfit.vue')
+            },
+            {
+                path: 'md-editor',
+                icon: 'pound',
+                name: 'md-editor',
+                title: '待开放'
+                    // component: () =>
+                    //     import ('@/views/my-components/markdown-editor/markdown-editor.vue')
+            }
+        ]
     }
 
 ]
