@@ -58,7 +58,7 @@ export default {
     return {
       citics1VNum: 0,
       citics2VNum: 0,
-      firstProfit: "50",
+      firstProfit: "100",
       loading: false,
       stock: "",
       tableData: [],

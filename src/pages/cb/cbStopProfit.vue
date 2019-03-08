@@ -164,7 +164,16 @@ export default {
     isBelowThreshld(row, index) {
       if (row["price"]) {
         let pos = parseFloat(row["price"])
-        if (pos <= this.firstProfit) {
+        let benchmark
+        if(this.firstProfit == '5'){
+            benchmark = parseFloat(row['ma5'])
+        }else if(this.firstProfit == '10'){
+            benchmark = parseFloat(row['ma10'])
+        }else if(this.firstProfit == '20'){
+            benchmark = parseFloat(row['ma20'])
+        
+
+        if (pos >= 130 && pos <= benchmark) {
           return "demo-table-info-row";
         } else {
           return "";
