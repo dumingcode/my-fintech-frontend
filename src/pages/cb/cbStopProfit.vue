@@ -171,7 +171,7 @@ export default {
             benchmark = parseFloat(row['ma10'])
         }else if(this.firstProfit == '20'){
             benchmark = parseFloat(row['ma20'])
-        
+        }
 
         if (pos >= 130 && pos <= benchmark) {
           return "demo-table-info-row";
