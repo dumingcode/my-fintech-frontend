@@ -120,7 +120,7 @@ export default {
                 }else{
                     yearTwo = JSON.parse(val['alphaBeta2Year'])
                 }
-                this.fstIndData.push({'no': index + 1, 'code': val.code, 'name': val.name,'alpha1':yearOne.alpha.toFixed(4),'beta1':yearOne.beta.toFixed(4),'r1':(yearOne.r2*100).toFixed(2)+'%','alpha2':yearTwo.alpha.toFixed(4),'beta2':yearTwo.beta.toFixed(4),'r2':(yearTwo.r2*100).toFixed(2)+'%'})
+                this.fstIndData.push({'no': index + 1, 'code': val.code, 'name': val.name,'alpha1':(yearOne.alpha*100).toFixed(2)+'%','beta1':yearOne.beta.toFixed(4),'r1':(yearOne.r2*100).toFixed(2)+'%','alpha2':(yearTwo.alpha*100).toFixed(2)+'%','beta2':yearTwo.beta.toFixed(4),'r2':(yearTwo.r2*100).toFixed(2)+'%'})
             })
         
         },
