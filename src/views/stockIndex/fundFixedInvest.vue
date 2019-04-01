@@ -147,7 +147,8 @@ export default {
         "000925",
         "000922",
         "HSCEI.HI",
-        "950090.SH"
+        "950090.SH",
+        "CSPSADRP.CI",
       ],
       pePosCalcIndex: [
         "399812",
@@ -158,7 +159,6 @@ export default {
         "399701",
         '000978',
         '000991',
-        "CSPSADRP.CI",
         "HSI.HI",
         "SPX.GI",
         "930782.CSI",
@@ -200,11 +200,7 @@ export default {
       } else {
         return "";
       }
-      if (row["cname"] == "标普红利" && row["pe"] <= 15) {
-        return "demo-table-info-row";
-      } else {
-        return "";
-      }
+      
 
       return "";
     },
