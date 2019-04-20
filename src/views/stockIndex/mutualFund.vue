@@ -40,7 +40,7 @@
                         </Row>
                         <Row>
                             <Col span="24" class="margin-top-10">
-                            <Table :row-class-name="isCheap" :columns="excelColumns" height="990px" :data="table2excelData" size="small" ref="tableExcel"></Table>
+                            <Table  :columns="excelColumns" height="1200px" :data="table2excelData" size="small" ref="tableExcel"></Table>
                             </Col>
 
                         </Row>
@@ -90,16 +90,10 @@ export default {
 };
 </script>
 
-<style scoped>
-.ivu-table .demo-table-info-row td {
-  background-color: #2db7f5;
-  color: #fff;
-}
-  .ivu-table .demo-table-info-cell-name {
-        background-color: #2db7f5;
-        color: #fff;
-    }  
-  .ivu-table .demo-table-info-cell-cheap {
+<style>
+
+   
+   .ivu-table .demo-table-info-row-cell   {
         background-color: #2db7f5;
         color: #fff;
     }
