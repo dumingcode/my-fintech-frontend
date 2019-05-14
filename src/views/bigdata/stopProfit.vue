@@ -131,6 +131,25 @@ export default {
           }
         },
         {
+          title: "距年内最低价*2",
+          key: "doublePos",
+          width: 120,
+          align: "center",
+          sortable: true,
+          // sortType: "asc",
+          sortMethod: function(a, b, type) {
+            if (a && b) {
+              const aa = parseFloat(a.replace("%"));
+              const bb = parseFloat(b.replace("%"));
+              if (type == "asc") {
+                return aa - bb;
+              } else {
+                return bb - aa;
+              }
+            }
+          }
+        },
+        {
           title: "操作",
           align: "center",
           width: 120,
@@ -240,6 +259,13 @@ export default {
               coverObj["price"]
             ).toFixed(2) * 100
           ).toFixed(0) + "%";
+          coverObj["doublePos"] =
+          (
+            (
+              (coverObj["yearLow"] * 2 - coverObj["price"]) /
+              coverObj["price"]
+            ).toFixed(2) * 100
+          ).toFixed(0) + "%";
       }
 
       //存储已补仓次数
@@ -292,6 +318,13 @@ export default {
                 element["price"]
               ).toFixed(2) * 100
             ).toFixed(0) + "%";
+            element["doublePos"] =
+          (
+            (
+              (element["yearLow"] * 2 - element["price"]) /
+              element["price"]
+            ).toFixed(2) * 100
+          ).toFixed(0) + "%";
 
             this.avgPos += parseInt(element["position"].replace('%',''))
         }
