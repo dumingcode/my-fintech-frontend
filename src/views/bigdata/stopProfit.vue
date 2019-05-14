@@ -20,7 +20,7 @@
 
       <Card>
         <p slot="title" class="card-title">
-          自选股止盈表------数量{{tableData.length}}--------覆盖中信一级行业<span style="color:red">{{citics1VNum}}</span>/29-------覆盖中信二级行业<span style="color:red">{{citics2VNum}}</span>/83-----距离止盈点平均值<span style="color:red">{{avgPos}}</span>
+          自选股止盈表------数量{{tableData.length}}--------覆盖中信一级行业<span style="color:red">{{citics1VNum}}</span>/29-------覆盖中信二级行业<span style="color:red">{{citics2VNum}}</span>/83-----距离止盈点平均值<span style="color:red">{{avgPos}}</span>-----已止盈总次数<span style="color:red">{{sumStopProfitTime}}</span>
         </p>
       </Card>
       <Card>
@@ -66,6 +66,7 @@ export default {
       csvFileName: "",
       myStocksTargetPrice: [],
       avgPos: 0,
+      sumStopProfitTime: 0,
       columnsList: [
         {
           title: "个股名称",
@@ -108,6 +109,7 @@ export default {
           key: "profitTime",
           width: 120,
           align: "center",
+          sortable: true,
           editable: true
         },
 
@@ -117,7 +119,7 @@ export default {
           width: 120,
           align: "center",
           sortable: true,
-          // sortType: "asc",
+          sortType: "asc",
           sortMethod: function(a, b, type) {
             if (a && b) {
               const aa = parseFloat(a.replace("%"));
@@ -297,6 +299,7 @@ export default {
         myStocksProfitTimeJson = JSON.parse(myStocksProfitTime);
       }
       this.avgPos = 0
+      this.sumStopProfitTime = 0
       this.tableData.forEach(element => {
         if (myStocksProfitTimeJson && myStocksProfitTimeJson[element["code"]]) {
           element["profitTime"] = parseInt(
@@ -327,6 +330,8 @@ export default {
           ).toFixed(0) + "%";
 
             this.avgPos += parseInt(element["position"].replace('%',''))
+            this.sumStopProfitTime += parseInt(element["profitTime"])
+            
         }
       });
       
@@ -416,7 +421,7 @@ export default {
     }
   },
   created() {
-    this.$set(this, "firstProfit", "50");
+    this.$set(this, "firstProfit", "100");
     this.$set(this, "citics1VNum", 0);
     this.$set(this, "citics2VNum", 0);
     this.refreshMyStock();

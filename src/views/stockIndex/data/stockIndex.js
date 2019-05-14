@@ -61,7 +61,10 @@ export const mutualFundData = [
         sharpe5: 0.66,
         shf: 'A>2年0%',
         choice: 'good',
-        cheapJudge: 'PE<10'
+        cheapJudge: 'PE<10',
+        cellClassName: {
+            zfy: 'demo-table-info-row-cell'
+        }
     },
     {
         pdName: '华宝标普中国A股红利机会指数',
@@ -90,7 +93,10 @@ export const mutualFundData = [
         sharpe5: Number.NEGATIVE_INFINITY,
         choice: 'good',
         shf: 'A>2年0%',
-        cheapJudge: '24<PE<30'
+        cheapJudge: '24<PE<30',
+        cellClassName: {
+            zfy: 'demo-table-info-row-cell'
+        }
     },
     {
         pdName: '南方中证500指数ETF联接 ',
@@ -147,7 +153,10 @@ export const mutualFundData = [
         sharpe5: Number.NEGATIVE_INFINITY,
         choice: 'good',
         shf: 'A>2年0%',
-        cheapJudge: '1.6<PB<2.2'
+        cheapJudge: '1.6<PB<2.2',
+        cellClassName: {
+            zfy: 'demo-table-info-row-cell'
+        }
     },
     {
         pdName: '国联安中证医药100指数  ',
@@ -176,7 +185,10 @@ export const mutualFundData = [
         sharpe5: Number.NEGATIVE_INFINITY,
         choice: 'good',
         shf: 'A>30天0.05%',
-        cheapJudge: ''
+        cheapJudge: '',
+        cellClassName: {
+            zfy: 'demo-table-info-row-cell'
+        }
     },
     {
         pdName: '易方达恒生中国企业ETF联接A  ',
@@ -191,7 +203,10 @@ export const mutualFundData = [
         sharpe5: '0.15',
         choice: 'good',
         shf: 'A>2年0%',
-        cheapJudge: 'PE<9.1'
+        cheapJudge: 'PE<9.1',
+        cellClassName: {
+            zfy: 'demo-table-info-row-cell'
+        }
     },
     {
         pdName: '广发中证养老产业指数A  ',
@@ -206,7 +221,10 @@ export const mutualFundData = [
         sharpe5: Number.NEGATIVE_INFINITY,
         choice: 'good',
         shf: 'A>2年0%',
-        cheapJudge: '21<PE<27'
+        cheapJudge: '21<PE<27',
+        cellClassName: {
+            zfy: 'demo-table-info-row-cell'
+        }
     },
     {
         pdName: '易方达沪深300量化增强  ',
@@ -235,7 +253,10 @@ export const mutualFundData = [
         sharpe5: '0.48',
         choice: 'good',
         shf: 'A>2年0%',
-        cheapJudge: ''
+        cheapJudge: '',
+        cellClassName: {
+            zfy: 'demo-table-info-row-cell'
+        }
     },
     {
         pdName: '景顺长城沪深300指数增强  ',
@@ -278,7 +299,10 @@ export const mutualFundData = [
         sharpe5: '0.48',
         choice: 'good',
         shf: 'A>2年0%',
-        cheapJudge: 'PE<10'
+        cheapJudge: 'PE<10',
+        cellClassName: {
+            zfy: 'demo-table-info-row-cell'
+        }
     },
     {
         pdName: '华夏沪港通上证50AH优选指数  ',
@@ -293,7 +317,10 @@ export const mutualFundData = [
         sharpe5: Number.NEGATIVE_INFINITY,
         choice: 'good',
         shf: 'A>1年0%',
-        cheapJudge: 'PE<10'
+        cheapJudge: 'PE<10',
+        cellClassName: {
+            zfy: 'demo-table-info-row-cell'
+        }
     },
     {
         pdName: '易方达上证50指数A',
@@ -322,7 +349,10 @@ export const mutualFundData = [
         sharpe5: '0.71',
         choice: 'good',
         shf: 'A>2年0%',
-        cheapJudge: '17<PE<20'
+        cheapJudge: '17<PE<20',
+        cellClassName: {
+            zfy: 'demo-table-info-row-cell'
+        }
     },
     {
         pdName: '华夏上证50ETF联接A',
@@ -380,6 +410,45 @@ export const mutualFundData = [
         choice: 'good',
         shf: 'A>2年0%',
         cellClassName: {zfy: 'demo-table-info-cell-cheap'},
-        cheapJudge: ''
+        cheapJudge: '',
+        cellClassName: {
+            zfy: 'demo-table-info-row-cell'
+        }
+    },
+    {
+        pdName: '南方1-3年国开债A',
+        pdCode: '006491',
+        glf: 0.15,
+        tgf: 0.05,
+        zfy: 0.2,
+        ret3: '',
+        ret5: '',
+        size: 127,
+        sharpe3: '',
+        sharpe5: '',
+        choice: 'good',
+        shf: 'A>30天0%',
+        cheapJudge: '',
+        cellClassName: {
+            zfy: 'demo-table-info-row-cell'
+        }
+    },
+    {
+        pdName: '广发中债7-10年国开债指数A',
+        pdCode: '003376',
+        glf: 0.25,
+        tgf: 0.05,
+        zfy: 0.3,
+        ret3: '',
+        ret5: '',
+        size: 7.54,
+        sharpe3: '',
+        sharpe5: '',
+        choice: 'good',
+        shf: 'A>2年0%',
+        cheapJudge: '',
+        cellClassName: {
+            zfy: 'demo-table-info-row-cell'
+        }
     }
 ]

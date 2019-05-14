@@ -25,7 +25,7 @@
           <Option value="20" key="20">ma20</Option>
         </Select>
         <span>
-          止盈规则：130元以上，转债价格跌破趋势线止盈。
+          止盈规则：（场景1）非强赎期130元以上，转债价格跌破MA20止盈（若多份可以减半止盈）。（场景2）强赎期内跌破MA20即全部止盈。
         </span>
       </Card>
       
@@ -57,7 +57,7 @@ export default {
       excelFileName: "myStock",
       csvFileName: "",
       myStocksTargetPrice: [],
-      firstProfit: "10",
+      firstProfit: "20",
       columnsList: [
         {
           title: "个股名称",
@@ -272,6 +272,7 @@ export default {
     }
   },
   created() {
+    this.firstProfit = '20'
     this.refreshMyStock();
   }
 };
