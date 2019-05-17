@@ -194,6 +194,30 @@ export const appRouter = [{
                     //     import ('@/views/my-components/markdown-editor/markdown-editor.vue')
             }
         ]
+    },
+    {
+        path: '/component',
+        icon: 'crop',
+        name: 'grid',
+        title: '网格策略',
+        component: Main,
+        children: [{
+                path: 'indexGrid',
+                icon: 'compose',
+                name: 'indexGrid',
+                title: '网格行情',
+                component: () =>
+                    import ('@/pages/grid/indexGrid.vue')
+            },
+            {
+                path: 'md-editor',
+                icon: 'pound',
+                name: 'md-editor',
+                title: '待开放'
+                    // component: () =>
+                    //     import ('@/views/my-components/markdown-editor/markdown-editor.vue')
+            }
+        ]
     }
 
 ]
