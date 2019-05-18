@@ -94,11 +94,56 @@ export default {
           key: "sellGrid",
           width: 120,
           align: "center"
+        },
+        {
+          title: "进度",
+          key: "percent",
+          width: 160,
+          align: "left",
+          render: (h, params) => {
+              return h('div', [
+                h('Progress', {
+                  props: {
+                    status : this.calcProgressStatus(this.tableData[params.index]),
+                    percent : this.calcProgressVal(this.tableData[params.index])
+                  },
+                  style: {
+                    marginRight: '5px'
+                  }
+                }, `${this.calcProgressVal(this.tableData[params.index]).toFixed(0)}%`)
+            ])
+          }
         }
       ]
     };
   },
   methods: {
+    calcProgressVal(row) {
+      if(!(row['price'] && row['gap'] && row['curLevel'])) {
+        return 0
+      }
+      const price = parseFloat(row['price']).toFixed(3)
+      const gap = parseFloat(row['gap']).toFixed(3)
+      const curLevel = parseFloat(row['curLevel']).toFixed(3)
+      const buyGrid = parseFloat(row['buyGrid']).toFixed(3)
+      const sellGrid = parseFloat(row['sellGrid']).toFixed(3)
+      const res = (parseFloat(((Math.abs(price - curLevel) / (sellGrid - curLevel)) * 100))) 
+      return res > 100 ? 99.9999 : res
+    },
+    calcProgressStatus(row) {
+      if(!(row['price'] && row['gap'] && row['curLevel'])) {
+        return 'normal'
+      }
+      const price = parseFloat(row['price']).toFixed(3)
+      const gap = parseFloat(row['gap']).toFixed(3)
+      const curLevel = parseFloat(row['curLevel']).toFixed(3)
+      const buyGrid = parseFloat(row['buyGrid']).toFixed(3)
+      const sellGrid = parseFloat(row['sellGrid']).toFixed(3)
+      if (price < curLevel) {
+        return 'active'
+      }
+      return 'wrong'
+    },
     isBelowThreshld(row, index) {
       if (row['price'] && row['curLevel'] && row['gap']) {
         let gap = parseFloat(row['gap']) / 100
@@ -232,6 +277,7 @@ export default {
               (parseFloat(element["curLevel"]) * (1 - parseFloat(element["gap"])/100)).toFixed(3)
             element["sellGrid"] = 
               (parseFloat(element["curLevel"]) * (1 + parseFloat(element["gap"])/100)).toFixed(3)
+
           }
         });
       }
@@ -239,6 +285,7 @@ export default {
       this.loading = false;
     }
   },
+  
   created() {
     this.refreshMyStock();
   }
