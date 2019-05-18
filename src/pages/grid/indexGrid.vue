@@ -14,6 +14,8 @@
       </Card>
       
       <Card>
+        <span style="color:#2db7f5">提示：网格需要买入时对应标的蓝色(buy)</span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <span style="color:#e08a18">网格需要卖出时对应标的橙黄色(sell)</span>
         <Button type="success" :loading="loading" @click="refreshMyStock">刷新实时价格</Button>
       </Card>
 
@@ -41,7 +43,7 @@ export default {
       loading: false,
       stock: "",
       tableData: [],
-      gridIndex: '399905,399975,162411',
+      gridIndex: '399905,399975,162411,399006,399300',
       columnsList: [
         {
           title: "名称",
@@ -68,9 +70,9 @@ export default {
           align: "center"
         },
         {
-          title: "当前网格位置",
+          title: "已投入最低一级网格",
           key: "curLevel",
-          width: 120,
+          width: 160,
           align: "center",
           editable: true
         },
@@ -117,17 +119,28 @@ export default {
       if (!isPositiveFloat(coverObj["curLevel"])) {
         this.$Message.error({
           content: "当前网格位置设置错误"
-        });
-        coverObj["curLevel"] = '';
-        return;
+        })
+        coverObj["curLevel"] = ''
+        return
       }
 
       if (!isIntNum(coverObj["gap"])) {
         this.$Message.error({
           content: "网格间距错误，请输入正整数"
-        });
-        coverObj["gap"] = '';
-        return;
+        })
+        coverObj["gap"] = ''
+        return
+      }
+
+      let validateGap = parseFloat(coverObj["gap"])
+      if (validateGap <=0 || validateGap >= 100) {
+        {
+            this.$Message.error({
+              content: "间距范围0-100"
+            })
+            coverObj["gap"] = ''
+            return
+        }
       }
 
     
@@ -136,7 +149,7 @@ export default {
         let myGridGap = getStore("myGridGap");
         if (myGridGap) {
           let myGridGapJson = JSON.parse(myGridGap);
-          myGridGapJson[coverObj.code] = (parseFloat(coverObj["gap"])).toFixed(2)
+          myGridGapJson[coverObj.code] = (parseFloat(coverObj["gap"])).toFixed(3)
           setStore("myGridGap", JSON.stringify(myGridGapJson));
         } else {
           let obj = {};
@@ -153,7 +166,7 @@ export default {
         let myGridCurLevel = getStore("myGridCurLevel");
         if (myGridCurLevel) {
           let myGridCurLevelJson = JSON.parse(myGridCurLevel);
-          myGridCurLevelJson[coverObj.code] = (parseFloat(coverObj["curLevel"])).toFixed(2)
+          myGridCurLevelJson[coverObj.code] = (parseFloat(coverObj["curLevel"])).toFixed(3)
           setStore("myGridCurLevel", JSON.stringify(myGridCurLevelJson));
         } else {
           let obj = {};
@@ -167,10 +180,10 @@ export default {
       if (coverObj['curLevel'] && coverObj['gap'] ) {
         coverObj["buyGrid"] = parseFloat(
           parseFloat(coverObj["curLevel"]) * (1 - parseFloat(coverObj["gap"])/100)
-        ).toFixed(2)
+        ).toFixed(3)
         coverObj["sellGrid"] = parseFloat(
           parseFloat(coverObj["curLevel"]) * (1 + parseFloat(coverObj["gap"])/100)
-        ).toFixed(2)
+        ).toFixed(3)
       }
 
       
@@ -196,7 +209,7 @@ export default {
         let myGridCurLevelJson = JSON.parse(myGridCurLevel);
         this.tableData.forEach(element => {
           if (myGridCurLevelJson[element["code"]]) {
-            element["curLevel"] = parseFloat( myGridCurLevelJson[element["code"]]).toFixed(2)
+            element["curLevel"] = parseFloat( myGridCurLevelJson[element["code"]]).toFixed(3)
           }else{
              element["curLevel"] = ''
           }
@@ -216,9 +229,9 @@ export default {
 
           if (element["curLevel"] && element["gap"]) {
             element["buyGrid"] = 
-              (parseFloat(element["curLevel"]) * (1 - parseFloat(element["gap"])/100)).toFixed(2)
+              (parseFloat(element["curLevel"]) * (1 - parseFloat(element["gap"])/100)).toFixed(3)
             element["sellGrid"] = 
-              (parseFloat(element["curLevel"]) * (1 + parseFloat(element["gap"])/100)).toFixed(2)
+              (parseFloat(element["curLevel"]) * (1 + parseFloat(element["gap"])/100)).toFixed(3)
           }
         });
       }

@@ -197,7 +197,7 @@ export const appRouter = [{
     },
     {
         path: '/component',
-        icon: 'crop',
+        icon: 'arrow-move',
         name: 'grid',
         title: '网格策略',
         component: Main,
