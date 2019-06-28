@@ -6,9 +6,6 @@ branches:
   only:
   - master
   - auth
-cache:
-  directories:
-  - node_modules
 install:
   - npm install
 script:
