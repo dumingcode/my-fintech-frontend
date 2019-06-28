@@ -9,6 +9,8 @@ branches:
 cache:
   directories:
   - node_modules
+install:
+  - npm install
 script:
   - npm run build
 addons:
