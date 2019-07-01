@@ -154,7 +154,7 @@ export default {
                 if (valid) {
                     this.canGetIdentifyCode = true;
                     let timeLast = 60;
-                    let timer = setInterval(() => {
+                    const timer = setInterval(() => {
                         if (timeLast >= 0) {
                             this.gettingIdentifyCodeBtnContent = timeLast + '秒后重试';
                             timeLast -= 1;
@@ -227,7 +227,7 @@ export default {
             this.userForm.cellphone = this.initPhone;
         },
         submitCode () {
-            let vm = this;
+            const vm = this;
             vm.checkIdentifyCodeLoading = true;
             if (this.securityCode.length === 0) {
                 this.$Message.error('请填写短信验证码');

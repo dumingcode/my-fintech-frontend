@@ -136,14 +136,14 @@ export default {
             return this.transValue(this.min);
         },
         maxTransed () {
-            let max = this.right ? (100 - this.transValue(this.max)) : this.transValue(this.max);
+            const max = this.right ? (100 - this.transValue(this.max)) : this.transValue(this.max);
             return this.maxRight ? 100 - max : max;
         },
         horizontalTriggerStyle () {
-            return Object.assign({left: this.triggerLeft}, this.triggerStyle);
+            return Object.assign({ left: this.triggerLeft }, this.triggerStyle);
         },
         verticalTriggerStyle () {
-            return Object.assign({top: this.triggerLeft}, this.triggerStyle);
+            return Object.assign({ top: this.triggerLeft }, this.triggerStyle);
         }
     },
     methods: {
@@ -179,7 +179,7 @@ export default {
                     offset = this.triggerOldOffset + (this.right ? -moveSize : moveSize);
                 }
                 if (this.right) {
-                    let offsetHandle = 100 - offset;
+                    const offsetHandle = 100 - offset;
                     if (offsetHandle <= this.minTransed) {
                         this.triggerOffset = 100 - Math.max(offsetHandle, this.minTransed);
                     } else {

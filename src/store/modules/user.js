@@ -1,21 +1,26 @@
-import Cookies from 'js-cookie';
 
 const user = {
-    state: {},
+    state: { userinfo: {}},
     mutations: {
+        login (state, userObj) {
+            console.log(userObj)
+            state.userinfo.nickName = userObj.nickName
+            state.userinfo.location = userObj.location
+            state.userinfo.profileImageUrl = userObj.profile_image_url
+            state.userinfo.uid = userObj.uid
+        },
         logout (state, vm) {
-            Cookies.remove('user');
-            Cookies.remove('password');
-            Cookies.remove('access');
+            // 恢复登陆用户
+            state.userinfo = {}
             // 恢复默认样式
-            let themeLink = document.querySelector('link[name="theme"]');
+            const themeLink = document.querySelector('link[name="theme"]');
             themeLink.setAttribute('href', '');
             // 清空打开的页面等数据，但是保存主题数据
             let theme = '';
             if (localStorage.theme) {
                 theme = localStorage.theme;
             }
-            localStorage.clear();
+
             if (theme) {
                 localStorage.theme = theme;
             }

@@ -3,7 +3,7 @@ import env from '../../build/env';
 import semver from 'semver';
 import packjson from '../../package.json';
 
-let util = {
+const util = {
 
 };
 util.title = function (title) {
@@ -14,8 +14,8 @@ util.title = function (title) {
 const ajaxUrl = env === 'development'
     ? 'http://127.0.0.1:8888'
     : env === 'production'
-    ? 'https://www.url.com'
-    : 'https://debug.url.com';
+        ? 'https://www.url.com'
+        : 'https://debug.url.com';
 
 util.ajax = axios.create({
     baseURL: ajaxUrl,
@@ -54,7 +54,7 @@ util.getRouterObjByName = function (routers, name) {
     }
     // debugger;
     let routerObj = null;
-    for (let item of routers) {
+    for (const item of routers) {
         if (item.name === name) {
             return item;
         }
@@ -116,13 +116,13 @@ util.setCurrentPath = function (vm, name) {
         }
         ];
     } else {
-        let currentPathObj = vm.$store.state.app.routers.filter(item => {
+        const currentPathObj = vm.$store.state.app.routers.filter(item => {
             if (item.children.length <= 1) {
                 return item.children[0].name === name;
             } else {
                 let i = 0;
-                let childArr = item.children;
-                let len = childArr.length;
+                const childArr = item.children;
+                const len = childArr.length;
                 while (i < len) {
                     if (childArr[i].name === name) {
                         return true;
@@ -151,7 +151,7 @@ util.setCurrentPath = function (vm, name) {
             }
             ];
         } else {
-            let childObj = currentPathObj.children.filter((child) => {
+            const childObj = currentPathObj.children.filter((child) => {
                 return child.name === name;
             })[0];
             currentPathArr = [{
@@ -178,8 +178,8 @@ util.setCurrentPath = function (vm, name) {
 };
 
 util.openNewPage = function (vm, name, argu, query) {
-    let pageOpenedList = vm.$store.state.app.pageOpenedList;
-    let openedPageLen = pageOpenedList.length;
+    const pageOpenedList = vm.$store.state.app.pageOpenedList;
+    const openedPageLen = pageOpenedList.length;
     let i = 0;
     let tagHasOpened = false;
     while (i < openedPageLen) {
@@ -218,7 +218,7 @@ util.openNewPage = function (vm, name, argu, query) {
 };
 
 util.toDefaultPage = function (routers, name, route, next) {
-    let len = routers.length;
+    const len = routers.length;
     let i = 0;
     let notHandle = true;
     while (i < len) {
@@ -246,7 +246,7 @@ util.fullscreenEvent = function (vm) {
 
 util.checkUpdate = function (vm) {
     axios.get('https://api.github.com/repos/iview/iview-admin/releases/latest').then(res => {
-        let version = res.data.tag_name;
+        const version = res.data.tag_name;
         vm.$Notice.config({
             duration: 0
         });

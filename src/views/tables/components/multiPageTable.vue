@@ -70,7 +70,7 @@
         },
         methods: {
             mockTableData1 () {
-                let data = [];
+                const data = [];
                 for (let i = 0; i < 10; i++) {
                     data.push({
                         name: '商圈' + Math.floor(Math.random() * 100 + 1),

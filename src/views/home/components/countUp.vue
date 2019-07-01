@@ -85,8 +85,8 @@ export default {
     mounted () {
         this.$nextTick(() => {
             setTimeout(() => {
-                let res = transformValue(this.endVal);
-                let endVal = res.val;
+                const res = transformValue(this.endVal);
+                const endVal = res.val;
                 this.unit = res.unit;
                 let demo = {};
                 this.demo = demo = new CountUp(this.idName, this.startVal, endVal, this.decimals, this.duration, this.options);
@@ -98,8 +98,8 @@ export default {
     },
     watch: {
         endVal (val) {
-            let res = transformValue(val);
-            let endVal = res.val;
+            const res = transformValue(val);
+            const endVal = res.val;
             this.unit = res.unit;
             this.demo.update(endVal);
         }

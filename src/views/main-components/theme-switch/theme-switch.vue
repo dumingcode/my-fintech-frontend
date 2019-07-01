@@ -71,7 +71,7 @@ export default {
     methods: {
         setTheme (themeFile) {
             let menuTheme = themeFile.substr(0, 1);
-            let mainTheme = themeFile.substr(-1, 1);
+            const mainTheme = themeFile.substr(-1, 1);
             if (menuTheme === 'b') {
                 // 黑色菜单
                 this.$store.commit('changeMenuTheme', 'dark');
@@ -81,12 +81,12 @@ export default {
                 menuTheme = 'light';
             }
             let path = '';
-            let themeLink = document.querySelector('link[name="theme"]');
-            let userName = Cookies.get('user');
+            const themeLink = document.querySelector('link[name="theme"]');
+            const userName = Cookies.get('user');
             if (localStorage.theme) {
-                let themeList = JSON.parse(localStorage.theme);
+                const themeList = JSON.parse(localStorage.theme);
                 let index = 0;
-                let hasThisUser = themeList.some((item, i) => {
+                const hasThisUser = themeList.some((item, i) => {
                     if (item.userName === userName) {
                         index = i;
                         return true;
@@ -133,9 +133,9 @@ export default {
         } else {
             path = 'dist/';
         }
-        let name = Cookies.get('user');
+        const name = Cookies.get('user');
         if (localStorage.theme) {
-            let hasThisUser = JSON.parse(localStorage.theme).some(item => {
+            const hasThisUser = JSON.parse(localStorage.theme).some(item => {
                 if (item.userName === name) {
                     this.$store.commit('changeMenuTheme', item.menuTheme);
                     this.$store.commit('changeMainTheme', item.mainTheme);
@@ -154,8 +154,8 @@ export default {
         }
         // 根据用户设置主题
         if (this.$store.state.app.themeColor !== 'b') {
-            let stylesheetPath = path + this.$store.state.app.themeColor + '.css';
-            let themeLink = document.querySelector('link[name="theme"]');
+            const stylesheetPath = path + this.$store.state.app.themeColor + '.css';
+            const themeLink = document.querySelector('link[name="theme"]');
             themeLink.setAttribute('href', stylesheetPath);
         }
     }

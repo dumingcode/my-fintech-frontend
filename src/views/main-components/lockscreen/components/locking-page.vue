@@ -20,7 +20,7 @@ export default {
     },
     methods: {
         handleUnlock () {
-            let lockScreenBack = document.getElementById('lock_screen_back');
+            const lockScreenBack = document.getElementById('lock_screen_back');
             this.showUnlock = false;
             lockScreenBack.style.zIndex = -1;
             lockScreenBack.style.boxShadow = '0 0 0 0 #667aa6 inset';
@@ -32,12 +32,12 @@ export default {
     mounted () {
         this.showUnlock = true;
         if (!document.getElementById('lock_screen_back')) {
-            let lockdiv = document.createElement('div');
+            const lockdiv = document.createElement('div');
             lockdiv.setAttribute('id', 'lock_screen_back');
             lockdiv.setAttribute('class', 'lock-screen-back');
             document.body.appendChild(lockdiv);
         }
-        let lockScreenBack = document.getElementById('lock_screen_back');
+        const lockScreenBack = document.getElementById('lock_screen_back');
         lockScreenBack.style.zIndex = -1;
     }
 };

@@ -54,7 +54,7 @@ export default {
                 case '100003': name = '咖啡'; time = '2017年11月8日 10：39：24'; price = '57'; break;
                 case '100004': name = '超级豪华土豪金牙签'; time = '2017年11月9日 11：45：24'; price = '200'; break;
             }
-            let shoppingInfor = {
+            const shoppingInfor = {
                 name: name,
                 time: time,
                 price: price

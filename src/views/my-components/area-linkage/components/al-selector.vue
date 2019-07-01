@@ -219,7 +219,7 @@ export default {
             if (level <= this.showLevel) {
                 let nextSelected = '';
                 if (this.isInit && this.value[level]) {
-                    let valueItem = this.value[level];
+                    const valueItem = this.value[level];
                     if (isNaN(parseInt(valueItem))) {
                         if (util.getIndex(this[list], this.value[level])) {
                             name = valueItem;
@@ -241,7 +241,7 @@ export default {
                     }
                     this[nextList] = areaData[this[index]];
                     if (this.isInit && this.cloneValue[level + 1]) {
-                        let valueNextItem = this.cloneValue[level + 1];
+                        const valueNextItem = this.cloneValue[level + 1];
                         if (isNaN(parseInt(valueNextItem))) {
                             if (util.getIndex(this[nextList], this.cloneValue[level + 1])) {
                                 nextSelected = this.cloneValue[level + 1];
@@ -280,10 +280,10 @@ export default {
             return areaData[this[index]][Object.keys(areaData[this[index]])[0]];
         },
         returnResArr (level) {
-            let res = [];
+            const res = [];
             let i = 0;
-            let codeArr = [this.provIndex, this.cityIndex, this.counIndex, this.streIndex];
-            let nameArr = [this.currPro, this.currCit, this.currCou, this.currStr];
+            const codeArr = [this.provIndex, this.cityIndex, this.counIndex, this.streIndex];
+            const nameArr = [this.currPro, this.currCit, this.currCou, this.currStr];
             if (this.dataType === 'name') {
                 while (i <= level) {
                     if (nameArr[i]) {
@@ -294,7 +294,7 @@ export default {
             } else if (this.dataType === 'all') {
                 while (i <= level) {
                     if (codeArr[i] && nameArr[i]) {
-                        let item = {
+                        const item = {
                             code: codeArr[i],
                             name: nameArr[i]
                         };

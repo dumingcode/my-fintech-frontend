@@ -65,9 +65,9 @@ export default {
     },
     methods: {
         init () {
-            let proData = [];
+            const proData = [];
             for (const p in areaData['86']) {
-                let proitem = {
+                const proitem = {
                     value: p,
                     label: areaData['86'][p],
                     children: []
@@ -81,7 +81,7 @@ export default {
         },
         setDefaultValue () {
             if (this.value[0]) {
-                let select = [];
+                const select = [];
                 if (isNaN(parseInt(this.value[0]))) {
                     let i = 0;
                     let index = '';
@@ -98,7 +98,7 @@ export default {
                 } else {
                     this.select = this.value;
                 }
-                let res = this.procesValue(this.select);
+                const res = this.procesValue(this.select);
                 this.oldData = res;
                 this.$emit('input', res);
                 this.$emit('on-change', res);
@@ -122,16 +122,16 @@ export default {
             return ifEmit;
         },
         handleChange (resArr) {
-            let res = this.procesValue(resArr);
+            const res = this.procesValue(resArr);
             this.oldData = res;
             this.$emit('input', res);
             this.$emit('on-change', res);
         },
         loadData (item, callback) {
-            let childData = [];
-            let childs = areaData[item.value];
+            const childData = [];
+            const childs = areaData[item.value];
             for (const c in childs) {
-                let childitem = {
+                const childitem = {
                     value: c,
                     label: areaData[item.value][c],
                     children: []
@@ -147,7 +147,7 @@ export default {
         },
         procesValue (arr) {
             let i = 0;
-            let res = [];
+            const res = [];
             while (arr[i]) {
                 let name = '';
                 if (i === 0) {

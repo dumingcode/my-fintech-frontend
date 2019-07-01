@@ -1,4 +1,4 @@
-let util = {};
+const util = {};
 
 util.levelArr = [0, 1, 2, 3];
 

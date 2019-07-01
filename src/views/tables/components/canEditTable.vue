@@ -22,7 +22,7 @@ const editButton = (vm, h, currentRow, index) => {
             'click': () => {
                 if (!currentRow.editting) {
                     if (currentRow.edittingCell) {
-                        for (let name in currentRow.edittingCell) {
+                        for (const name in currentRow.edittingCell) {
                             currentRow.edittingCell[name] = false;
                             vm.edittingStore[index].edittingCell[name] = false;
                         }
@@ -32,7 +32,7 @@ const editButton = (vm, h, currentRow, index) => {
                 } else {
                     vm.edittingStore[index].saving = true;
                     vm.thisTableData = JSON.parse(JSON.stringify(vm.edittingStore));
-                    let edittingRow = vm.edittingStore[index];
+                    const edittingRow = vm.edittingStore[index];
                     edittingRow.editting = false;
                     edittingRow.saving = false;
                     vm.thisTableData = JSON.parse(JSON.stringify(vm.edittingStore));
@@ -52,7 +52,7 @@ const deleteButton = (vm, h, currentRow, index) => {
         },
         on: {
             'on-ok': () => {
-                let delObj = vm.thisTableData[index];
+                const delObj = vm.thisTableData[index];
                 vm.thisTableData.splice(index, 1);
                 vm.$emit('input', vm.handleBackdata(vm.thisTableData));
                 vm.$emit('on-delete', vm.handleBackdata(vm.thisTableData), index, delObj);
@@ -129,7 +129,7 @@ const cellInput = (vm, h, param, item) => {
         },
         on: {
             'on-change' (event) {
-                let key = item.key;
+                const key = item.key;
                 vm.edittingStore[param.index][key] = event.target.value;
             }
         }
@@ -164,15 +164,15 @@ export default {
     },
     methods: {
         init () {
-            let vm = this;
-            let editableCell = this.columnsList.filter(item => {
+            const vm = this;
+            const editableCell = this.columnsList.filter(item => {
                 if (item.editable) {
                     if (item.editable === true) {
                         return item;
                     }
                 }
             });
-            let cloneData = JSON.parse(JSON.stringify(this.value));
+            const cloneData = JSON.parse(JSON.stringify(this.value));
             let res = [];
             res = cloneData.map((item, index) => {
                 let isEditting = false;
@@ -191,7 +191,7 @@ export default {
                     return this.thisTableData[index];
                 } else {
                     this.$set(item, 'editting', false);
-                    let edittingCell = {};
+                    const edittingCell = {};
                     editableCell.forEach(item => {
                         edittingCell[item.key] = false;
                     });
@@ -204,7 +204,7 @@ export default {
             this.columnsList.forEach(item => {
                 if (item.editable) {
                     item.render = (h, param) => {
-                        let currentRow = this.thisTableData[param.index];
+                        const currentRow = this.thisTableData[param.index];
                         if (!currentRow.editting) {
                             if (this.editIncell) {
                                 return h('Row', {
@@ -240,7 +240,7 @@ export default {
                                 },
                                 on: {
                                     'on-change' (event) {
-                                        let key = param.column.key;
+                                        const key = param.column.key;
                                         vm.edittingStore[param.index][key] = event.target.value;
                                     }
                                 }
@@ -250,8 +250,8 @@ export default {
                 }
                 if (item.handle) {
                     item.render = (h, param) => {
-                        let currentRowData = this.thisTableData[param.index];
-                        let children = [];
+                        const currentRowData = this.thisTableData[param.index];
+                        const children = [];
                         item.handle.forEach(item => {
                             if (item === 'edit') {
                                 children.push(editButton(this, h, currentRowData, param.index));
@@ -265,7 +265,7 @@ export default {
             });
         },
         handleBackdata (data) {
-            let clonedData = JSON.parse(JSON.stringify(data));
+            const clonedData = JSON.parse(JSON.stringify(data));
             clonedData.forEach(item => {
                 delete item.editting;
                 delete item.edittingCell;

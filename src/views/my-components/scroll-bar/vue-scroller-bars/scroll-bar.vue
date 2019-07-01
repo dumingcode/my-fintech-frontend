@@ -106,7 +106,7 @@ export default {
             return this.percentY * (this.wraperSize.height - 2);
         },
         scrollBarYStyles () {
-            let height = this.scrollBarYHeight;
+            const height = this.scrollBarYHeight;
             return {
                 transform: `translate3d(0px, ${this.scrollOffsetY * (height / this.wraperSize.height)}px, 0px)`,
                 height: `${height}px`
@@ -134,7 +134,7 @@ export default {
             return this.percentX * (this.wraperSize.width - 2);
         },
         scrollBarXStyles () {
-            let width = this.scrollBarXWidth;
+            const width = this.scrollBarXWidth;
             return {
                 transform: `translate3d(${this.scrollOffsetX * (width / this.wraperSize.width)}px, 0px, 0px)`,
                 width: `${width}px`
@@ -154,15 +154,15 @@ export default {
     methods: {
         resize () {
             this.$nextTick(() => {
-                let wraperRect = this.$refs.wraper.getBoundingClientRect();
-                let contentRect = this.$refs.content.getBoundingClientRect();
+                const wraperRect = this.$refs.wraper.getBoundingClientRect();
+                const contentRect = this.$refs.content.getBoundingClientRect();
                 this.contentSize = {
                     width: contentRect.width,
                     height: contentRect.height
                 };
-                let percentXLowerThanOne = (wraperRect.width / contentRect.width) < 1;
-                let percentYLowerThanOne = (wraperRect.height / contentRect.height) < 1;
-                let gap = percentXLowerThanOne && percentYLowerThanOne ? 14 : 0;
+                const percentXLowerThanOne = (wraperRect.width / contentRect.width) < 1;
+                const percentYLowerThanOne = (wraperRect.height / contentRect.height) < 1;
+                const gap = percentXLowerThanOne && percentYLowerThanOne ? 14 : 0;
                 this.wraperSize = {
                     width: wraperRect.width - gap,
                     height: wraperRect.height - gap
@@ -202,7 +202,7 @@ export default {
             }
         },
         handleMousemoveY (e) {
-            let offset = e.pageY - this.initY;
+            const offset = e.pageY - this.initY;
             this.scrollOffsetY = this.initOffsetY + offset / ((this.wraperSize.height - 2 - this.scrollBarYHeight) / (this.contentSize.height - this.wraperSize.height));
             if (this.scrollOffsetY >= this.gapY) {
                 this.scrollOffsetY = Math.min(this.gapY, this.scrollOffsetY);
@@ -218,7 +218,7 @@ export default {
             document.addEventListener('mouseup', this.handleMouseup);
         },
         handleMousemoveX (e) {
-            let offset = e.pageX - this.initX;
+            const offset = e.pageX - this.initX;
             this.scrollOffsetX = this.initOffsetX + offset / ((this.wraperSize.width - 2 - this.scrollBarXWidth) / (this.contentSize.width - this.wraperSize.width));
             if (this.scrollOffsetX >= this.gapX) {
                 this.scrollOffsetX = Math.min(this.gapX, this.scrollOffsetX);

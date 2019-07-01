@@ -1,39 +1,42 @@
 <style lang="less">
-    @import '../../../styles/common.less';
-    @import '../advanced-router.less';
+@import '../../../styles/common.less';
+@import '../advanced-router.less';
 </style>
 
 <template>
-    <div>
-        <Row>
-            <Card>
-                <p slot="title">
-                    <Icon type="compose"></Icon>
-                    订单详情
-                </p>
-                <Table :columns="order_col" :data="order_data"></Table>
-                <Modal width="700" v-model="showInfo" title="订单信息">
-                    <Table :columns="order_col" :data="order_data"></Table>
-                </Modal>
-            </Card>
-        </Row>
-        <Row class="margin-top-10">
-            <Card>
-                <Row>
-                    <p class="advanced-router-tip-p">虽然iview-admin支持打开带参数的页面，但是类似于这种需求，还是建议用iview的Modal或者使用表格直接在表格内展开数据</p>
-                    <p><Button @click="showInfo = true" type="primary">点击按钮弹出Modal</Button></p>
-                </Row>
-                <div class="margin-top-10">
-                    <p class="advanced-router-tip-p">iview官方示例<a href="https://www.iviewui.com/components/table">表格</a></p>
-                    <Table :columns="columns10" :data="data9"></Table>
-                </div>
-            </Card>
-        </Row>
-    </div>
+	<div>
+		<Row>
+			<Card>
+				<p slot="title">
+					<Icon type="compose"></Icon>订单详情
+				</p>
+				<Table :columns="order_col" :data="order_data"></Table>
+				<Modal width="700" v-model="showInfo" title="订单信息">
+					<Table :columns="order_col" :data="order_data"></Table>
+				</Modal>
+			</Card>
+		</Row>
+		<Row class="margin-top-10">
+			<Card>
+				<Row>
+					<p
+						class="advanced-router-tip-p"
+					>虽然iview-admin支持打开带参数的页面，但是类似于这种需求，还是建议用iview的Modal或者使用表格直接在表格内展开数据</p>
+					<p>
+						<Button @click="showInfo = true" type="primary">点击按钮弹出Modal</Button>
+					</p>
+				</Row>
+				<div class="margin-top-10">
+					<!-- <p class="advanced-router-tip-p">iview官方示例<a href="https://www.iviewui.com/components/table">表格</a></p>
+					<Table :columns="columns10" :data="data9"></Table>-->
+				</div>
+			</Card>
+		</Row>
+	</div>
 </template>
 
 <script>
-import expandRow from './expandRow.vue';
+import expandRow from './expandRow.vue'
 export default {
     name: 'order-info',
     components: {
@@ -79,7 +82,7 @@ export default {
                             props: {
                                 row: params.row
                             }
-                        });
+                        })
                     }
                 },
                 {
@@ -141,36 +144,58 @@ export default {
                     music: '演员'
                 }
             ]
-        };
+        }
     },
     methods: {
         init () {
-            let index = parseInt(this.$route.params.order_id.toString().substr(-1, 1));
-            let buyer = '';
-            let addr = '';
-            let time = '';
-            let state = '';
+            const index = parseInt(
+                this.$route.params.order_id.toString().substr(-1, 1)
+            )
+            let buyer = ''
+            let addr = ''
+            let time = ''
+            let state = ''
             switch (index) {
-                case 1: buyer = 'Arasn'; addr = '北京市东直门外大街39号院2号楼航空服务大厦'; time = '2017年10月20日 13：33：24'; state = '已付款'; break;
-                case 2: buyer = 'Lison'; addr = '北京市东直门外大街39号院2号楼航空服务大厦'; time = '2017年10月21日 19：13：24'; state = '已付款'; break;
-                case 3: buyer = 'lili'; addr = 'TalkingData总部'; time = '2017年10月12日 10：39：24'; state = '待收货'; break;
-                case 4: buyer = 'lala'; addr = '国家统计局'; time = '2017年8月20日 11：45：24'; state = '已收货'; break;
+                case 1:
+                    buyer = 'Arasn'
+                    addr = '北京市东直门外大街39号院2号楼航空服务大厦'
+                    time = '2017年10月20日 13：33：24'
+                    state = '已付款'
+                    break
+                case 2:
+                    buyer = 'Lison'
+                    addr = '北京市东直门外大街39号院2号楼航空服务大厦'
+                    time = '2017年10月21日 19：13：24'
+                    state = '已付款'
+                    break
+                case 3:
+                    buyer = 'lili'
+                    addr = 'TalkingData总部'
+                    time = '2017年10月12日 10：39：24'
+                    state = '待收货'
+                    break
+                case 4:
+                    buyer = 'lala'
+                    addr = '国家统计局'
+                    time = '2017年8月20日 11：45：24'
+                    state = '已收货'
+                    break
             }
-            let order = {
+            const order = {
                 order_id: this.$route.params.order_id,
                 buyer: buyer,
                 addr: addr,
                 time: time,
                 state: state
-            };
-            this.order_data = [order];
+            }
+            this.order_data = [order]
         }
     },
     mounted () {
-        this.init();
+        this.init()
     },
     activated () {
-        this.init();
+        this.init()
     }
-};
+}
 </script>

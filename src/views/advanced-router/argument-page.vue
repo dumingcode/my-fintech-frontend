@@ -55,7 +55,7 @@ export default {
                             },
                             on: {
                                 click: () => {
-                                    let query = {shopping_id: params.row.shopping_id};
+                                    const query = { shopping_id: params.row.shopping_id };
                                     this.$router.push({
                                         name: 'shopping',
                                         query: query

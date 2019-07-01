@@ -189,8 +189,8 @@ export default {
     },
     methods: {
         handleChange1 (e) {
-            let file = e.target.files[0];
-            let reader = new FileReader();
+            const file = e.target.files[0];
+            const reader = new FileReader();
             reader.onload = () => {
                 this.cropper1.replace(reader.result);
                 reader.onload = null;
@@ -198,7 +198,7 @@ export default {
             reader.readAsDataURL(file);
         },
         handlecrop1 () {
-            let file = this.cropper1.getCroppedCanvas().toDataURL();
+            const file = this.cropper1.getCroppedCanvas().toDataURL();
             this.option1.cropedImg = file;
             this.option1.showCropedImage = true;
         },
@@ -233,8 +233,8 @@ export default {
             }
         },
         handleChange3 (e) {
-            let file = e.target.files[0];
-            let reader = new FileReader();
+            const file = e.target.files[0];
+            const reader = new FileReader();
             reader.onload = () => {
                 this.cropper3.replace(reader.result, true); // 这里必须设置true这个参数，否则旋转会有bug
                 reader.onload = null;
@@ -262,13 +262,13 @@ export default {
             }
         },
         handlecrop3 () {
-            let file = this.cropper3.getCroppedCanvas().toDataURL();
+            const file = this.cropper3.getCroppedCanvas().toDataURL();
             this.option3.cropedImg = file;
             this.option3.showCropedImage = true;
         }
     },
     mounted () {
-        let img1 = document.getElementById('cropimg1');
+        const img1 = document.getElementById('cropimg1');
         this.cropper1 = new Cropper(img1, {
             dragMode: 'move',
             preview: '#preview1',
@@ -279,7 +279,7 @@ export default {
             toggleDragModeOnDblclick: false
         });
 
-        let img2 = document.getElementById('cropimg2');
+        const img2 = document.getElementById('cropimg2');
         this.cropper2 = new Cropper(img2, {
             dragMode: 'move',
             restore: false,
@@ -298,7 +298,7 @@ export default {
             this.cropdata2.scaleY = parseInt(e.detail.scaleY);
         });
 
-        let img3 = document.getElementById('cropimg3');
+        const img3 = document.getElementById('cropimg3');
         this.cropper3 = new Cropper(img3, {
             dragMode: 'move',
             preview: '#preview3',

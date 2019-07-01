@@ -52,7 +52,7 @@ export default {
                             },
                             on: {
                                 click: () => {
-                                    let argu = { order_id: params.row.order_id };
+                                    const argu = { order_id: params.row.order_id };
                                     this.$router.push({
                                         name: 'order-info',
                                         params: argu

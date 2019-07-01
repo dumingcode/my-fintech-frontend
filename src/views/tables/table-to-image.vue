@@ -133,7 +133,7 @@ export default {
     },
     methods: {
         mockTableData1 () {
-            let data = [];
+            const data = [];
             for (let i = 0; i < 10; i++) {
                 data.push({
                     name: '商圈' + Math.floor(Math.random() * 100 + 1),
@@ -168,8 +168,8 @@ export default {
             return y + '-' + m + '-' + d;
         },
         exportImage () {
-            let vm = this;
-            let table = this.$refs.table2image.$el;
+            const vm = this;
+            const table = this.$refs.table2image.$el;
             /* 这部分代码用来解决生成的图片不清晰的问题 */
             // let tableWidth = table.offsetWidth;
             // let tableHeight = table.offsetHeight;
@@ -187,7 +187,7 @@ export default {
                 onrendered (image) {
                     var url = image.toDataURL();
                     document.getElementById('exportedImage').src = url;
-                    let a = document.createElement('a');
+                    const a = document.createElement('a');
                     a.href = url;
                     a.download = vm.imageName ? vm.imageName : '未命名';
                     document.body.appendChild(a);

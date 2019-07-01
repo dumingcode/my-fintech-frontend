@@ -85,27 +85,26 @@ export default {
     },
     methods: {
         getIndData () {
-            let myStocksStore = getStore('myStocks');
+            const myStocksStore = getStore('myStocks');
             return Promise.all([queryCitiFstIndustryInfo(), queryCitiSndIndustryInfo(), queryStockIndInfo(myStocksStore)]).then((vals) => {
                 this.fstInd = vals[0].data.data;
                 this.sndInd = vals[1].data.data;
                 this.stockInfo = vals[2].data.data;
-                
+
                 this.fstInd.forEach((val, index) => {
                     let stockName = '';
                     this.stockInfo.map(stock => { return JSON.parse(stock); }).filter((stock) => { return val === stock.citiV1; }).map(stock => { return stock.name; }).forEach((name) => {
                         stockName += `${name} `;
                     });
-                    this.fstIndData.push({'no': index + 1, 'fstInd': val, 'name': stockName});
+                    this.fstIndData.push({ 'no': index + 1, 'fstInd': val, 'name': stockName });
                 });
                 this.sndInd.forEach((val, index) => {
                     let stockName = '';
                     this.stockInfo.map(stock => { return JSON.parse(stock); }).filter((stock) => { return val === stock.citiV2; }).map(stock => { return stock.name; }).forEach((name) => {
                         stockName += `${name} `;
                     });
-                    this.sndIndData.push({'no': index + 1, 'sndInd': val, 'name': stockName});
+                    this.sndIndData.push({ 'no': index + 1, 'sndInd': val, 'name': stockName });
                 });
-                
             });
         }
 

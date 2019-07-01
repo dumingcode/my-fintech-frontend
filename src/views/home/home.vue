@@ -29,7 +29,7 @@
         components: {
             fundFixedInvest
         },
-        data() {
+        data () {
             return {
                 count: {
                     createUser: 496,
@@ -42,15 +42,15 @@
             };
         },
         computed: {
-            avatorPath() {
+            avatorPath () {
                 return localStorage.avatorImgPath;
             }
         },
         methods: {
-            addNewToDoItem() {
+            addNewToDoItem () {
                 this.showAddNewTodo = true;
             },
-            addNew() {
+            addNew () {
                 if (this.newToDoItemValue.length !== 0) {
                     this.toDoList.unshift({
                         title: this.newToDoItemValue
@@ -63,7 +63,7 @@
                     this.$Message.error('请输入待办事项内容');
                 }
             },
-            cancelAdd() {
+            cancelAdd () {
                 this.showAddNewTodo = false;
                 this.newToDoItemValue = '';
             }

@@ -1,4 +1,4 @@
-function deepCopy(obj) {
+function deepCopy (obj) {
     var ret, k, b;
     if ((b = (obj instanceof Array)) || obj instanceof Object) {
         ret = b ? [] : {};

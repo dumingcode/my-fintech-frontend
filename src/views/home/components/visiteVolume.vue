@@ -13,10 +13,10 @@ export default {
     },
     mounted () {
         this.$nextTick(() => {
-            let visiteVolume = echarts.init(document.getElementById('visite_volume_con'));
-            let xAxisData = [];
-            let data1 = [];
-            let data2 = [];
+            const visiteVolume = echarts.init(document.getElementById('visite_volume_con'));
+            const xAxisData = [];
+            const data1 = [];
+            const data2 = [];
             for (let i = 0; i < 20; i++) {
                 xAxisData.push('类目' + i);
                 data1.push((Math.sin(i / 5) * (i / 5 - 10) + i / 6) * 5);
@@ -53,13 +53,13 @@ export default {
                         name: '访问量',
                         type: 'bar',
                         data: [
-                            {value: 453682, name: 'Mon', itemStyle: {normal: {color: '#2d8cf0'}}},
-                            {value: 879545, name: 'Tues', itemStyle: {normal: {color: '#2d8cf0'}}},
-                            {value: 2354678, name: 'Wed', itemStyle: {normal: {color: '#2d8cf0'}}},
-                            {value: 1598403, name: 'Thur', itemStyle: {normal: {color: '#2d8cf0'}}},
-                            {value: 543250, name: 'Fri', itemStyle: {normal: {color: '#2d8cf0'}}},
-                            {value: 1305923, name: 'Sat', itemStyle: {normal: {color: '#2d8cf0'}}},
-                            {value: 1103456, name: 'Sun', itemStyle: {normal: {color: '#2d8cf0'}}}
+                            { value: 453682, name: 'Mon', itemStyle: { normal: { color: '#2d8cf0' }}},
+                            { value: 879545, name: 'Tues', itemStyle: { normal: { color: '#2d8cf0' }}},
+                            { value: 2354678, name: 'Wed', itemStyle: { normal: { color: '#2d8cf0' }}},
+                            { value: 1598403, name: 'Thur', itemStyle: { normal: { color: '#2d8cf0' }}},
+                            { value: 543250, name: 'Fri', itemStyle: { normal: { color: '#2d8cf0' }}},
+                            { value: 1305923, name: 'Sat', itemStyle: { normal: { color: '#2d8cf0' }}},
+                            { value: 1103456, name: 'Sun', itemStyle: { normal: { color: '#2d8cf0' }}}
                         ]
                     }
                 ]

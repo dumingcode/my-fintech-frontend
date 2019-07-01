@@ -86,7 +86,7 @@ export default {
         transformValue (val) {
             let endVal = 0;
             let unit = '';
-            let len = this.unit.length;
+            const len = this.unit.length;
             if (val < Math.pow(10, this.unit[0][0])) {
                 endVal = val;
             } else {
@@ -136,7 +136,7 @@ export default {
         endVal (val) {
             let endVal = 0;
             if (this.simplify) {
-                let res = this.transformValue(this.endVal);
+                const res = this.transformValue(this.endVal);
                 endVal = res.val;
                 this.unitText = res.unit;
             } else {

@@ -9,9 +9,9 @@
 <script>
 import Cookies from 'js-cookie';
 const setLockBackSize = () => {
-    let x = document.body.clientWidth;
-    let y = document.body.clientHeight;
-    let r = Math.sqrt(x * x + y * y);
+    const x = document.body.clientWidth;
+    const y = document.body.clientHeight;
+    const r = Math.sqrt(x * x + y * y);
     return parseInt(r);
 };
 export default {
@@ -24,7 +24,7 @@ export default {
     },
     methods: {
         lockScreen () {
-            let lockScreenBack = document.getElementById('lock_screen_back');
+            const lockScreenBack = document.getElementById('lock_screen_back');
             lockScreenBack.style.transition = 'all 3s';
             lockScreenBack.style.zIndex = 10000;
             lockScreenBack.style.boxShadow = '0 0 0 ' + this.lockScreenSize + 'px #667aa6 inset';
@@ -42,13 +42,13 @@ export default {
     mounted () {
         let lockScreenBack;
         if (!document.getElementById('lock_screen_back')) {
-            let lockdiv = document.createElement('div');
+            const lockdiv = document.createElement('div');
             lockdiv.setAttribute('id', 'lock_screen_back');
             lockdiv.setAttribute('class', 'lock-screen-back');
             document.body.appendChild(lockdiv);
             lockScreenBack = document.getElementById('lock_screen_back');
             window.addEventListener('resize', () => {
-                let size = setLockBackSize();
+                const size = setLockBackSize();
                 this.lockScreenSize = size;
                 lockScreenBack.style.transition = 'all 0s';
                 lockScreenBack.style.width = lockScreenBack.style.height = size + 'px';
@@ -56,7 +56,7 @@ export default {
         } else {
             lockScreenBack = document.getElementById('lock_screen_back');
         }
-        let size = setLockBackSize();
+        const size = setLockBackSize();
         this.lockScreenSize = size;
         lockScreenBack.style.transition = 'all 3s';
         lockScreenBack.style.width = lockScreenBack.style.height = size + 'px';

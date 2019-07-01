@@ -9,10 +9,12 @@ import 'iview/dist/styles/iview.css';
 import VueI18n from 'vue-i18n';
 import util from './libs/util';
 import VueJsonp from 'vue-jsonp';
+import VueResource from 'vue-resource'
 
 Vue.use(VueI18n);
 Vue.use(iView);
 Vue.use(VueJsonp);
+Vue.use(VueResource)
 new Vue({
     el: '#app',
     router: router,
@@ -21,7 +23,7 @@ new Vue({
     data: {
         currentPageName: ''
     },
-    mounted() {
+    mounted () {
         this.currentPageName = this.$route.name;
         // 显示打开的页面的列表
         this.$store.commit('setOpenedList');
@@ -31,8 +33,8 @@ new Vue({
         // iview-admin检查更新
         util.checkUpdate(this);
     },
-    created() {
-        let tagsList = [];
+    created () {
+        const tagsList = [];
         appRouter.map((item) => {
             if (item.children.length <= 1) {
                 tagsList.push(item.children[0]);

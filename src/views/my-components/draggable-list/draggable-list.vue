@@ -136,23 +136,23 @@ export default {
             ],
             doArray: [],
             shoppingList: [
-                {name: '香肠'},
-                {name: '烤鸭'},
-                {name: '烧鸡'},
-                {name: '卤煮'},
-                {name: '酱汁腊肉'},
-                {name: '松花小肚'},
-                {name: '白丸子'},
-                {name: '红丸子'},
-                {name: '汆丸子'},
-                {name: '蒸熊掌'},
-                {name: '蒸羊羔'},
-                {name: '蒸鹿尾'},
-                {name: '梅菜扣肉'},
-                {name: '四喜丸子'},
-                {name: '酒酿萝卜皮'},
-                {name: '红烧胖大海'},
-                {name: '连年有鱼'}
+                { name: '香肠' },
+                { name: '烤鸭' },
+                { name: '烧鸡' },
+                { name: '卤煮' },
+                { name: '酱汁腊肉' },
+                { name: '松花小肚' },
+                { name: '白丸子' },
+                { name: '红丸子' },
+                { name: '汆丸子' },
+                { name: '蒸熊掌' },
+                { name: '蒸羊羔' },
+                { name: '蒸鹿尾' },
+                { name: '梅菜扣肉' },
+                { name: '四喜丸子' },
+                { name: '酒酿萝卜皮' },
+                { name: '红烧胖大海' },
+                { name: '连年有鱼' }
             ],
             affordList: []
         };
@@ -162,8 +162,8 @@ export default {
             event.preventDefault();
             event.stopPropagation();
         };
-        let vm = this;
-        let todoList = document.getElementById('todoList');
+        const vm = this;
+        const todoList = document.getElementById('todoList');
         Sortable.create(todoList, {
             group: {
                 name: 'list',
@@ -176,7 +176,7 @@ export default {
                 vm.doArray.splice(event.newIndex, 0, vm.todoArray[event.item.getAttribute('data-index')]);
             }
         });
-        let doList = document.getElementById('doList');
+        const doList = document.getElementById('doList');
         Sortable.create(doList, {
             group: {
                 name: 'list',
@@ -190,7 +190,7 @@ export default {
                 vm.doArray.splice(event.oldIndex, 1);
             }
         });
-        let shoppingList = document.getElementById('shoppingList');
+        const shoppingList = document.getElementById('shoppingList');
         Sortable.create(shoppingList, {
             group: {
                 name: 'list',
@@ -203,7 +203,7 @@ export default {
                 vm.affordList.splice(event.newIndex, 0, vm.shoppingList[event.item.getAttribute('data-index')]);
             }
         });
-        let affordList = document.getElementById('affordList');
+        const affordList = document.getElementById('affordList');
         Sortable.create(affordList, {
             group: {
                 name: 'list',

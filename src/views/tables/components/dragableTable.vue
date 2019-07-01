@@ -24,7 +24,7 @@ export default {
             this.$emit('on-start', e.oldIndex);
         },
         endFunc (e) {
-            let movedRow = this.value[e.oldIndex];
+            const movedRow = this.value[e.oldIndex];
             this.value.splice(e.oldIndex, 1);
             this.value.splice(e.newIndex, 0, movedRow);
             this.$emit('on-end', {
@@ -39,7 +39,7 @@ export default {
     },
     mounted () {
         var el = this.$refs.dragable.$children[1].$el.children[1];
-        let vm = this;
+        const vm = this;
         Sortable.create(el, {
             onStart: vm.startFunc,
             onEnd: vm.endFunc,

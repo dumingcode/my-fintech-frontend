@@ -1,4 +1,4 @@
-import {otherRouter, appRouter} from '@/router/router';
+import { otherRouter, appRouter } from '@/router/router';
 import Util from '@/libs/util';
 import Cookies from 'js-cookie';
 import Vue from 'vue';
@@ -38,15 +38,15 @@ const app = {
             state.tagsList.push(...list);
         },
         updateMenulist (state) {
-            let accessCode = parseInt(Cookies.get('access'));
-            let menuList = [];
+            const accessCode = parseInt(Cookies.get('access'));
+            const menuList = [];
             appRouter.forEach((item, index) => {
                 if (item.access !== undefined) {
                     if (Util.showThisRoute(item.access, accessCode)) {
                         if (item.children.length === 1) {
                             menuList.push(item);
                         } else {
-                            let len = menuList.push(item);
+                            const len = menuList.push(item);
                             let childrenArr = [];
                             childrenArr = item.children.filter(child => {
                                 if (child.access !== undefined) {
@@ -64,7 +64,7 @@ const app = {
                     if (item.children.length === 1) {
                         menuList.push(item);
                     } else {
-                        let len = menuList.push(item);
+                        const len = menuList.push(item);
                         let childrenArr = [];
                         childrenArr = item.children.filter(child => {
                             if (child.access !== undefined) {
@@ -78,7 +78,7 @@ const app = {
                         if (childrenArr === undefined || childrenArr.length === 0) {
                             menuList.splice(len - 1, 1);
                         } else {
-                            let handledItem = JSON.parse(JSON.stringify(menuList[len - 1]));
+                            const handledItem = JSON.parse(JSON.stringify(menuList[len - 1]));
                             handledItem.children = childrenArr;
                             menuList.splice(len - 1, 1, handledItem);
                         }
@@ -126,7 +126,7 @@ const app = {
             });
         },
         pageOpenedList (state, get) {
-            let openedPage = state.pageOpenedList[get.index];
+            const openedPage = state.pageOpenedList[get.index];
             if (get.argu) {
                 openedPage.argu = get.argu;
             }
@@ -142,7 +142,7 @@ const app = {
             localStorage.pageOpenedList = JSON.stringify(state.pageOpenedList);
         },
         clearOtherTags (state, vm) {
-            let currentName = vm.$route.name;
+            const currentName = vm.$route.name;
             let currentIndex = 0;
             state.pageOpenedList.forEach((item, index) => {
                 if (item.name === currentName) {
@@ -155,7 +155,7 @@ const app = {
                 state.pageOpenedList.splice(currentIndex + 1);
                 state.pageOpenedList.splice(1, currentIndex - 1);
             }
-            let newCachepage = state.cachePage.filter(item => {
+            const newCachepage = state.cachePage.filter(item => {
                 return item === currentName;
             });
             state.cachePage = newCachepage;

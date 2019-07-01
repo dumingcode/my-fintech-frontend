@@ -409,7 +409,7 @@ export const mutualFundData = [
         sharpe5: '0.7',
         choice: 'good',
         shf: 'A>2年0%',
-        cellClassName: {zfy: 'demo-table-info-cell-cheap'},
+        cellClassName: { zfy: 'demo-table-info-cell-cheap' },
         cheapJudge: '',
         cellClassName: {
             zfy: 'demo-table-info-row-cell'

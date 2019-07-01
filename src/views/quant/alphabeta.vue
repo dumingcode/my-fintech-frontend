@@ -96,45 +96,44 @@ export default {
                     align: 'left',
                     sortable: true,
                     sortMethod: this.compare
-                }             
+                }
             ]
         };
     },
     methods: {
         async queryAlphaBetaData () {
-            let myStocksStore = getStore('myStocks')
+            const myStocksStore = getStore('myStocks')
             console.log(myStocksStore)
-            let vals = await queryStockAlphaBeta(myStocksStore)
+            const vals = await queryStockAlphaBeta(myStocksStore)
             console.log(vals)
             this.stockInfo = vals.data.data
             this.stockInfo.forEach((val, index) => {
                 let yearOne = ''
-                if (!val['alphaBeta1Year']){
-                    yearOne = {'alpha':0,'beta':0,'r2':0}
-                }else{
+                if (!val['alphaBeta1Year']) {
+                    yearOne = { 'alpha': 0, 'beta': 0, 'r2': 0 }
+                } else {
                     yearOne = JSON.parse(val['alphaBeta1Year'])
                 }
                 let yearTwo = ''
-                if (!val['alphaBeta2Year']){
-                    yearTwo = {'alpha':0,'beta':0,'r2':0}
-                }else{
+                if (!val['alphaBeta2Year']) {
+                    yearTwo = { 'alpha': 0, 'beta': 0, 'r2': 0 }
+                } else {
                     yearTwo = JSON.parse(val['alphaBeta2Year'])
                 }
-                this.fstIndData.push({'no': index + 1, 'code': val.code, 'name': val.name,'alpha1':(yearOne.alpha*100).toFixed(2)+'%','beta1':yearOne.beta.toFixed(4),'r1':(yearOne.r2*100).toFixed(2)+'%','alpha2':(yearTwo.alpha*100).toFixed(2)+'%','beta2':yearTwo.beta.toFixed(4),'r2':(yearTwo.r2*100).toFixed(2)+'%'})
+                this.fstIndData.push({ 'no': index + 1, 'code': val.code, 'name': val.name, 'alpha1': (yearOne.alpha * 100).toFixed(2) + '%', 'beta1': yearOne.beta.toFixed(4), 'r1': (yearOne.r2 * 100).toFixed(2) + '%', 'alpha2': (yearTwo.alpha * 100).toFixed(2) + '%', 'beta2': yearTwo.beta.toFixed(4), 'r2': (yearTwo.r2 * 100).toFixed(2) + '%' })
             })
-        
         },
-        compare(a, b, type) {
+        compare (a, b, type) {
             if (a && b) {
-              const aa = parseFloat(a.replace("%"));
-              const bb = parseFloat(b.replace("%"));
-              if (type == "asc") {
-                return aa - bb;
-              } else {
-                return bb - aa;
-              }
+                const aa = parseFloat(a.replace('%'));
+                const bb = parseFloat(b.replace('%'));
+                if (type == 'asc') {
+                    return aa - bb;
+                } else {
+                    return bb - aa;
+                }
             }
-          }
+        }
 
     },
     created () {

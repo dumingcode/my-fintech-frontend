@@ -163,7 +163,7 @@ export default {
             editLink: false,
             editPathButtonType: 'ghost',
             editPathButtonText: '编辑',
-            articleStateList: [{value: '草稿'}, {value: '等待复审'}],
+            articleStateList: [{ value: '草稿' }, { value: '等待复审' }],
             editOpenness: false,
             Openness: '公开',
             currentOpenness: '公开',
@@ -189,10 +189,10 @@ export default {
                 // this.articleError = '';
                 localStorage.articleTitle = this.articleTitle; // 本地存储文章标题
                 if (!this.articlePathHasEdited) {
-                    let date = new Date();
-                    let year = date.getFullYear();
-                    let month = date.getMonth() + 1;
-                    let day = date.getDate();
+                    const date = new Date();
+                    const year = date.getFullYear();
+                    const month = date.getMonth() + 1;
+                    const day = date.getDate();
                     this.fixedLink = window.location.host + '/' + year + '/' + month + '/' + day + '/';
                     this.articlePath = this.articleTitle;
                     this.articlePathHasEdited = true;
@@ -247,7 +247,7 @@ export default {
         },
         createNewTag () {
             if (this.newTagName.length !== 0) {
-                this.articleTagList.push({value: this.newTagName});
+                this.articleTagList.push({ value: this.newTagName });
                 this.addingNewTag = false;
                 setTimeout(() => {
                     this.newTagName = '';
@@ -271,13 +271,13 @@ export default {
         handlePreview () {
             if (this.canPublish()) {
                 if (this.publishTimeType === 'immediately') {
-                    let date = new Date();
-                    let year = date.getFullYear();
-                    let month = date.getMonth() + 1;
-                    let day = date.getDate();
-                    let hour = date.getHours();
-                    let minute = date.getMinutes();
-                    let second = date.getSeconds();
+                    const date = new Date();
+                    const year = date.getFullYear();
+                    const month = date.getMonth() + 1;
+                    const day = date.getDate();
+                    const hour = date.getHours();
+                    const minute = date.getMinutes();
+                    const second = date.getSeconds();
                     localStorage.publishTime = year + ' 年 ' + month + ' 月 ' + day + ' 日 -- ' + hour + ' : ' + minute + ' : ' + second;
                 } else {
                     localStorage.publishTime = this.publishTime; // 本地存储发布时间
@@ -311,19 +311,19 @@ export default {
     },
     computed: {
         completeUrl () {
-            let finalUrl = this.fixedLink + this.articlePath;
+            const finalUrl = this.fixedLink + this.articlePath;
             localStorage.finalUrl = finalUrl; // 本地存储完整文章路径
             return finalUrl;
         }
     },
     mounted () {
         this.articleTagList = [
-            {value: 'vue'},
-            {value: 'iview'},
-            {value: 'ES6'},
-            {value: 'webpack'},
-            {value: 'babel'},
-            {value: 'eslint'}
+            { value: 'vue' },
+            { value: 'iview' },
+            { value: 'ES6' },
+            { value: 'webpack' },
+            { value: 'babel' },
+            { value: 'eslint' }
         ];
         this.classificationList = [
             {

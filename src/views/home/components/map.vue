@@ -12,8 +12,8 @@ export default {
     },
     mounted () {
         var convertData = function (data) {
-            let res = [];
-            let len = data.length;
+            const res = [];
+            const len = data.length;
             for (var i = 0; i < len; i++) {
                 var geoCoord = geoData[data[i].name];
                 if (geoCoord) {

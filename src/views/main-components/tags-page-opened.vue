@@ -77,7 +77,7 @@ export default {
             let pageOpenedList = this.$store.state.app.pageOpenedList;
             let lastPageObj = pageOpenedList[0];
             if (this.currentPageName === name) {
-                let len = pageOpenedList.length;
+                const len = pageOpenedList.length;
                 for (let i = 1; i < len; i++) {
                     if (pageOpenedList[i].name === name) {
                         if (i < (len - 1)) {
@@ -89,7 +89,7 @@ export default {
                     }
                 }
             } else {
-                let tagWidth = event.target.parentNode.offsetWidth;
+                const tagWidth = event.target.parentNode.offsetWidth;
                 this.tagBodyLeft = Math.min(this.tagBodyLeft + tagWidth, 0);
             }
             this.$store.commit('removeTag', name);
@@ -101,7 +101,7 @@ export default {
             }
         },
         linkTo (item) {
-            let routerObj = {};
+            const routerObj = {};
             routerObj.name = item.name;
             if (item.argu) {
                 routerObj.params = item.argu;
@@ -164,7 +164,7 @@ export default {
         setTimeout(() => {
             this.refsTag.forEach((item, index) => {
                 if (this.$route.name === item.name) {
-                    let tag = this.refsTag[index].$el;
+                    const tag = this.refsTag[index].$el;
                     this.moveToView(tag);
                 }
             });
@@ -177,7 +177,7 @@ export default {
             this.$nextTick(() => {
                 this.refsTag.forEach((item, index) => {
                     if (to.name === item.name) {
-                        let tag = this.refsTag[index].$el;
+                        const tag = this.refsTag[index].$el;
                         this.moveToView(tag);
                     }
                 });
