@@ -14,6 +14,16 @@ module.exports = {
     // 测试登陆
     loginTest: (data) => { return http.get('api/auth/loginTest.json', data) },
     // 退出登陆
-    logout: (data) => { return http.get('api/auth/logout.json', data) }
+    logout: (data) => { return http.get('api/user/logout.json', data) },
+    // 查询用户的自选股代码列表
+    queryOptStocks: (data) => { return http.get('api/user/queryOptStocks.json', data) },
+    // 查询用户设定的个股止盈补仓数据
+    queryOptStockDealDetail: (data) => { return http.get('api/user/queryOptStockDealDetail.json', data) },
+    // 保存用户输入的自选股代码
+    saveOptStocks: (data) => { return http.post('api/user/saveOptStocks.json', data, false) },
+    // 保存用户设定的个股止盈止损信息
+    saveOptStockDealDetail: (data) => { return http.post('api/user/saveOptStockDealDetail.json', data, false) },
+    // 删除用户设定的个股止盈止损信息
+    delOptStockDealDetail: (data) => { return http.delete('api/user/delOptStockDealDetail.json', data, false) }
 }
 

@@ -49,7 +49,7 @@
 						<Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
 							<Dropdown transfer trigger="click" @on-click="handleClickUserDropdown">
 								<a href="javascript:void(0)">
-									<span class="main-user-name">{{ this.$store.state.user.userinfo.nickName}}</span>
+									<span class="main-user-name">{{ userName}}</span>
 									<Icon type="arrow-down-b"></Icon>
 								</a>
 								<DropdownMenu slot="list">
@@ -86,6 +86,7 @@ import themeSwitch from './main-components/theme-switch/theme-switch.vue'
 import Cookies from 'js-cookie'
 import util from '@/libs/util.js'
 import scrollBar from '@/views/my-components/scroll-bar/vue-scroller-bars'
+import { logout } from '../service/getData'
 
 export default {
     components: {
@@ -130,25 +131,28 @@ export default {
         },
         mesCount () {
             return this.$store.state.app.messageCount
+        },
+        queryUserNickname () {
+            return this.$store.state.user.userinfo.nickName
         }
     },
     methods: {
         init () {
             const pathArr = util.setCurrentPath(this, this.$route.name)
-            this.$store.commit('updateMenulist')
+            // this.$store.commit('updateMenulist')
             if (pathArr.length >= 2) {
-                this.$store.commit('addOpenSubmenu', pathArr[1].name)
+                // this.$store.commit('addOpenSubmenu', pathArr[1].name)
             }
-            this.userName = Cookies.get('user')
+            this.userName = Cookies.get('nickName')
             const messageCount = 3
             this.messageCount = messageCount.toString()
             this.checkTag(this.$route.name)
-            this.$store.commit('setMessageCount', 3)
+            // this.$store.commit('setMessageCount', 3)
         },
         toggleClick () {
             this.shrink = !this.shrink
         },
-        handleClickUserDropdown (name) {
+        async handleClickUserDropdown (name) {
             if (name === 'ownSpace') {
                 util.openNewPage(this, 'ownspace_index')
                 this.$router.push({
@@ -157,10 +161,13 @@ export default {
             } else if (name === 'loginout') {
                 // 退出登录
                 this.$store.commit('logout', this)
-                this.$store.commit('clearOpenedSubmenu')
                 this.$router.push({
                     name: 'login'
                 })
+                const info = await logout()
+                if (!(info && info.data && info.data.code === 1)) {
+                    this.$Message.error(info.data.msg)
+                }
             }
         },
         checkTag (name) {

@@ -9,11 +9,11 @@ const webpackBaseConfig = require('./webpack.base.config.js');
 const os = require('os');
 const fs = require('fs');
 const path = require('path');
-const package = require('../package.json');
+const package_ = require('../package.json');
 
 fs.open('./build/env.js', 'w', function (err, fd) {
     const buf = 'export default "production";';
-    fs.write(fd, buf, 0, 'utf-8', function callback(err, written, buffer) { })
+    fs.write(fd, buf, 0, 'utf-8', function callback (err, written, buffer) { })
 });
 
 module.exports = merge(webpackBaseConfig, {

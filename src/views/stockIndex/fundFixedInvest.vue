@@ -85,7 +85,7 @@
 <script>
 import axios from 'axios'
 import canEditTable from '../tables/components/canEditTable.vue'
-// import { queryUserInfo } from '../service/getData'
+// import { queryUserInfo } from '../../service/getData'
 export default {
     name: 'dragable-table',
     components: { canEditTable },
@@ -384,9 +384,7 @@ export default {
             return baseMoney + access
         }
     },
-    // async queryUserInfo () {
-    //     const userInfo = await queryUserInfo()
-    // },
+
     created () {
         // 可在此从服务端获取表格数据
         this.getIndexData()

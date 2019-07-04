@@ -68,6 +68,28 @@ module.exports = {
             return checkCode(res)
         }).catch(error => this.httpHandleErr(error))
     },
+    delete (url, data, contentType = true) {
+        let ct = ''
+        if (contentType) {
+            ct = 'application/x-www-form-urlencoded'
+            data = qs.stringify(data)
+        } else {
+            ct = 'application/json'
+        }
+        return axios({
+            headers: {
+                'Content-Type': ct
+            },
+            method: 'delete',
+            baseURL: baseUrl,
+            url,
+            data
+        }).then((response) => {
+            return checkStatus(response)
+        }).then((res) => {
+            return checkCode(res)
+        }).catch(error => this.httpHandleErr(error))
+    },
     get (url = '', _responseType = 'json') {
         return axios({
             method: 'get',
