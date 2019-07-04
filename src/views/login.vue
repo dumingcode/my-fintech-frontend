@@ -12,7 +12,6 @@
 				<div class="form-con">
 					<Form ref="loginForm" :model="form">
 						<FormItem>
-							<Button @click="handleSubmit" type="primary" long>登录</Button>
 							<a @click="handleSubmit">
 								<img
 									src="http://timg.sjs.sinajs.cn/t4/appstyle/widget/images/loginButton/loginButton_24.png"
