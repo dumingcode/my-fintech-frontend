@@ -60,7 +60,7 @@
 <script>
 import axios from 'axios';
 import canEditTable from '../tables/components/canEditTable.vue'
-import { setStore, getStore } from '../../utils/storageUtil'
+import { getStore } from '../../utils/storageUtil'
 import { isIntNum } from '../../utils/validate'
 import { deepCopy } from '../../utils/utils'
 import { queryOptStocks, queryOptStockDealDetail, saveOptStocks, saveOptStockDealDetail, delOptStockDealDetail } from '../../service/getData'
@@ -127,7 +127,6 @@ export default {
                     sortable: true,
                     editable: true
                 },
-
                 {
                     title: '距离止盈点百分比',
                     key: 'position',
@@ -148,7 +147,7 @@ export default {
                     }
                 },
                 {
-                    title: '距年内最低价*2',
+                    title: '距首次翻倍止盈',
                     key: 'doublePos',
                     width: 120,
                     align: 'center',
@@ -164,6 +163,13 @@ export default {
                             }
                         }
                     }
+                },
+                {
+                    title: '备注',
+                    key: 'memo',
+                    width: 140,
+                    align: 'center',
+                    editable: true
                 },
                 {
                     title: '操作',
@@ -236,7 +242,7 @@ export default {
                 return
             }
             let optStockArr = this.optStocks.split(',')
-            optStockArr = optStockArr.filter((val)=>{
+            optStockArr = optStockArr.filter((val) => {
                 return val !== delCode
             })
             this.optStocks = optStockArr.join(',')
@@ -308,7 +314,7 @@ export default {
               ).toFixed(2) * 100
           ).toFixed(0) + '%'
             }
-            const retData = await saveOptStockDealDetail({ 'code': coverObj.code, 'profitTime': parseInt(coverObj['profitTime']) })
+            const retData = await saveOptStockDealDetail({ 'code': coverObj.code, 'profitTime': parseInt(coverObj['profitTime']), 'memo': coverObj['memo'] })
             if (retData.data.code !== 1) {
                 this.$Message.error(retData.data.msg)
             }
@@ -332,6 +338,12 @@ export default {
                     )
                 } else {
                     element['profitTime'] = 0
+                }
+
+                if (myStocksProfitTimeJson && myStocksProfitTimeJson[element['code']]) {
+                    element['memo'] = (myStocksProfitTimeJson[element['code']])['memo']
+                } else {
+                    element['memo'] = ''
                 }
                 const stopProfit = this.calcTargetPrice(
                     element['yearLow'],
