@@ -161,13 +161,14 @@ export default {
             } else if (name === 'loginout') {
                 // 退出登录
                 this.$store.commit('logout', this)
-                this.$router.push({
-                    name: 'login'
-                })
+                Cookies.set('nickName', '')
                 const info = await logout()
                 if (!(info && info.data && info.data.code === 1)) {
                     this.$Message.error(info.data.msg)
                 }
+                this.$router.push({
+                    name: 'login'
+                })
             }
         },
         checkTag (name) {
