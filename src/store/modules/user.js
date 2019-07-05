@@ -12,7 +12,7 @@ const user = {
         logout (state, vm) {
             // 恢复登陆用户
             state.userinfo = {}
-            Cookies.remove('nickName')
+            Cookies.remove('nickName', { domain: '.gunxueqiu.site' })
             // 恢复默认样式
             const themeLink = document.querySelector('link[name="theme"]')
             themeLink.setAttribute('href', '')

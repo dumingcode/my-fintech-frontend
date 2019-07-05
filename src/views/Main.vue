@@ -161,7 +161,8 @@ export default {
             } else if (name === 'loginout') {
                 // 退出登录
                 this.$store.commit('logout', this)
-                Cookies.set('nickName', '')
+                Cookies.set('nickName', '', { domain: '.gunxueqiu.site' })
+                Cookies.remove('nickName', { domain: '.gunxueqiu.site' })
                 const info = await logout()
                 if (!(info && info.data && info.data.code === 1)) {
                     this.$Message.error(info.data.msg)
