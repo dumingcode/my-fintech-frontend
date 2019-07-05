@@ -326,31 +326,34 @@ export default {
                 this.loading = false
                 return
             }
-            const retData = await this.getSinaData(myStocksStore)
-            this.tableData = retData
             // 查询自选股的止盈止损详情
             const optStockDetailRet = await queryOptStockDealDetail()
             if (optStockDetailRet && optStockDetailRet.data && optStockDetailRet.data.code === 1) {
                 const arr = deepCopy(optStockDetailRet.data.data)
+                this.optStocksDetail = {}
                 arr.forEach((val) => {
                     const code = val['code']
                     this.optStocksDetail[code] = val
                 })
             }
+
+            const retData = await this.getSinaData(myStocksStore)
+            this.tableData = retData
             const myStocksProfitTimeJson = this.optStocksDetail
             this.avgPos = 0
             this.sumStopProfitTime = 0
             this.tableData.forEach(element => {
-                if (myStocksProfitTimeJson && myStocksProfitTimeJson[element['code']]) {
+                const deal = myStocksProfitTimeJson[element['code']]
+                if (myStocksProfitTimeJson && deal && deal['profitTime']) {
                     element['profitTime'] = parseInt(
-                        (myStocksProfitTimeJson[element['code']])['profitTime']
+                        deal['profitTime']
                     )
                 } else {
                     element['profitTime'] = 0
                 }
 
-                if (myStocksProfitTimeJson && myStocksProfitTimeJson[element['code']]) {
-                    element['memo'] = (myStocksProfitTimeJson[element['code']])['memo']
+                if (myStocksProfitTimeJson && deal && deal['memo']) {
+                    element['memo'] = deal['memo']
                 } else {
                     element['memo'] = ''
                 }
@@ -378,7 +381,7 @@ export default {
                     this.avgPos += parseInt(element['position'].replace('%', ''))
                     this.sumStopProfitTime += parseInt(element['profitTime'])
                 }
-            });
+            })
 
             if (this.tableData.length > 0) {
                 this.avgPos = (this.avgPos / this.tableData.length).toFixed(2)
@@ -475,17 +478,6 @@ export default {
             this.$Message.error(optStockRet.data.msg)
         }
         await this.syncLocalStorageToCloud()
-        // 查询自选股的止盈止损详情
-        const optStockDetailRet = await queryOptStockDealDetail()
-        if (optStockDetailRet && optStockDetailRet.data && optStockDetailRet.data.code === 1) {
-            const arr = deepCopy(optStockDetailRet.data.data)
-            arr.forEach((val) => {
-                const code = val['code']
-                this.optStocksDetail[code] = val
-            })
-        } else {
-            this.$Message.error(optStockDetailRet.data.msg)
-        }
         this.refreshMyStock()
     }
 };
