@@ -24,6 +24,9 @@ module.exports = {
     // 保存用户设定的个股止盈止损信息
     saveOptStockDealDetail: (data) => { return http.post('api/user/saveOptStockDealDetail.json', data, false) },
     // 删除用户设定的个股止盈止损信息
-    delOptStockDealDetail: (data) => { return http.delete('api/user/delOptStockDealDetail.json', data, false) }
+    delOptStockDealDetail: (data) => { return http.delete('api/user/delOptStockDealDetail.json', data, false) },
+    // 本地用户登陆
+    loginLocal: (data) => { return http.post('api/auth/loginLocal.json', data, false) }
+
 }
 
