@@ -328,6 +328,15 @@ export default {
             }
             const retData = await this.getSinaData(myStocksStore)
             this.tableData = retData
+            // 查询自选股的止盈止损详情
+            const optStockDetailRet = await queryOptStockDealDetail()
+            if (optStockDetailRet && optStockDetailRet.data && optStockDetailRet.data.code === 1) {
+                const arr = deepCopy(optStockDetailRet.data.data)
+                arr.forEach((val) => {
+                    const code = val['code']
+                    this.optStocksDetail[code] = val
+                })
+            }
             const myStocksProfitTimeJson = this.optStocksDetail
             this.avgPos = 0
             this.sumStopProfitTime = 0
@@ -348,7 +357,7 @@ export default {
                 const stopProfit = this.calcTargetPrice(
                     element['yearLow'],
                     element['profitTime']
-                );
+                )
                 element['targetPrice'] = stopProfit
                 if (element['price'] > 0) {
                     element['position'] =
@@ -377,7 +386,7 @@ export default {
                 this.avgPos = 0
             }
 
-            this.loading = false;
+            this.loading = false
         },
         getSinaData (myStocksStore) {
             return Promise.all([
