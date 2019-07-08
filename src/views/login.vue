@@ -41,49 +41,49 @@
 </template>
 
 <script>
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { loginLocal } from '../service/getData'
 import config from '../../build/config'
 export default {
-	data() {
-		return {
-			form: {
-				userName: '',
-				password: ''
-			},
-			rules: {
-				userName: [
-					{ required: true, message: '账号不能为空', trigger: 'blur' }
-				],
-				password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
-			}
-		}
-	},
-	methods: {
-		async handleSubmit() {
-			const href = config.WEIBO_AUTH_URL
-			window.location.href = href
-		},
-		handleLocalSubmit() {
-			this.$refs.loginForm.validate(async valid => {
-				if (valid) {
-					const loginRes = await loginLocal({
-						username: this.form.userName,
-						pwd: this.form.password
-					})
-					if (loginRes.data.code < 0) {
-						this.$Message.error(loginRes.data.msg)
-						return
-					}
+    data () {
+        return {
+            form: {
+                userName: '',
+                password: ''
+            },
+            rules: {
+                userName: [
+                    { required: true, message: '账号不能为空', trigger: 'blur' }
+                ],
+                password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
+            }
+        }
+    },
+    methods: {
+        async handleSubmit () {
+            const href = config.WEIBO_AUTH_URL
+            window.location.href = href
+        },
+        handleLocalSubmit () {
+            this.$refs.loginForm.validate(async valid => {
+                if (valid) {
+                    const loginRes = await loginLocal({
+                        username: this.form.userName,
+                        pwd: this.form.password
+                    })
+                    if (loginRes.data.code < 0) {
+                        this.$Message.error(loginRes.data.msg)
+                        return
+                    }
 
-					this.$router.push({
-						name: 'home_index'
-					})
-				}
-			})
-		}
-	},
-	created() {}
+                    this.$router.push({
+                        name: 'home_index'
+                    })
+                }
+            })
+        }
+    },
+    created () {}
 }
 </script>
 

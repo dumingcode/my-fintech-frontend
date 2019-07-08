@@ -87,6 +87,7 @@ import Cookies from 'js-cookie'
 import util from '@/libs/util.js'
 import scrollBar from '@/views/my-components/scroll-bar/vue-scroller-bars'
 import { logout } from '../service/getData'
+import config from '../../build/config'
 
 export default {
     components: {
@@ -161,7 +162,7 @@ export default {
             } else if (name === 'loginout') {
                 // 退出登录
                 this.$store.commit('logout', this)
-                Cookies.remove('nickName', { domain: '.gunxueqiu.site' })
+                Cookies.remove('nickName', { domain: config.domain })
                 const info = await logout()
                 if (!(info && info.data && info.data.code === 1)) {
                     this.$Message.error(info.data.msg)
