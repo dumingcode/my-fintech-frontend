@@ -26,7 +26,12 @@ module.exports = {
     // 删除用户设定的个股止盈止损信息
     delOptStockDealDetail: (data) => { return http.delete('api/user/delOptStockDealDetail.json', data, false) },
     // 本地用户登陆
-    loginLocal: (data) => { return http.post('api/auth/loginLocal.json', data, false) }
-
+    loginLocal: (data) => { return http.post('api/auth/loginLocal.json', data, false) },
+    // 查询新浪实时行情信息
+    querySinaStockGet: (data) => { return http.get('api/bigdata/querySinaStockGet.json', data) },
+    // 查询用户设置网格信息
+    queryOptGridInfo: (data) => { return http.get('api/user/queryOptGridInfo.json', data) },
+    // 保存设置网格信息
+    saveOptGridInfo: (data) => { return http.post('api/user/saveOptGridInfo.json', data, false) }
 }
 

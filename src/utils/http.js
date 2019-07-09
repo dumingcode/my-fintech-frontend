@@ -90,11 +90,12 @@ module.exports = {
             return checkCode(res)
         }).catch(error => this.httpHandleErr(error))
     },
-    get (url = '', _responseType = 'json') {
+    get (url = '', data, _responseType = 'json') {
         return axios({
             method: 'get',
             baseURL: baseUrl,
             url,
+            params: data,
             responseType: _responseType
         }).then((response) => {
             return checkStatus(response)
