@@ -199,7 +199,7 @@ export default {
                     }
                 })
                 await saveOptStocks({ 'codes': this.optStocks })
-
+                this.$store.commit('changeOpStocks', this.optStocks)
                 // 从storageClient中找出止盈次数并同步到云端
                 const myLocalStocksProfitTime = getStore('myStocksProfitTime')
                 let myLocalStocksProfitTimeJson = ''
@@ -252,8 +252,9 @@ export default {
                 this.$Message.error(ret.data.msg)
                 return
             }
+            this.$store.commit('changeOpStocks', this.optStocks)
             // 删除该股的止盈止损数据信息
-            const ret_ = delOptStockDealDetail({ 'code': delCode })
+            const ret_ = await delOptStockDealDetail({ 'code': delCode })
             if (ret_.data.code !== 1) {
                 this.$Message.error(ret.data.msg)
                 return
@@ -321,6 +322,7 @@ export default {
         },
         async refreshMyStock () {
             this.loading = true
+            this.optStocks = this.$store.state.user.opStocks
             const myStocksStore = this.optStocks
             if (!myStocksStore) {
                 this.loading = false
@@ -460,6 +462,7 @@ export default {
             if (ret.data.code !== 1) {
                 this.$Message.error(ret.data.msg)
             }
+            this.$store.commit('changeOpStocks', this.optStocks)
             this.refreshMyStock()
         }
     },
@@ -473,6 +476,7 @@ export default {
         if (optStockRet && optStockRet.data && optStockRet.data.code === 1) {
             if (optStockRet.data.data.length > 0) {
                 this.optStocks = (optStockRet.data.data)[0].stock
+                this.$store.commit('changeOpStocks', this.optStocks)
             }
         } else {
             this.$Message.error(optStockRet.data.msg)

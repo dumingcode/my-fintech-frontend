@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 const user = {
-    state: { userinfo: {}},
+    state: { userinfo: {}, opStocks: '' },
     mutations: {
         login (state, userObj) {
             state.userinfo.nickName = userObj.nickName
@@ -8,6 +8,9 @@ const user = {
             state.userinfo.profileImageUrl = userObj.profile_image_url
             state.userinfo.uid = userObj.uid
             Cookies.set('nickName', userObj.nickName)
+        },
+        changeOpStocks (state, stock) {
+            state.opStocks = stock
         },
         logout (state, vm) {
             // 恢复登陆用户

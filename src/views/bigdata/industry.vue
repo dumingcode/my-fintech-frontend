@@ -1,36 +1,38 @@
 <style lang="less">
-@import "../../styles/common.less";
-@import "../tables/components/table.less";
+@import '../../styles/common.less';
+@import '../tables/components/table.less';
 </style>
 
 <template>
-  <div>
-    <Row>
-      <Col span="12" class="padding-left-10 height-100">
-      <Card>
-        <p slot="title" class="card-title">大数投资持仓中信一级行业查询</p>
-      </Card>
-      <Card>
-        <Table stripe   :data="fstIndData" :columns="fstColumnsList"></Table>
-      </Card>
-      </Col>
-      <Col span="12" class="padding-left-10 height-100">
-        <Card>
-          <p slot="title" class="card-title">大数投资持仓中信二级行业查询</p>
-        </Card>
-        <Card>
-          <Table stripe  :data="sndIndData" :columns="sndColumnsList"></Table>
-        </Card>
-        </Col>
-  
-    </Row>
-
-  </div>
+	<div>
+		<Row>
+			<Col span="12" class="padding-left-10 height-100">
+				<Card>
+					<p slot="title" class="card-title">大数投资持仓中信一级行业查询</p>
+				</Card>
+				<Card>
+					<Table stripe :data="fstIndData" :columns="fstColumnsList"></Table>
+				</Card>
+			</Col>
+			<Col span="12" class="padding-left-10 height-100">
+				<Card>
+					<p slot="title" class="card-title">大数投资持仓中信二级行业查询</p>
+				</Card>
+				<Card>
+					<Table stripe :data="sndIndData" :columns="sndColumnsList"></Table>
+				</Card>
+			</Col>
+		</Row>
+	</div>
 </template>
 
 <script>
-import { getStore } from '../../utils/storageUtil';
-import { queryCitiFstIndustryInfo, queryCitiSndIndustryInfo, queryStockIndInfo } from '../../service/getData';
+import {
+    queryCitiFstIndustryInfo,
+    queryCitiSndIndustryInfo,
+    queryStockIndInfo,
+    queryOptStocks
+} from '../../service/getData'
 export default {
     name: 'industry',
     data () {
@@ -41,6 +43,7 @@ export default {
             fstInd: [],
             sndInd: [],
             stockInfo: [],
+            optStocks: '',
             fstColumnsList: [
                 {
                     title: '序号',
@@ -81,38 +84,71 @@ export default {
                     align: 'left'
                 }
             ]
-        };
+        }
     },
     methods: {
         getIndData () {
-            const myStocksStore = getStore('myStocks');
-            return Promise.all([queryCitiFstIndustryInfo(), queryCitiSndIndustryInfo(), queryStockIndInfo(myStocksStore)]).then((vals) => {
-                this.fstInd = vals[0].data.data;
-                this.sndInd = vals[1].data.data;
-                this.stockInfo = vals[2].data.data;
+            this.optStocks = this.$store.state.user.opStocks
+            const myStocksStore = this.optStocks
+            return Promise.all([
+                queryCitiFstIndustryInfo(),
+                queryCitiSndIndustryInfo(),
+                queryStockIndInfo(myStocksStore)
+            ]).then(vals => {
+                this.fstInd = vals[0].data.data
+                this.sndInd = vals[1].data.data
+                this.stockInfo = vals[2].data.data
 
                 this.fstInd.forEach((val, index) => {
-                    let stockName = '';
-                    this.stockInfo.map(stock => { return JSON.parse(stock); }).filter((stock) => { return val === stock.citiV1; }).map(stock => { return stock.name; }).forEach((name) => {
-                        stockName += `${name} `;
-                    });
-                    this.fstIndData.push({ 'no': index + 1, 'fstInd': val, 'name': stockName });
-                });
+                    let stockName = ''
+                    this.stockInfo
+                        .map(stock => {
+                            return JSON.parse(stock)
+                        })
+                        .filter(stock => {
+                            return val === stock.citiV1
+                        })
+                        .map(stock => {
+                            return stock.name
+                        })
+                        .forEach(name => {
+                            stockName += `${name} `
+                        })
+                    this.fstIndData.push({ no: index + 1, fstInd: val, name: stockName })
+                })
                 this.sndInd.forEach((val, index) => {
-                    let stockName = '';
-                    this.stockInfo.map(stock => { return JSON.parse(stock); }).filter((stock) => { return val === stock.citiV2; }).map(stock => { return stock.name; }).forEach((name) => {
-                        stockName += `${name} `;
-                    });
-                    this.sndIndData.push({ 'no': index + 1, 'sndInd': val, 'name': stockName });
-                });
-            });
+                    let stockName = ''
+                    this.stockInfo
+                        .map(stock => {
+                            return JSON.parse(stock)
+                        })
+                        .filter(stock => {
+                            return val === stock.citiV2
+                        })
+                        .map(stock => {
+                            return stock.name
+                        })
+                        .forEach(name => {
+                            stockName += `${name} `
+                        })
+                    this.sndIndData.push({ no: index + 1, sndInd: val, name: stockName })
+                })
+            })
         }
-
     },
-    created () {
-        this.getIndData();
+    async created () {
+        const optStockRet = await queryOptStocks()
+        if (optStockRet && optStockRet.data && optStockRet.data.code === 1) {
+            if (optStockRet.data.data.length > 0) {
+                this.optStocks = optStockRet.data.data[0].stock
+                this.$store.commit('changeOpStocks', this.optStocks)
+            }
+        } else {
+            this.$Message.error(optStockRet.data.msg)
+        }
+        await this.getIndData()
     }
-};
+}
 </script>
 <style>
 </style>
