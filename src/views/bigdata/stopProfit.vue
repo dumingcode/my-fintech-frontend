@@ -9,8 +9,8 @@
 			<Col span="24" class="padding-left-10 height-100">
 				<Card>
 					<p slot="title" class="card-title">大数投资止盈查询</p>
-				</Card>
-				<Card>
+				<!-- </Card>
+				<Card> -->
 					<Input
 						v-model="stock"
 						type="textarea"
@@ -194,7 +194,7 @@ export default {
                                 this.optStocks += `,${code}`
                             }
                         } else {
-                            this.optStocks += code
+                            this.optStocks = code
                         }
                     }
                 })
@@ -452,7 +452,7 @@ export default {
                             this.optStocks += `,${code}`
                         }
                     } else {
-                        this.optStocks += code
+                        this.optStocks = code
                     }
                 }
             })

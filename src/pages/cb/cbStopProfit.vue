@@ -1,58 +1,69 @@
 <style lang="less">
-@import "../../styles/common.less";
-@import "../../views/tables/components/table.less";
+@import '../../styles/common.less';
+@import '../../views/tables/components/table.less';
 </style>
 
 <template>
-  <div>
-    <Row>
-      <Col span="24" class="padding-left-10 height-100">
-      <Card>
-        <p slot="title" class="card-title">转债止盈查询</p>
-        本页面输入的数据都存储在chrome浏览器本地存储中（服务器不会存储任何用户数据），数据无法跨PC共享。<br/>
+	<div>
+		<Row>
+			<Col span="24" class="padding-left-10 height-100">
+				<Card>
+					<p slot="title" class="card-title">转债止盈查询</p>
+					<!-- </Card>
+					<Card>-->
+					<Input
+						v-model="stock"
+						type="textarea"
+						:rows="4"
+						placeholder="输入实例(逗号间隔):110050,123026"
+						clearable
+						style="width: 40%"
+					></Input>
+					<Button type="success" @click="addToOption">添加到自选</Button>
+					<Button type="success" :loading="loading" @click="refreshMyCb">刷新实时价格</Button>
+				</Card>
+				<Card>
+					<span style="font-weight:bold">止盈趋势线选择</span>
+					<Select v-model="firstProfit" style="width:200px" @on-change="changeFirstProfit">
+						<Option value="5" key="5">ma5</Option>
+						<Option value="10" key="10">ma10</Option>
+						<Option value="20" key="20">ma20</Option>
+					</Select>
+				</Card>
 
-      </Card>
-      <Card>
-        <Input v-model="stock" type="textarea" :rows="4" placeholder="输入实例(逗号间隔):110050,002013,002011" clearable style="width: 40%"></Input>
-        <Button type="success" @click="addToOption">添加到自选</Button>
-        <Button type="success" :loading="loading" @click="refreshMyStock">刷新实时价格</Button>
-      </Card>
-    <Card>
-        <span style="font-weight:bold">止盈趋势线选择</span>
-        <Select v-model="firstProfit" style="width:200px" @on-change="changeFirstProfit">
-          <Option value="5" key="5">ma5</Option>
-          <Option value="10" key="10">ma10</Option>
-          <Option value="20" key="20">ma20</Option>
-        </Select>
-        <span>
-          止盈规则：（场景1）非强赎期130元以上，转债价格跌破MA20止盈（若多份可以减半止盈）。（场景2）强赎期内跌破MA20即全部止盈。
-        </span>
-      </Card>
-      
-      <Card>
-        <can-edit-table @on-delete="handleDel" refs="profitTable" :row-class-name="isBelowThreshld"  :editIncell="true" v-model="tableData" :columns-list="columnsList"></can-edit-table>
-
-      </Card>
-      </Col>
-
-    </Row>
-
-  </div>
+				<Card>
+					<can-edit-table
+						@on-delete="handleDel"
+						refs="profitTable"
+						:row-class-name="isBelowThreshld"
+						:editIncell="true"
+						v-model="tableData"
+						:columns-list="columnsList"
+					></can-edit-table>
+				</Card>
+			</Col>
+		</Row>
+	</div>
 </template>
 
 <script>
-import axios from 'axios';
-import canEditTable from '@/views/tables/components/canEditTable.vue';
-import { setStore, getStore, removeStore } from '@/utils/storageUtil';
-import { isIntNum, isPositiveFloat } from '@/utils/validate';
-import table2excel from '@/libs/table2excel.js';
+import canEditTable from '@/views/tables/components/canEditTable.vue'
+import { isIntNum } from '@/utils/validate'
+import { getStore } from '../../utils/storageUtil'
+import {
+    querySinaStockGet,
+    queryCbondMa,
+    queryOptCbs,
+    saveOptCbs
+} from '../../service/getData'
 export default {
-    name: 'cover',
+    name: 'cbStopProfit',
     components: { canEditTable },
     data () {
         return {
             loading: false,
             stock: '',
+            optCbs: '',
             tableData: [],
             excelFileName: 'myStock',
             csvFileName: '',
@@ -83,15 +94,14 @@ export default {
                     width: 120,
                     align: 'center',
                     sortable: true,
-                    // sortType: "asc",
                     sortMethod: function (a, b, type) {
                         if (a && b) {
                             const aa = parseFloat(a)
                             const bb = parseFloat(b)
-                            if (type == 'asc') {
-                                return aa - bb;
+                            if (type === 'asc') {
+                                return aa - bb
                             } else {
-                                return bb - aa;
+                                return bb - aa
                             }
                         }
                     }
@@ -128,91 +138,74 @@ export default {
                     handle: ['delete']
                 }
             ]
-        };
+        }
     },
     methods: {
-
-        handleDel (val, index, delObj) {
-            // 删除表格后 需要把localStorage删除掉
-            // let delObj = this.tableData[index];
-            const delCode = delObj['code'];
+        async handleDel (val, index, delObj) {
+            const delCode = delObj['code']
             if (!delCode) {
-                return;
+                return
             }
-            // 删除自选股
-            const myStocksStore = getStore('myCbonds');
-            if (myStocksStore) {
-                let delCodePos = myStocksStore.indexOf(delCode + ',');
-                if (delCodePos >= 0) {
-                    setStore('myCbonds', myStocksStore.replace(delCode + ',', ''));
-                } else {
-                    delCodePos = myStocksStore.indexOf(delCode);
-                    if (delCodePos >= 0) {
-                        setStore('myCbonds', myStocksStore.replace(delCode, ''));
-                    }
-                }
+            let optStockArr = this.optCbs.split(',')
+            optStockArr = optStockArr.filter(val => {
+                return val !== delCode
+            })
+            this.optCbs = optStockArr.join(',')
+            const ret = await saveOptCbs({ codes: this.optCbs })
+            if (ret.data.code !== 1) {
+                this.$Message.error(ret.data.msg)
             }
-
-            console.log('handleDel');
         },
         changeFirstProfit () {
-            this.refreshMyStock();
+            this.refreshMyCb()
         },
         // 当前价格大于130 且 低于ma20
         isBelowThreshld (row, index) {
             if (row['price']) {
                 const pos = parseFloat(row['price'])
                 let benchmark
-                if (this.firstProfit == '5') {
+                if (this.firstProfit === '5') {
                     benchmark = parseFloat(row['ma5'])
-                } else if (this.firstProfit == '10') {
+                } else if (this.firstProfit === '10') {
                     benchmark = parseFloat(row['ma10'])
-                } else if (this.firstProfit == '20') {
+                } else if (this.firstProfit === '20') {
                     benchmark = parseFloat(row['ma20'])
                 }
 
                 if (pos >= 130 && pos <= benchmark) {
-                    return 'demo-table-info-row';
+                    return 'demo-table-info-row'
                 } else {
-                    return '';
+                    return ''
                 }
             } else {
-                return '';
+                return ''
             }
         },
-        async refreshMyStock () {
-            this.loading = true;
-            const myStocksStore = getStore('myCbonds');
+        async refreshMyCb () {
+            this.loading = true
+            const retData = await this.queryDealData(this.optCbs)
+            this.tableData = retData
+            this.loading = false
+        },
+        queryDealData (myStocksStore) {
             if (!myStocksStore) {
-                this.loading = false;
-                return;
+                return []
             }
-            const retData = await this.getData(myStocksStore);
-            this.tableData = retData;
-            this.loading = false;
-        },
-        getData (myStocksStore) {
             return Promise.all([
-                axios.get(`/api/bigdata/querySinaStockGet.json?codes=${myStocksStore}`),
-                axios.get(
-                    `/api/cBond/queryCbondMa.json?codes=${myStocksStore}`
-                )
+                querySinaStockGet({ codes: `${myStocksStore}` }),
+                queryCbondMa({ codes: `${myStocksStore}` })
             ]).then(values => {
-                let pObj = values[0];
-                let lObj = values[1];
+                let pObj = values[0]
+                let lObj = values[1]
+                pObj = pObj.data // 新浪实时股价
+                lObj = lObj.data // ma20
 
-                const c1vSet = new Set()
-                const c2vSet = new Set()
-
-                pObj = pObj.data; // 新浪实时股价
-                lObj = lObj.data; // ma20
-
-                const lMap = {};
-                let pTable = [];
-                if (lObj && lObj.code == 1) {
-                    const lTable = lObj.data;
+                const lMap = {}
+                let pTable = []
+                if (lObj && lObj.code === 1) {
+                    const lTable = lObj.data
                     for (let i = 0; i < lTable.length; i++) {
-                        const obj = JSON.parse(lTable[i]);
+                        const obj = JSON.parse(lTable[i])
                         lMap[obj['code'] + 'ma20'] = obj['ma20']
                         lMap[obj['code'] + 'ma10'] = obj['ma10']
                         lMap[obj['code'] + 'ma5'] = obj['ma5']
@@ -220,12 +213,11 @@ export default {
                         lMap[obj['code']] = obj['code']
                     }
                 }
-
                 if (pObj && pObj.code > 0) {
-                    pTable = pObj.data;
+                    pTable = pObj.data
                     for (let i = 0; i < pTable.length; i++) {
-                        const element = pTable[i];
-                        const code = element['code'];
+                        const element = pTable[i]
+                        const code = element['code']
                         if (lMap[code]) {
                             element['ma20'] = lMap[code + 'ma20']
                             element['ma10'] = lMap[code + 'ma10']
@@ -234,48 +226,71 @@ export default {
                         }
                     }
                 }
-                return pTable;
-            });
+                return pTable
+            })
         },
-
         async addToOption () {
             if (!this.stock) {
                 this.$Message.warning({
                     content: '请输入可转债代码，多个代码直接逗号间隔'
-                });
-                return;
+                })
+                return
             }
-            this.stock = this.stock.replace(/，/g, ',');
-            const stockArr = this.stock.split(',');
-            let myStocksStore = '';
+            this.stock = this.stock.replace(/，/g, ',')
+            const stockArr = this.stock.split(',')
             stockArr.forEach(code => {
-                if (isIntNum(code) && code.length == 6) {
-                    myStocksStore = getStore('myCbonds');
-                    if (!myStocksStore) {
-                        myStocksStore = code;
-                        // 持久化个人选股
-                        setStore('myCbonds', myStocksStore);
-                    } else {
-                        if (myStocksStore.indexOf(code) < 0) {
-                            myStocksStore += `,${code}`;
-                            // 持久化个人选股
-                            setStore('myCbonds', myStocksStore);
+                if (isIntNum(code) && code.length === 6) {
+                    if (this.optCbs) {
+                        if (!this.optCbs.includes(code)) {
+                            this.optCbs += `,${code}`
                         }
+                    } else {
+                        this.optCbs = code
                     }
                 }
-            });
-            this.refreshMyStock();
+            })
+            const ret = await saveOptCbs({ codes: this.optCbs })
+            if (ret.data.code !== 1) {
+                this.$Message.error(ret.data.msg)
+            }
+            this.refreshMyCb()
+        },
+        async syncLocalStorageToCloud () {
+            const myLocalStocks = getStore('myCbonds')
+            if (!this.optCbs && myLocalStocks) {
+                console.log('sync')
+                const stockArr = myLocalStocks.split(',')
+                stockArr.forEach(code => {
+                    if (isIntNum(code) && code.length === 6) {
+                        if (this.optCbs) {
+                            if (!this.optCbs.includes(code)) {
+                                this.optCbs += `,${code}`
+                            }
+                        } else {
+                            this.optCbs = code
+                        }
+                    }
+                })
+                await saveOptCbs({ codes: this.optCbs })
+            }
         }
     },
-    created () {
+
+    async created () {
         this.firstProfit = '20'
-        this.refreshMyStock();
+        const cbRet = await queryOptCbs()
+        if (!(cbRet && cbRet.data && cbRet.data.code > 0 && cbRet.data.data)) {
+            return
+        }
+        this.optCbs = cbRet.data.data[0]['cb']
+        await this.syncLocalStorageToCloud()
+        this.refreshMyCb()
     }
-};
+}
 </script>
 <style>
 .ivu-table .demo-table-info-row td {
-  background-color: #2db7f5;
-  color: #fff;
+	background-color: #2db7f5;
+	color: #fff;
 }
 </style>

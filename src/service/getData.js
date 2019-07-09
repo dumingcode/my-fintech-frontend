@@ -32,6 +32,12 @@ module.exports = {
     // 查询用户设置网格信息
     queryOptGridInfo: (data) => { return http.get('api/user/queryOptGridInfo.json', data) },
     // 保存设置网格信息
-    saveOptGridInfo: (data) => { return http.post('api/user/saveOptGridInfo.json', data, false) }
+    saveOptGridInfo: (data) => { return http.post('api/user/saveOptGridInfo.json', data, false) },
+    // 查询转债ma数据信息
+    queryCbondMa: (data) => { return http.get('api/cBond/queryCbondMa.json', data) },
+    // 查询用户设定的自选转债
+    queryOptCbs: (data) => { return http.get('api/user/queryOptCbs.json', data) },
+    // 保存用户设定的自选转债
+    saveOptCbs: (data) => { return http.post('api/user/saveOptCbs.json', data, false) }
 }
 
