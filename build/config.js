@@ -11,7 +11,7 @@ let config = {
     'production': {
         'WEIBO_AUTH_URL': 'https://api.weibo.com/oauth2/authorize?client_id=1078042542&redirect_uri=https://gunxueqiu.site/api/auth/weibo/callback',
         'domain': '.gunxueqiu.site',
-        'QQ_AUTH_URL': '"https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=1109532005&redirect_uri=https://gunxueqiu.site/api/auth/qq/callback',
+        'QQ_AUTH_URL': 'https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=1109532005&redirect_uri=https://gunxueqiu.site/api/auth/qq/callback',
         env: Env
     }
 }[Env]
