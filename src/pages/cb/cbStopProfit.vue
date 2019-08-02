@@ -4,46 +4,46 @@
 </style>
 
 <template>
-	<div>
-		<Row>
-			<Col span="24" class="padding-left-10 height-100">
-				<Card>
-					<p slot="title" class="card-title">转债止盈查询</p>
-					<!-- </Card>
-					<Card>-->
-					<Input
-						v-model="stock"
-						type="textarea"
-						:rows="4"
-						placeholder="输入实例(逗号间隔):110050,123026"
-						clearable
-						style="width: 40%"
-					></Input>
-					<Button type="success" @click="addToOption">添加到自选</Button>
-					<Button type="success" :loading="loading" @click="refreshMyCb">刷新实时价格</Button>
-				</Card>
-				<Card>
-					<span style="font-weight:bold">止盈趋势线选择</span>
-					<Select v-model="firstProfit" style="width:200px" @on-change="changeFirstProfit">
-						<Option value="5" key="5">ma5</Option>
-						<Option value="10" key="10">ma10</Option>
-						<Option value="20" key="20">ma20</Option>
-					</Select>
-				</Card>
+  <div>
+    <Row>
+      <Col span="24" class="padding-left-10 height-100">
+        <Card>
+          <p slot="title" class="card-title">转债止盈查询</p>
+          <!-- </Card>
+          <Card>-->
+          <Input
+            v-model="stock"
+            type="textarea"
+            :rows="4"
+            placeholder="输入实例(逗号间隔):110050,123026"
+            clearable
+            style="width: 40%"
+          ></Input>
+          <Button type="success" @click="addToOption">添加到自选</Button>
+          <Button type="success" :loading="loading" @click="refreshMyCb">刷新实时价格</Button>
+        </Card>
+        <Card>
+          <span style="font-weight:bold">止盈趋势线选择</span>
+          <Select v-model="firstProfit" style="width:200px" @on-change="changeFirstProfit">
+            <Option value="5" key="5">ma5</Option>
+            <Option value="10" key="10">ma10</Option>
+            <Option value="20" key="20">ma20</Option>
+          </Select>
+        </Card>
 
-				<Card>
-					<can-edit-table
-						@on-delete="handleDel"
-						refs="profitTable"
-						:row-class-name="isBelowThreshld"
-						:editIncell="true"
-						v-model="tableData"
-						:columns-list="columnsList"
-					></can-edit-table>
-				</Card>
-			</Col>
-		</Row>
-	</div>
+        <Card>
+          <can-edit-table
+            @on-delete="handleDel"
+            refs="profitTable"
+            :row-class-name="isBelowThreshld"
+            :editIncell="true"
+            v-model="tableData"
+            :columns-list="columnsList"
+          ></can-edit-table>
+        </Card>
+      </Col>
+    </Row>
+  </div>
 </template>
 
 <script>
@@ -121,6 +121,12 @@ export default {
                 {
                     title: 'ma20',
                     key: 'ma20',
+                    width: 80,
+                    align: 'center'
+                },
+                {
+                    title: 'atr',
+                    key: 'atr',
                     width: 80,
                     align: 'center'
                 },
@@ -209,6 +215,7 @@ export default {
                         lMap[obj['code'] + 'ma20'] = obj['ma20']
                         lMap[obj['code'] + 'ma10'] = obj['ma10']
                         lMap[obj['code'] + 'ma5'] = obj['ma5']
+                        lMap[obj['code'] + 'atr'] = obj['atr']
                         lMap[obj['code'] + 'ma20GenDate'] = obj['ma20GenDate']
                         lMap[obj['code']] = obj['code']
                     }
@@ -222,6 +229,7 @@ export default {
                             element['ma20'] = lMap[code + 'ma20']
                             element['ma10'] = lMap[code + 'ma10']
                             element['ma5'] = lMap[code + 'ma5']
+                            element['atr'] = lMap[code + 'atr']
                             element['uptTime'] = lMap[code + 'ma20GenDate']
                         }
                     }
@@ -290,7 +298,7 @@ export default {
 </script>
 <style>
 .ivu-table .demo-table-info-row td {
-	background-color: #2db7f5;
-	color: #fff;
+  background-color: #2db7f5;
+  color: #fff;
 }
 </style>
