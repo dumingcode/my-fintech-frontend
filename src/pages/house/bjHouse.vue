@@ -68,7 +68,7 @@ export default {
             this.loading = true
             const data = await queryRecenetWeekDealInfo()
             if (data.data.code === 1) {
-                this.tableData = JSON.parse(data.data.data)
+                this.tableData = JSON.parse(data.data.data).reverse()
             }
             this.loading = false
         }
