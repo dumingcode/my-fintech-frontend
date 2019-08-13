@@ -40,6 +40,8 @@ module.exports = {
     // 保存用户设定的自选转债
     saveOptCbs: (data) => { return http.post('api/user/saveOptCbs.json', data, false) },
     // 查询最近一周的二手房成交量
-    queryRecenetWeekDealInfo: (data) => { return http.get('api/house/queryRecenetWeekDealInfo.json', data) }
+    queryRecenetWeekDealInfo: (data) => { return http.get('api/house/queryRecenetWeekDealInfo.json', data) },
+    // 逐月展示各个年份的二手房成交量
+    queryYearDealInfo: (data) => { return http.get('api/house/queryYearDealInfo.json', data) }
 }
 

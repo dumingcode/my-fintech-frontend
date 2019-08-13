@@ -30,4 +30,14 @@ function isNull (a) {
     }
     return false
 }
-export { deepCopy, isNull }
+function objToArr (obj) {
+    if (isNull(obj)) {
+        return []
+    }
+    const arr = []
+    for (const prop in obj) {
+        arr.push(obj[prop])
+    }
+    return arr
+}
+export { deepCopy, isNull, objToArr }
