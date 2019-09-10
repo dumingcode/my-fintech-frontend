@@ -10,6 +10,7 @@
         <Card>
           <p slot="title" class="card-title">自选与指数成分股重合度查询</p>
           计算方法： 自选股中对应指数的成分股数量 / 自选股数量
+          自选股总数为{{count}}
         </Card>
       </Col>
       <Col span="24" class="padding-left-10 height-200">
@@ -26,7 +27,8 @@
 <script>
 import indexSampleChart from './echarts/indexSampleChart.vue'
 import {
-    queryUserIndexSampleInfo
+    queryUserIndexSampleInfo,
+    queryOptStocks
 } from '../../service/getData'
 
 export default {
@@ -36,28 +38,42 @@ export default {
         return {
             loading: false,
             sData: {}, // 查询统计数据
-            sDataOk: false
+            sDataOk: false,
+            count: 0
         }
     },
     methods: {
         async refreshDeal () {
             this.loading = true
+            const optStocks = this.$store.state.user.opStocks
             const data = await queryUserIndexSampleInfo()
-            console.log(data.data.data)
             if (data.data.code === 1) {
                 const indexData = data.data.data
                 this.sData = {}
+                this.count = optStocks.split(',').length
                 indexData.forEach(element => {
+                    element['num'] = element['num'] / this.count * 100
                     this.sData[element.index] = element
                 })
+                this.sData['count'] = this.count
                 this.sDataOk = true
             }
             this.loading = false
         }
     },
 
-    created () {
-        this.refreshDeal()
+    async created () {
+        const optStockRet = await queryOptStocks()
+        if (optStockRet && optStockRet.data && optStockRet.data.code === 1) {
+            if (optStockRet.data.data.length > 0) {
+                this.optStocks = optStockRet.data.data[0].stock
+                this.$store.commit('changeOpStocks', this.optStocks)
+            }
+        } else {
+            this.$Message.error(optStockRet.data.msg)
+            return
+        }
+        await this.refreshDeal()
     }
 }
 </script>
