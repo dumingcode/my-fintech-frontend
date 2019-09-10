@@ -52,7 +52,7 @@ export default {
                 this.sData = {}
                 this.count = optStocks.split(',').length
                 indexData.forEach(element => {
-                    element['num'] = element['num'] / this.count * 100
+                    element['num'] = (element['num'] / this.count).toFixed(2) * 100
                     this.sData[element.index] = element
                 })
                 this.sData['count'] = this.count
