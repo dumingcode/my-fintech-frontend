@@ -154,6 +154,14 @@ export const appRouter = [{
             import('@/views/bigdata/industry.vue')
     },
     {
+        path: 'indexSample',
+        icon: 'earth',
+        name: 'indexSample',
+        title: '持仓与指数成分',
+        component: () =>
+            import('@/views/quant/indexSample.vue')
+    },
+    {
         path: 'alphabeta',
         icon: 'earth',
         name: 'alphabeta',

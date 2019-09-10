@@ -42,6 +42,8 @@ module.exports = {
     // 查询最近一周的二手房成交量
     queryRecenetWeekDealInfo: (data) => { return http.get('api/house/queryRecenetWeekDealInfo.json', data) },
     // 逐月展示各个年份的二手房成交量
-    queryYearDealInfo: (data) => { return http.get('api/house/queryYearDealInfo.json', data) }
+    queryYearDealInfo: (data) => { return http.get('api/house/queryYearDealInfo.json', data) },
+    // 查询用户持仓与指数重合度
+    queryUserIndexSampleInfo: (data) => { return http.get('api/user/queryUserIndexSampleInfo.json', data) }
 }
 
