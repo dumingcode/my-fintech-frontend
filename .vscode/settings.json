@@ -1,0 +1,28 @@
+{
+  "eslint.enable": true,
+  "editor.formatOnSave": false,
+  "eslint.autoFixOnSave": true,
+  "eslint.validate": [
+    "javascript",
+    {
+      "language": "vue",
+      "autoFix": true
+    },
+    "html",
+    "vue"
+  ],
+  "vetur.validation.template": false,
+  "vetur.format.defaultFormatterOptions": {
+    "prettier": {
+      // 格式化不加分号
+      "semi": false,
+      // 格式化为单引号
+      "singleQuote": true
+    }
+  },
+  "prettier.tabWidth": 4,
+  "prettier.useTabs": true,
+  "vetur.format.options.tabSize": 4,
+  // 在方法括号之间插入空格
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": true
+}
