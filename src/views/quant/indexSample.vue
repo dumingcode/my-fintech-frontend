@@ -53,19 +53,19 @@ export default {
                     title: '指数名称',
                     key: 'indexName',
                     width: 160,
-                    align: 'center'
+                    align: 'left'
                 },
                 {
                     title: '匹配数量',
                     key: 'num',
                     width: 120,
-                    align: 'center'
+                    align: 'left'
                 },
                 {
                     title: '匹配个股明细',
                     key: 'hit_stocks',
-                    width: 900,
-                    align: 'center'
+                    width: 700,
+                    align: 'left'
                 }
             ],
             indexMap: {
