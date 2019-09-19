@@ -9,22 +9,20 @@
       <Col span="24" class="padding-left-10 height-100">
         <Card>
           <p slot="title" class="card-title">自选与指数成分股重合度查询</p>
-          计算方法： 自选股中对应指数的成分股数量 / 自选股数量
-          自选股总数为{{count}}
+          计算方法： 自选股中对应指数的成分股数量 / 自选股数量<br/>
+          自选股总数为<span style="color:green">{{count}}</span>，更新时间为<span style="color:green">{{date}}</span>
         </Card>
       </Col>
       <Col span="24" class="padding-left-10 height-200">
         <Card>
-          <div style="height:600px;width:100%;">
+          <div style="height:260px;width:100%;">
             <index-sample-chart v-if="sDataOk" :statistic-data="sData"></index-sample-chart>
           </div>
         </Card>
       </Col>
-      <Col span="24" class="padding-left-10 height-200">
+      <Col span="24" class="padding-left-10">
         <Card>
-          <div style="height:600px;width:100%;">
              <can-edit-table  v-model="tableData" :columns-list="columnsList"></can-edit-table>
-          </div>
         </Card>
       </Col>
     </Row>
@@ -38,7 +36,7 @@ import {
     queryUserIndexSampleInfo,
     queryOptStocks
 } from '../../service/getData'
-
+// import { deepCopy } from '../../utils/utils'
 export default {
     name: 'indexSample',
     components: { indexSampleChart, canEditTable },
@@ -46,6 +44,7 @@ export default {
         return {
             loading: false,
             sData: {}, // 查询统计数据
+            date: '',
             sDataOk: false,
             count: 0,
             tableData: [],
@@ -53,7 +52,7 @@ export default {
                 {
                     title: '指数名称',
                     key: 'indexName',
-                    width: 120,
+                    width: 160,
                     align: 'center'
                 },
                 {
@@ -65,10 +64,18 @@ export default {
                 {
                     title: '匹配个股明细',
                     key: 'hit_stocks',
-                    width: 160,
+                    width: 900,
                     align: 'center'
                 }
-            ]
+            ],
+            indexMap: {
+                '399812': '养老产业',
+                '000922': '中证红利',
+                '000010': '上证180',
+                '000300': '沪深300',
+                '000905': '中证500',
+                '000852': '中证1000'
+            }
         }
     },
     methods: {
@@ -78,11 +85,14 @@ export default {
             const data = await queryUserIndexSampleInfo()
             if (data.data.code === 1) {
                 const indexData = data.data.data
+                this.tableData = indexData
                 this.sData = {}
                 this.count = optStocks.split(',').length
                 indexData.forEach(element => {
-                    element['num'] = (element['num'] / this.count * 100).toFixed(2)
-
+                    const index = element['index']
+                    element['indexName'] = this.indexMap[index]
+                    element['count'] = (element['num'] / this.count * 100).toFixed(2)
+                    this.date = element['date']
                     this.sData[element.index] = element
                 })
                 this.sData['count'] = this.count

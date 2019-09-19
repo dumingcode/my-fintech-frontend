@@ -61,7 +61,7 @@ export default {
                 symbolClip: true,
                 symbolSize: 30,
                 symbolBoundingData: 100,
-                data: [this.statisticData['399812'].num, this.statisticData['000922'].num, this.statisticData['000010'].num, this.statisticData['000300'].num, this.statisticData['000905'].num, this.statisticData['000852'].num],
+                data: [this.statisticData['399812'].count, this.statisticData['000922'].count, this.statisticData['000010'].count, this.statisticData['000300'].count, this.statisticData['000905'].count, this.statisticData['000852'].count],
                 markLine: {
                     symbol: 'none',
                     label: {
@@ -111,7 +111,7 @@ export default {
                 symbol: this.spirit,
                 symbolSize: 30,
                 symbolBoundingData: this.maxData,
-                data: [this.statisticData['399812'].num, this.statisticData['000922'].num, this.statisticData['000010'].num, this.statisticData['000300'].num, this.statisticData['000905'].num, this.statisticData['000852'].num],
+                data: [this.statisticData['399812'].count, this.statisticData['000922'].count, this.statisticData['000010'].count, this.statisticData['000300'].count, this.statisticData['000905'].count, this.statisticData['000852'].count],
                 z: 5
             }]
         }
