@@ -44,6 +44,12 @@ module.exports = {
     // 逐月展示各个年份的二手房成交量
     queryYearDealInfo: (data) => { return http.get('api/house/queryYearDealInfo.json', data) },
     // 查询用户持仓与指数重合度
-    queryUserIndexSampleInfo: (data) => { return http.get('api/user/queryUserIndexSampleInfo.json', data) }
+    queryUserIndexSampleInfo: (data) => { return http.get('api/user/queryUserIndexSampleInfo.json', data) },
+    // 查询用户设定的转债详情数据
+    queryOptCbDealDetail: (data) => { return http.get('api/user/queryOptCbDealDetail.json', data) },
+    // 保存用户设定的转债详情数据
+    saveOptCbDealDetail: (data) => { return http.post('api/user/saveOptCbDealDetail.json', data, false) },
+    // 删除用户设定的转债详情数据
+    delOptCbDealDetail: (data) => { return http.delete('api/user/delOptCbDealDetail.json', data, false) }
 }
 

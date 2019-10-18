@@ -9,8 +9,6 @@
       <Col span="24" class="padding-left-10 height-100">
         <Card>
           <p slot="title" class="card-title">转债止盈查询</p>
-          <!-- </Card>
-          <Card>-->
           <Input
             v-model="stock"
             type="textarea"
@@ -30,13 +28,14 @@
             <Option value="20" key="20">ma20</Option>
           </Select>
         </Card>
-
         <Card>
           <can-edit-table
             @on-delete="handleDel"
             refs="profitTable"
             :row-class-name="isBelowThreshld"
+            @on-cell-change="handleTargetPriceChange"
             :editIncell="true"
+            :inputType="inputType"
             v-model="tableData"
             :columns-list="columnsList"
           ></can-edit-table>
@@ -50,11 +49,15 @@
 import canEditTable from '@/views/tables/components/canEditTable.vue'
 import { isIntNum } from '@/utils/validate'
 import { getStore } from '../../utils/storageUtil'
+import { deepCopy } from '../../utils/utils'
 import {
     querySinaStockGet,
     queryCbondMa,
     queryOptCbs,
-    saveOptCbs
+    saveOptCbs,
+    queryOptCbDealDetail,
+    delOptCbDealDetail,
+    saveOptCbDealDetail
 } from '../../service/getData'
 export default {
     name: 'cbStopProfit',
@@ -62,6 +65,7 @@ export default {
     data () {
         return {
             loading: false,
+            inputType: 'textarea',
             stock: '',
             optCbs: '',
             tableData: [],
@@ -69,28 +73,41 @@ export default {
             csvFileName: '',
             myStocksTargetPrice: [],
             firstProfit: '20',
+            optCbsDetail: {},
             columnsList: [
+                {
+                    type: 'expand',
+                    width: 50,
+                    fixed: 'left',
+                    render: (h, params) => {
+                        return h('span', '备注：' + params.row.memo)
+                    }
+                },
                 {
                     title: '个股名称',
                     key: 'name',
+                    fixed: 'left',
                     width: 120,
                     align: 'center'
                 },
                 {
                     title: '个股代码',
                     key: 'code',
+                    fixed: 'left',
                     width: 120,
                     align: 'center'
                 },
                 {
                     title: '当前时间',
                     key: 'time',
+                    fixed: 'left',
                     width: 160,
                     align: 'center'
                 },
                 {
                     title: '现价',
                     key: 'price',
+                    fixed: 'left',
                     width: 120,
                     align: 'center',
                     sortable: true,
@@ -137,6 +154,13 @@ export default {
                     align: 'center'
                 },
                 {
+                    title: '备注',
+                    key: 'memo',
+                    width: 400,
+                    align: 'center',
+                    editable: true
+                },
+                {
                     title: '操作',
                     align: 'center',
                     width: 120,
@@ -160,6 +184,14 @@ export default {
             const ret = await saveOptCbs({ codes: this.optCbs })
             if (ret.data.code !== 1) {
                 this.$Message.error(ret.data.msg)
+                return
+            }
+
+            // 删除该股的止盈止损数据信息
+            const ret_ = await delOptCbDealDetail({ 'code': delCode })
+            if (ret_.data.code !== 1) {
+                this.$Message.error(ret.data.msg)
+                return
             }
         },
         changeFirstProfit () {
@@ -191,6 +223,24 @@ export default {
             this.loading = true
             const retData = await this.queryDealData(this.optCbs)
             this.tableData = retData
+            // 查询自选转债的备注情况
+            const optStockDetailRet = await queryOptCbDealDetail()
+            if (optStockDetailRet && optStockDetailRet.data && optStockDetailRet.data.code === 1) {
+                const arr = deepCopy(optStockDetailRet.data.data)
+                this.optCbsDetail = {}
+                arr.forEach((val) => {
+                    const code = val['code']
+                    this.optCbsDetail[code] = val
+                })
+            }
+            const copyArr = []
+            this.tableData.forEach((ele) => {
+                const code = ele.code
+                const detail = this.optCbsDetail[code]
+                ele['memo'] = detail ? detail['memo'] : ''
+                copyArr.push(ele)
+            })
+            this.tableData = copyArr
             this.loading = false
         },
         queryDealData (myStocksStore) {
@@ -266,7 +316,6 @@ export default {
         async syncLocalStorageToCloud () {
             const myLocalStocks = getStore('myCbonds')
             if (!this.optCbs && myLocalStocks) {
-                console.log('sync')
                 const stockArr = myLocalStocks.split(',')
                 stockArr.forEach(code => {
                     if (isIntNum(code) && code.length === 6) {
@@ -280,6 +329,13 @@ export default {
                     }
                 })
                 await saveOptCbs({ codes: this.optCbs })
+            }
+        },
+        async handleTargetPriceChange (val, index, key) {
+            const coverObj = this.tableData[index]
+            const retData = await saveOptCbDealDetail({ 'code': coverObj.code, 'memo': coverObj['memo'] })
+            if (retData.data.code !== 1) {
+                this.$Message.error(retData.data.msg)
             }
         }
     },

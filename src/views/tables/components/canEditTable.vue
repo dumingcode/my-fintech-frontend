@@ -159,7 +159,7 @@ const saveIncellEditBtn = (vm, h, param) => {
 const cellInput = (vm, h, param, item) => {
     return h('Input', {
         props: {
-            type: 'text',
+            type: vm.inputType, // 'textarea',
             value: vm.edittingStore[param.index][item.key]
         },
         on: {
@@ -185,7 +185,11 @@ export default {
             type: Boolean,
             default: false
         },
-        rowClassName: Function
+        rowClassName: Function,
+        inputType: {
+            type: String,
+            default: 'text'
+        }
     },
     data () {
         return {
