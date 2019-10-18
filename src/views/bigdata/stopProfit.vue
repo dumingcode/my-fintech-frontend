@@ -49,6 +49,7 @@
 						@on-cell-change="handleTargetPriceChange"
 						:editIncell="true"
 						v-model="tableData"
+                        :inputType="inputType"
 						:columns-list="columnsList"
 					></can-edit-table>
 				</Card>
@@ -71,6 +72,7 @@ export default {
         return {
             citics1VNum: 0,
             citics2VNum: 0,
+            inputType: 'textarea',
             firstProfit: '100',
             loading: false,
             stock: '',
@@ -84,32 +86,45 @@ export default {
             sumStopProfitTime: 0,
             columnsList: [
                 {
+                    type: 'expand',
+                    width: 50,
+                    fixed: 'left',
+                    render: (h, params) => {
+                        return h('span', '备注：' + params.row.memo)
+                    }
+                },
+                {
                     title: '个股名称',
                     key: 'name',
+                    fixed: 'left',
                     width: 120,
                     align: 'center'
                 },
                 {
                     title: '个股代码',
                     key: 'code',
+                    fixed: 'left',
                     width: 120,
                     align: 'center'
                 },
                 {
                     title: '当前时间',
                     key: 'time',
+                    fixed: 'left',
                     width: 160,
                     align: 'center'
                 },
                 {
                     title: '现价',
                     key: 'price',
+                    fixed: 'left',
                     width: 120,
                     align: 'center'
                 },
                 {
                     title: '52周最低价',
                     key: 'yearLow',
+                    fixed: 'left',
                     width: 120,
                     align: 'center'
                 },
@@ -167,7 +182,7 @@ export default {
                 {
                     title: '备注',
                     key: 'memo',
-                    width: 140,
+                    width: 400,
                     align: 'center',
                     editable: true
                 },
