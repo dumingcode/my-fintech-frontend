@@ -9,8 +9,14 @@
 			<Col span="12" class="padding-left-10 height-100">
 				<Card>
 					<p slot="title" class="card-title">大数投资持仓国证二级行业查询</p>
+                    
 				</Card>
+					
 				<Card>
+                    <p slot="title" >
+						覆盖国证二级行业
+						<span style="color:red">{{gz2Num}}</span>/30
+					</p>
 					<Table stripe :data="fstIndData" :columns="fstColumnsList"></Table>
 				</Card>
 			</Col>
@@ -19,6 +25,10 @@
 					<p slot="title" class="card-title">大数投资持仓国证三级行业查询</p>
 				</Card>
 				<Card>
+                    <p slot="title" class="card-title">
+						覆盖国证三级行业
+						<span style="color:red">{{gz3Num}}</span>/88
+					</p>
 					<Table stripe :data="sndIndData" :columns="sndColumnsList"></Table>
 				</Card>
 			</Col>
@@ -40,6 +50,8 @@ export default {
             loading: false,
             fstIndData: [],
             sndIndData: [],
+            gz2Num: 0,
+            gz3Num: 0,
             fstInd: [],
             sndInd: [],
             stockInfo: [],
@@ -90,6 +102,8 @@ export default {
         getIndData () {
             this.optStocks = this.$store.state.user.opStocks
             const myStocksStore = this.optStocks
+            this.gz2Num = 0
+            this.gz3Num = 0
             return Promise.all([
                 queryGzSndIndustryInfo(),
                 queryGzTrdIndustryInfo(),
@@ -115,6 +129,7 @@ export default {
                         })
                         .forEach(name => {
                             if (name) {
+                                this.gz2Num += 1
                                 stockName += `${name} `
                             }
                         })
@@ -137,6 +152,7 @@ export default {
                         })
                         .forEach(name => {
                             if (name) {
+                                this.gz3Num += 1
                                 stockName += `${name} `
                             }
                         })
