@@ -129,11 +129,11 @@ export default {
                         })
                         .forEach(name => {
                             if (name) {
-                                this.gz2Num += 1
                                 stockName += `${name} `
                             }
                         })
                     this.fstIndData.push({ no: index + 1, fstInd: indName, name: stockName })
+                    this.gz2Num = this.fstIndData.filter(data => data['name'] !== '' && data['name'] !== null && data['name'] !== 'undefined').length
                 })
                 this.sndInd.forEach((val, index) => {
                     const ind = val.split('|')
@@ -157,6 +157,7 @@ export default {
                             }
                         })
                     this.sndIndData.push({ no: index + 1, sndInd: indName, name: stockName })
+                    this.gz3Num = this.sndIndData.filter(data => data['name'] !== '' && data['name'] !== null && data['name'] !== 'undefined').length
                 })
             })
         }
