@@ -25,9 +25,9 @@
 
 				<Card>
 					<p slot="title" class="card-title">
-						自选股止盈表------数量{{tableData.length}}--------覆盖中信一级行业
-						<span style="color:red">{{citics1VNum}}</span>/29-------覆盖中信二级行业
-						<span style="color:red">{{citics2VNum}}</span>/83-----距离止盈点平均值
+						自选股止盈表------数量{{tableData.length}}--------覆盖国证二级行业
+						<span style="color:red">{{citics1VNum}}</span>/30-------覆盖国证三级行业
+						<span style="color:red">{{citics2VNum}}</span>/88-----距离止盈点平均值
 						<span style="color:red">{{avgPos}}</span>-----已止盈总次数
 						<span style="color:red">{{sumStopProfitTime}}</span>
 					</p>
@@ -430,8 +430,8 @@ export default {
                     for (let i = 0; i < lTable.length; i++) {
                         const obj = JSON.parse(lTable[i])
                         lMap[obj['code']] = obj['low']
-                        c1vSet.add(obj['citiV1'])
-                        c2vSet.add(obj['citiV2'])
+                        c1vSet.add(obj['gz2'])
+                        c2vSet.add(obj['gz3'])
                     }
                 }
                 this.citics1VNum = c1vSet.size

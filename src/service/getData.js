@@ -50,6 +50,10 @@ module.exports = {
     // 保存用户设定的转债详情数据
     saveOptCbDealDetail: (data) => { return http.post('api/user/saveOptCbDealDetail.json', data, false) },
     // 删除用户设定的转债详情数据
-    delOptCbDealDetail: (data) => { return http.delete('api/user/delOptCbDealDetail.json', data, false) }
+    delOptCbDealDetail: (data) => { return http.delete('api/user/delOptCbDealDetail.json', data, false) },
+    // 查询国证二级行业
+    queryGzSndIndustryInfo: (data) => { return http.get('api/bigdata/queryGzSndIndustryInfo.json', data) },
+    // 查询国证三级行业
+    queryGzTrdIndustryInfo: (data) => { return http.get('api/bigdata/queryGzTrdIndustryInfo.json', data) }
 }
 

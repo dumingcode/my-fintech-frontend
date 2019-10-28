@@ -8,7 +8,7 @@
 		<Row>
 			<Col span="12" class="padding-left-10 height-100">
 				<Card>
-					<p slot="title" class="card-title">大数投资持仓中信一级行业查询</p>
+					<p slot="title" class="card-title">大数投资持仓国证二级行业查询</p>
 				</Card>
 				<Card>
 					<Table stripe :data="fstIndData" :columns="fstColumnsList"></Table>
@@ -16,7 +16,7 @@
 			</Col>
 			<Col span="12" class="padding-left-10 height-100">
 				<Card>
-					<p slot="title" class="card-title">大数投资持仓中信二级行业查询</p>
+					<p slot="title" class="card-title">大数投资持仓国证三级行业查询</p>
 				</Card>
 				<Card>
 					<Table stripe :data="sndIndData" :columns="sndColumnsList"></Table>
@@ -28,8 +28,8 @@
 
 <script>
 import {
-    queryCitiFstIndustryInfo,
-    queryCitiSndIndustryInfo,
+    queryGzSndIndustryInfo,
+    queryGzTrdIndustryInfo,
     queryStockIndInfo,
     queryOptStocks
 } from '../../service/getData'
@@ -52,7 +52,7 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '一级行业',
+                    title: '国证二级行业',
                     key: 'fstInd',
                     width: 160,
                     align: 'center'
@@ -72,7 +72,7 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '二级行业',
+                    title: '国证三级行业',
                     key: 'sndInd',
                     width: 160,
                     align: 'center'
@@ -91,47 +91,56 @@ export default {
             this.optStocks = this.$store.state.user.opStocks
             const myStocksStore = this.optStocks
             return Promise.all([
-                queryCitiFstIndustryInfo(),
-                queryCitiSndIndustryInfo(),
+                queryGzSndIndustryInfo(),
+                queryGzTrdIndustryInfo(),
                 queryStockIndInfo(myStocksStore)
             ]).then(vals => {
                 this.fstInd = vals[0].data.data
                 this.sndInd = vals[1].data.data
                 this.stockInfo = vals[2].data.data
-
                 this.fstInd.forEach((val, index) => {
+                    const ind = val.split('|')
+                    const indCode = ind[0]
+                    const indName = ind[1]
                     let stockName = ''
                     this.stockInfo
                         .map(stock => {
                             return JSON.parse(stock)
                         })
                         .filter(stock => {
-                            return val === stock.citiV1
+                            return indCode === stock.gz2
                         })
                         .map(stock => {
                             return stock.name
                         })
                         .forEach(name => {
-                            stockName += `${name} `
+                            if (name) {
+                                stockName += `${name} `
+                            }
                         })
-                    this.fstIndData.push({ no: index + 1, fstInd: val, name: stockName })
+                    this.fstIndData.push({ no: index + 1, fstInd: indName, name: stockName })
                 })
                 this.sndInd.forEach((val, index) => {
+                    const ind = val.split('|')
+                    const indCode = ind[0]
+                    const indName = ind[1]
                     let stockName = ''
                     this.stockInfo
                         .map(stock => {
                             return JSON.parse(stock)
                         })
                         .filter(stock => {
-                            return val === stock.citiV2
+                            return indCode === stock.gz3
                         })
                         .map(stock => {
                             return stock.name
                         })
                         .forEach(name => {
-                            stockName += `${name} `
+                            if (name) {
+                                stockName += `${name} `
+                            }
                         })
-                    this.sndIndData.push({ no: index + 1, sndInd: val, name: stockName })
+                    this.sndIndData.push({ no: index + 1, sndInd: indName, name: stockName })
                 })
             })
         }
