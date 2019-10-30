@@ -8,7 +8,8 @@
 		<Row>
 			<Col span="22" class="padding-left-10 height-100">
 				<Card>
-					<p slot="title" class="card-title">大数投资持仓个股alpha-beta查询</p>R方表示大盘涨幅对个股涨幅的贡献比
+					<p slot="title" class="card-title">大数投资持仓个股alpha-beta查询</p>
+                    R方表示大盘涨幅对个股涨幅的贡献比 数据更新时间：<span style="color:red">{{refreshDate}}</span>
 				</Card>
 				<Card>
 					<Table stripe :data="fstIndData" :columns="fstColumnsList"></Table>
@@ -28,6 +29,7 @@ export default {
             fstIndData: [],
             stockInfo: [],
             optStocks: '',
+            refreshDate: '',
             fstColumnsList: [
                 {
                     title: '序号',
@@ -48,6 +50,14 @@ export default {
                     align: 'left'
                 },
                 {
+                    title: '近2年alpha',
+                    key: 'alpha2',
+                    width: 100,
+                    align: 'left',
+                    sortable: true,
+                    sortMethod: this.compare
+                },
+                {
                     title: '近2年beta',
                     key: 'beta2',
                     width: 100,
@@ -56,16 +66,8 @@ export default {
                     sortMethod: this.compare
                 },
                 {
-                    title: '近1年beta',
-                    key: 'beta1',
-                    width: 100,
-                    align: 'left',
-                    sortable: true,
-                    sortMethod: this.compare
-                },
-                {
-                    title: '近2年alpha',
-                    key: 'alpha2',
+                    title: '近2年R方',
+                    key: 'r2',
                     width: 100,
                     align: 'left',
                     sortable: true,
@@ -80,8 +82,8 @@ export default {
                     sortMethod: this.compare
                 },
                 {
-                    title: '近2年R方',
-                    key: 'r2',
+                    title: '近1年beta',
+                    key: 'beta1',
                     width: 100,
                     align: 'left',
                     sortable: true,
@@ -109,6 +111,9 @@ export default {
             this.stockInfo = vals.data.data
             this.stockInfo.forEach((val, index) => {
                 let yearOne = ''
+                if (!this.refreshDate) {
+                    this.refreshDate = val['alphaBetaGenDate']
+                }
                 if (!val['alphaBeta1Year']) {
                     yearOne = { alpha: 0, beta: 0, r2: 0 }
                 } else {
