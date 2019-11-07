@@ -33,9 +33,9 @@
                   src="http://timg.sjs.sinajs.cn/t4/appstyle/widget/images/loginButton/loginButton_24.png"
                 />
               </a>
-              <a @click="handleQqSubmit">
+              <!-- <a @click="handleQqSubmit">
                 <img src="../images/qq.png" />
-              </a>
+              </a> -->
             </FormItem>
           </Form>
         </div>
