@@ -27,6 +27,8 @@ module.exports = {
     delOptStockDealDetail: (data) => { return http.delete('api/user/delOptStockDealDetail.json', data, false) },
     // 本地用户登陆
     loginLocal: (data) => { return http.post('api/auth/loginLocal.json', data, false) },
+    // 游客登陆
+    loginGuest: (data) => { return http.post('api/auth/loginGuest.json', data, false) },
     // 查询新浪实时行情信息
     querySinaStockGet: (data) => { return http.get('api/bigdata/querySinaStockGet.json', data) },
     // 查询用户设置网格信息

@@ -27,6 +27,7 @@
             </FormItem>
             <FormItem>
               <Button @click="handleLocalSubmit" type="primary" long>登录</Button>
+              <a @click="handleGuestSubmit">游客登陆</a>&nbsp;&nbsp;
               <a @click="handleSubmit">
                 <img
                   src="http://timg.sjs.sinajs.cn/t4/appstyle/widget/images/loginButton/loginButton_24.png"
@@ -45,7 +46,7 @@
 
 <script>
 // import Cookies from 'js-cookie'
-import { loginLocal } from '../service/getData'
+import { loginLocal, loginGuest } from '../service/getData'
 import config from '../../build/config'
 export default {
     data () {
@@ -63,6 +64,17 @@ export default {
         }
     },
     methods: {
+        async handleGuestSubmit () {
+            const loginRes = await loginGuest({})
+            if (loginRes.data.code < 0) {
+                this.$Message.error(loginRes.data.msg)
+                return
+            }
+
+            this.$router.push({
+                name: 'home_index'
+            })
+        },
         async handleSubmit () {
             const href = config.WEIBO_AUTH_URL
             window.location.href = href
