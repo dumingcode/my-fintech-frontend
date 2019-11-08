@@ -27,8 +27,10 @@
             <Option value="10" key="10">ma10</Option>
             <Option value="20" key="20">ma20</Option>
           </Select>
+         <span style="font-weight:bold">转债数量：{{tableData.length}}</span>
         </Card>
         <Card>
+             
           <can-edit-table
             @on-delete="handleDel"
             refs="profitTable"
