@@ -8,7 +8,7 @@
 		<Row>
 			<Col span="24" class="padding-left-10 height-100">
 				<Card>
-					<p slot="title" class="card-title">网格行情刷新</p>本页面输入的数据都存储在chrome浏览器本地存储中（服务器不会存储任何用户数据），数据无法跨PC共享。
+					<p slot="title" class="card-title">网格行情</p>
 					<br />
 				</Card>
 

@@ -24,5 +24,8 @@
   "prettier.useTabs": true,
   "vetur.format.options.tabSize": 4,
   // 在方法括号之间插入空格
-  "javascript.format.insertSpaceBeforeFunctionParenthesis": true
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }
