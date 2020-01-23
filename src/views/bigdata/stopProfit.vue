@@ -29,9 +29,8 @@
 						<span style="color:red">{{citics1VNum}}</span>/30-------覆盖国证三级行业
 						<span style="color:red">{{citics2VNum}}</span>/88-----距离止盈点平均值
 						<span style="color:red">{{avgPos}}</span>-----当前页面止盈次数
-						<span style="color:red">{{sumStopProfitTime}}</span>
-                        -----历史止盈总次数
-						<InputNumber  @on-change="changeTotalStopProfitTime" :min="0" v-model="totalStopProfitTime"></InputNumber>
+						<span style="color:red">{{sumStopProfitTime}}</span>-----历史止盈总次数
+						<span style="color:red">{{totalStopProfitTime}}</span>
 					</p>
 				</Card>
 				<Card>
@@ -63,7 +62,6 @@
 <script>
 import axios from 'axios';
 import canEditTable from '../tables/components/canEditTable.vue'
-import { getStore } from '../../utils/storageUtil'
 import { isIntNum } from '../../utils/validate'
 import { deepCopy } from '../../utils/utils'
 import { queryOptStocks, queryOptStockDealDetail, saveOptStocks, saveOptStockDealDetail, delOptStockDealDetail, queryTotalStopProfitTime, saveTotalStopProfitTime } from '../../service/getData'
@@ -138,8 +136,16 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '已止盈次数（默认0）',
+                    title: '阶段止盈次数（默认0）',
                     key: 'profitTime',
+                    width: 140,
+                    align: 'center',
+                    sortable: true,
+                    editable: true
+                },
+                {
+                    title: '历史总止盈次数',
+                    key: 'totalProfitTime',
                     width: 140,
                     align: 'center',
                     sortable: true,
@@ -200,45 +206,6 @@ export default {
         };
     },
     methods: {
-        // 将本地自选股代码同步到云端
-        async syncLocalStorageToCloud () {
-            const myLocalStocks = getStore('myStocks')
-            if (!this.optStocks && myLocalStocks) {
-                const stockArr = myLocalStocks.split(',')
-                stockArr.forEach(code => {
-                    if (isIntNum(code) && code.length === 6) {
-                        if (this.optStocks) {
-                            if (!this.optStocks.includes(code)) {
-                                this.optStocks += `,${code}`
-                            }
-                        } else {
-                            this.optStocks = code
-                        }
-                    }
-                })
-                await saveOptStocks({ 'codes': this.optStocks })
-                this.$store.commit('changeOpStocks', this.optStocks)
-                // 从storageClient中找出止盈次数并同步到云端
-                const myLocalStocksProfitTime = getStore('myStocksProfitTime')
-                let myLocalStocksProfitTimeJson = ''
-                if (myLocalStocksProfitTime) {
-                    myLocalStocksProfitTimeJson = JSON.parse(myLocalStocksProfitTime)
-                }
-                const stockArr_ = this.optStocks.split(',')
-                // eslint-disable-next-line prefer-const
-                let syncProcArr = []
-                stockArr_.forEach((code) => {
-                    if (myLocalStocksProfitTimeJson[code]) {
-                        syncProcArr.push(saveOptStockDealDetail({ 'code': code, 'profitTime': myLocalStocksProfitTimeJson[code] }))
-                    }
-                })
-                Promise.all(syncProcArr).then(function (values) {
-                    console.log(values)
-                }).catch((reason) => {
-                    console.log(reason)
-                })
-            }
-        },
         // 计算首次止盈价
         calcTargetPrice (yearLow, profitTime) {
             // 首次止盈50%
@@ -301,9 +268,21 @@ export default {
                 return
             }
 
+            if (!isIntNum(coverObj['totalProfitTime'])) {
+                this.$Message.error({
+                    content: '历史止盈次数格式错误'
+                });
+                coverObj['totalProfitTime'] = ''
+                return
+            }
+
             // 默认止盈次数为
             if (!coverObj['profitTime']) {
                 coverObj['profitTime'] = 0
+            }
+
+            if (!coverObj['totalProfitTime']) {
+                coverObj['totalProfitTime'] = coverObj['profitTime']
             }
 
             const profitTimeInt = parseInt(coverObj['profitTime'])
@@ -312,6 +291,15 @@ export default {
                     content: '止盈次数格式错误'
                 });
                 coverObj['profitTime'] = ''
+                return
+            }
+
+            const totalProfitTimeInt = parseInt(coverObj['totalProfitTime'])
+            if (totalProfitTimeInt < 0) {
+                this.$Message.error({
+                    content: '历史止盈次数格式错误'
+                });
+                coverObj['totalProfitTime'] = ''
                 return
             }
 
@@ -333,10 +321,11 @@ export default {
               ).toFixed(2) * 100
           ).toFixed(0) + '%'
             }
-            const retData = await saveOptStockDealDetail({ 'code': coverObj.code, 'profitTime': parseInt(coverObj['profitTime']), 'memo': coverObj['memo'] })
+            const retData = await saveOptStockDealDetail({ 'code': coverObj.code, 'profitTime': parseInt(coverObj['profitTime']), 'totalProfitTime': parseInt(coverObj['totalProfitTime']), 'memo': coverObj['memo'] })
             if (retData.data.code !== 1) {
                 this.$Message.error(retData.data.msg)
             }
+            this.refreshMyStock()
         },
         async refreshMyStock () {
             this.loading = true
@@ -362,6 +351,7 @@ export default {
             const myStocksProfitTimeJson = this.optStocksDetail
             this.avgPos = 0
             this.sumStopProfitTime = 0
+            this.totalStopProfitTime = 0
             this.tableData.forEach(element => {
                 const deal = myStocksProfitTimeJson[element['code']]
                 if (myStocksProfitTimeJson && deal && deal['profitTime']) {
@@ -370,6 +360,13 @@ export default {
                     )
                 } else {
                     element['profitTime'] = 0
+                }
+                if (myStocksProfitTimeJson && deal && deal['totalProfitTime']) {
+                    element['totalProfitTime'] = parseInt(
+                        deal['totalProfitTime']
+                    )
+                } else {
+                    element['totalProfitTime'] = element['profitTime']
                 }
 
                 if (myStocksProfitTimeJson && deal && deal['memo']) {
@@ -400,6 +397,7 @@ export default {
 
                     this.avgPos += parseInt(element['position'].replace('%', ''))
                     this.sumStopProfitTime += parseInt(element['profitTime'])
+                    this.totalStopProfitTime += parseInt(element['totalProfitTime'])
                 }
             })
 
@@ -407,9 +405,6 @@ export default {
                 this.avgPos = (this.avgPos / this.tableData.length).toFixed(2)
             } else {
                 this.avgPos = 0
-            }
-            if (this.totalStopProfitTime === 0) {
-                this.totalStopProfitTime = this.sumStopProfitTime
             }
             this.loading = false
         },
@@ -458,14 +453,6 @@ export default {
         changeFirstProfit () {
             this.refreshMyStock()
         },
-        async changeTotalStopProfitTime () {
-            const ret = await saveTotalStopProfitTime({ 'totalTime': this.totalStopProfitTime })
-            if (ret.data.code !== 1) {
-                this.$Message.error(ret.data.msg)
-            } else {
-                this.$Message.success('更新成功')
-            }
-        },
         async addToOption () {
             if (!this.stock) {
                 this.$Message.warning({
@@ -508,14 +495,6 @@ export default {
             }
         } else {
             this.$Message.error(optStockRet.data.msg)
-        }
-        const totalProfitTimeData = await queryTotalStopProfitTime()
-        if (totalProfitTimeData && totalProfitTimeData.data && totalProfitTimeData.data.code === 1) {
-            if (totalProfitTimeData.data.data.length > 0) {
-                this.totalStopProfitTime = (totalProfitTimeData.data.data)[0].totalTime || 0
-            }
-        } else {
-            this.$Message.error(totalProfitTimeData.data.msg)
         }
         this.refreshMyStock()
     }
