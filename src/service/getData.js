@@ -56,6 +56,10 @@ module.exports = {
     // 查询国证二级行业
     queryGzSndIndustryInfo: (data) => { return http.get('api/bigdata/queryGzSndIndustryInfo.json', data) },
     // 查询国证三级行业
-    queryGzTrdIndustryInfo: (data) => { return http.get('api/bigdata/queryGzTrdIndustryInfo.json', data) }
+    queryGzTrdIndustryInfo: (data) => { return http.get('api/bigdata/queryGzTrdIndustryInfo.json', data) },
+    // 查询用户止盈总次数
+    queryTotalStopProfitTime: (data) => { return http.get('api/user/queryTotalStopProfitTime.json', data) },
+    // 保存用户设定的止盈总次数
+    saveTotalStopProfitTime: (data) => { return http.post('api/user/saveTotalStopProfitTime.json', data, false) }
 }
 

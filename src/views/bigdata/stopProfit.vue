@@ -24,12 +24,14 @@
 				</Card>
 
 				<Card>
-					<p slot="title" class="card-title">
+					<p>
 						自选股止盈表------数量{{tableData.length}}--------覆盖国证二级行业
 						<span style="color:red">{{citics1VNum}}</span>/30-------覆盖国证三级行业
 						<span style="color:red">{{citics2VNum}}</span>/88-----距离止盈点平均值
-						<span style="color:red">{{avgPos}}</span>-----已止盈总次数
+						<span style="color:red">{{avgPos}}</span>-----当前页面止盈次数
 						<span style="color:red">{{sumStopProfitTime}}</span>
+                        -----历史止盈总次数
+						<InputNumber  @on-change="changeTotalStopProfitTime" :min="0" v-model="totalStopProfitTime"></InputNumber>
 					</p>
 				</Card>
 				<Card>
@@ -64,7 +66,7 @@ import canEditTable from '../tables/components/canEditTable.vue'
 import { getStore } from '../../utils/storageUtil'
 import { isIntNum } from '../../utils/validate'
 import { deepCopy } from '../../utils/utils'
-import { queryOptStocks, queryOptStockDealDetail, saveOptStocks, saveOptStockDealDetail, delOptStockDealDetail } from '../../service/getData'
+import { queryOptStocks, queryOptStockDealDetail, saveOptStocks, saveOptStockDealDetail, delOptStockDealDetail, queryTotalStopProfitTime, saveTotalStopProfitTime } from '../../service/getData'
 export default {
     name: 'stopProfit',
     components: { canEditTable },
@@ -84,6 +86,7 @@ export default {
             myStocksTargetPrice: [],
             avgPos: 0,
             sumStopProfitTime: 0,
+            totalStopProfitTime: 0,
             columnsList: [
                 {
                     type: 'expand',
@@ -405,7 +408,9 @@ export default {
             } else {
                 this.avgPos = 0
             }
-
+            if (this.totalStopProfitTime === 0) {
+                this.totalStopProfitTime = this.sumStopProfitTime
+            }
             this.loading = false
         },
         getSinaData (myStocksStore) {
@@ -453,6 +458,14 @@ export default {
         changeFirstProfit () {
             this.refreshMyStock()
         },
+        async changeTotalStopProfitTime () {
+            const ret = await saveTotalStopProfitTime({ 'totalTime': this.totalStopProfitTime })
+            if (ret.data.code !== 1) {
+                this.$Message.error(ret.data.msg)
+            } else {
+                this.$Message.success('更新成功')
+            }
+        },
         async addToOption () {
             if (!this.stock) {
                 this.$Message.warning({
@@ -496,7 +509,14 @@ export default {
         } else {
             this.$Message.error(optStockRet.data.msg)
         }
-        await this.syncLocalStorageToCloud()
+        const totalProfitTimeData = await queryTotalStopProfitTime()
+        if (totalProfitTimeData && totalProfitTimeData.data && totalProfitTimeData.data.code === 1) {
+            if (totalProfitTimeData.data.data.length > 0) {
+                this.totalStopProfitTime = (totalProfitTimeData.data.data)[0].totalTime || 0
+            }
+        } else {
+            this.$Message.error(totalProfitTimeData.data.msg)
+        }
         this.refreshMyStock()
     }
 };
