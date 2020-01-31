@@ -132,6 +132,7 @@ export default {
                 {
                     title: '止盈价',
                     key: 'targetPrice',
+                    fixed: 'left',
                     width: 120,
                     align: 'center'
                 },
@@ -139,6 +140,7 @@ export default {
                     title: '距离止盈点百分比',
                     key: 'position',
                     width: 120,
+                    fixed: 'left',
                     align: 'center',
                     sortable: true,
                     sortType: 'asc',
