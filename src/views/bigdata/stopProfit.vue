@@ -136,22 +136,6 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '阶段止盈次数（默认0）',
-                    key: 'profitTime',
-                    width: 140,
-                    align: 'center',
-                    sortable: true,
-                    editable: true
-                },
-                {
-                    title: '历史总止盈次数',
-                    key: 'totalProfitTime',
-                    width: 140,
-                    align: 'center',
-                    sortable: true,
-                    editable: true
-                },
-                {
                     title: '距离止盈点百分比',
                     key: 'position',
                     width: 120,
@@ -169,6 +153,22 @@ export default {
                             }
                         }
                     }
+                },
+                {
+                    title: '阶段止盈次数（默认0）',
+                    key: 'profitTime',
+                    width: 140,
+                    align: 'center',
+                    sortable: true,
+                    editable: true
+                },
+                {
+                    title: '历史总止盈次数',
+                    key: 'totalProfitTime',
+                    width: 140,
+                    align: 'center',
+                    sortable: true,
+                    editable: true
                 },
                 {
                     title: '距首次翻倍止盈',
