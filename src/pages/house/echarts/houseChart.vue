@@ -51,7 +51,7 @@ export default {
                 }
             },
             legend: {
-                data: ['2016', '2017', '2018', '2019']
+                data: ['2016', '2017', '2018', '2019', '2020']
             },
             xAxis: [
                 {
@@ -92,7 +92,7 @@ export default {
                 },
                 {
                     name: '2017',
-                    type: 'bar',
+                    type: 'line',
                     barGap: 0,
                     label: this.labelOption,
                     data: this.statisticData['2017']
@@ -110,6 +110,13 @@ export default {
                     barGap: 0,
                     label: this.labelOption,
                     data: this.statisticData['2019']
+                },
+                {
+                    name: '2020',
+                    type: 'bar',
+                    barGap: 0,
+                    label: this.labelOption,
+                    data: this.statisticData['2020']
                 }
             ]
         }
