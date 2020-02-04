@@ -91,7 +91,13 @@ export default {
                     width: 50,
                     fixed: 'left',
                     render: (h, params) => {
-                        return h('span', '备注：' + params.row.memo)
+                        return h('div', [
+                            h('span', '备注：' + params.row.memo),
+                            h('p', ''),
+                            h('span', '阶段止盈次数：' + params.row.profitTime + '   历史总止盈次数：' + params.row.totalProfitTime),
+                            h('p', ''),
+                            h('span', '距离止盈点百分比：' + params.row.position + '   距首次翻倍止盈：' + params.row.doublePos)
+                        ])
                     }
                 },
                 {
