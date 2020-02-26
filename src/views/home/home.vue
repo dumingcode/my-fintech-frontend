@@ -16,7 +16,7 @@
             </Col>
         </Row>
 
-        <Footer class="layout-footer-center">2018 &copy; 滚雪球 京ICP备14018244号-3</Footer>
+        <Footer class="layout-footer-center">2018 &copy; 滚雪球 <a href="http://www.beian.miit.gov.cn">京ICP备14018244号-3</a></Footer>
 
     </div>
 </template>
