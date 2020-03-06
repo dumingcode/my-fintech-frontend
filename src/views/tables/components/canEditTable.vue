@@ -16,6 +16,46 @@
 </template>
 
 <script>
+const optButton = (vm, h, currentRow, index) => {
+    return h(
+        'Poptip',
+        {
+            props: {
+                confirm: true,
+                title: '您确定要加入自选吗?',
+                transfer: true
+            },
+            on: {
+                'on-ok': () => {
+                    const delObj = vm.thisTableData[index]
+                    vm.thisTableData.splice(index, 1)
+                    vm.$emit('input', vm.handleBackdata(vm.thisTableData))
+                    vm.$emit(
+                        'on-delete',
+                        vm.handleBackdata(vm.thisTableData),
+                        index,
+                        delObj
+                    )
+                }
+            }
+        },
+        [
+            h(
+                'Button',
+                {
+                    style: {
+                        margin: '0 5px'
+                    },
+                    props: {
+                        type: 'primary',
+                        placement: 'top'
+                    }
+                },
+                '添加自选'
+            )
+        ]
+    )
+}
 const editButton = (vm, h, currentRow, index) => {
     return h(
         'Button',
@@ -313,6 +353,10 @@ export default {
                             } else if (item === 'delete') {
                                 children.push(
                                     deleteButton(this, h, currentRowData, param.index)
+                                )
+                            } else if (item === 'opt') {
+                                children.push(
+                                    optButton(this, h, currentRowData, param.index)
                                 )
                             }
                         })

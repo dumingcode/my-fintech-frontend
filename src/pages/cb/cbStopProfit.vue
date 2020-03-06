@@ -5,6 +5,7 @@
 
 <template>
   <div>
+
     <Row>
       <Col span="24" class="padding-left-10 height-100">
         <Card>
@@ -19,6 +20,17 @@
           ></Input>
           <Button type="success" @click="addToOption">添加到自选</Button>
           <Button type="success" :loading="loading" @click="refreshMyCb">刷新实时价格</Button>
+        </Card>
+        <Card>
+             <p slot="title" class="card-title">最近15日上市转债查询  <i-switch :value="showCbondBasic" @on-change="showCbondBasic=!showCbondBasic">关闭</i-switch></p> 
+            
+            <can-edit-table  v-show="showCbondBasic" style="width:480px"
+                :editIncell="true"
+                @on-delete="handleOpt"
+                :inputType="inputType"
+                v-model="cbTable"
+                :columns-list="cbColumns"
+          ></can-edit-table>
         </Card>
         <Card>
           <span style="font-weight:bold">止盈趋势线选择</span>
@@ -50,7 +62,6 @@
 <script>
 import canEditTable from '@/views/tables/components/canEditTable.vue'
 import { isIntNum } from '@/utils/validate'
-import { getStore } from '../../utils/storageUtil'
 import { deepCopy } from '../../utils/utils'
 import {
     querySinaStockGet,
@@ -59,7 +70,8 @@ import {
     saveOptCbs,
     queryOptCbDealDetail,
     delOptCbDealDetail,
-    saveOptCbDealDetail
+    saveOptCbDealDetail,
+    queryRecentCbBasicInfo
 } from '../../service/getData'
 export default {
     name: 'cbStopProfit',
@@ -71,11 +83,43 @@ export default {
             stock: '',
             optCbs: '',
             tableData: [],
+            cbTable: [],
             excelFileName: 'myStock',
             csvFileName: '',
             myStocksTargetPrice: [],
             firstProfit: '20',
             optCbsDetail: {},
+            showCbondBasic: true,
+            cbColumns: [
+                {
+                    title: '个股代码',
+                    key: 'BONDCODE',
+                    fixed: 'left',
+                    width: 120,
+                    align: 'center'
+                },
+                {
+                    title: '个股名称',
+                    key: 'SNAME',
+                    fixed: 'left',
+                    width: 120,
+                    align: 'center'
+                },
+                {
+                    title: '上市日期',
+                    key: 'LISTDATE',
+                    fixed: 'left',
+                    width: 120,
+                    align: 'center'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    width: 120,
+                    key: 'handle',
+                    handle: ['opt']
+                }
+            ],
             columnsList: [
                 {
                     type: 'expand',
@@ -196,6 +240,26 @@ export default {
                 return
             }
         },
+        async handleOpt (val, index, delObj) {
+            const optCode = delObj['BONDCODE']
+            if (!optCode) {
+                return
+            }
+            if (isIntNum(optCode) && optCode.length === 6) {
+                if (this.optCbs) {
+                    if (!this.optCbs.includes(optCode)) {
+                        this.optCbs += `,${optCode}`
+                    }
+                } else {
+                    this.optCbs = optCode
+                }
+            }
+            const ret = await saveOptCbs({ codes: this.optCbs })
+            if (ret.data.code !== 1) {
+                this.$Message.error(ret.data.msg)
+            }
+            await this.refreshMyCb()
+        },
         changeFirstProfit () {
             this.refreshMyCb()
         },
@@ -313,25 +377,7 @@ export default {
             if (ret.data.code !== 1) {
                 this.$Message.error(ret.data.msg)
             }
-            this.refreshMyCb()
-        },
-        async syncLocalStorageToCloud () {
-            const myLocalStocks = getStore('myCbonds')
-            if (!this.optCbs && myLocalStocks) {
-                const stockArr = myLocalStocks.split(',')
-                stockArr.forEach(code => {
-                    if (isIntNum(code) && code.length === 6) {
-                        if (this.optCbs) {
-                            if (!this.optCbs.includes(code)) {
-                                this.optCbs += `,${code}`
-                            }
-                        } else {
-                            this.optCbs = code
-                        }
-                    }
-                })
-                await saveOptCbs({ codes: this.optCbs })
-            }
+            await this.refreshMyCb()
         },
         async handleTargetPriceChange (val, index, key) {
             const coverObj = this.tableData[index]
@@ -339,9 +385,16 @@ export default {
             if (retData.data.code !== 1) {
                 this.$Message.error(retData.data.msg)
             }
+        },
+        async queryCbInfo () {
+            const data = await queryRecentCbBasicInfo({ 'diff': 15 })
+            console.log(data)
+            if (data.data.code === 1) {
+                this.cbTable = JSON.parse(data.data.data)
+                this.cbTable = this.cbTable.filter(cb => !this.optCbs.includes(cb.BONDCODE))
+            }
         }
     },
-
     async created () {
         this.firstProfit = '20'
         const cbRet = await queryOptCbs()
@@ -349,8 +402,8 @@ export default {
             return
         }
         this.optCbs = cbRet.data.data[0]['cb']
-        await this.syncLocalStorageToCloud()
         this.refreshMyCb()
+        this.queryCbInfo()
     }
 }
 </script>
