@@ -303,7 +303,12 @@ export default {
             const lxrDealDate = await axios.get(
                 '/api/indexInvest/queryQmIndexDealDate.json'
             )
-            this.qmDealDate = lxrDealDate.data.data.substr(0, 10)
+            const qmDate = lxrDealDate.data.data
+            if (qmDate) {
+                this.qmDealDate = qmDate.substr(0, 10)
+            } else {
+                this.qmDealDate = ''
+            }
         },
         async getIndexData () {
             const lxrIndexAllData = await axios.get(
