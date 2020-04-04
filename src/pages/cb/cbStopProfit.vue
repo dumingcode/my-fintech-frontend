@@ -10,16 +10,17 @@
       <Col span="24" class="padding-left-10 height-100">
         <Card>
           <p slot="title" class="card-title">转债止盈查询</p>
-          <Input
+          <AutoComplete
             v-model="stock"
-            type="textarea"
-            :rows="4"
-            placeholder="输入实例(逗号间隔):110050,123026"
             clearable
-            style="width: 40%"
-          ></Input>
+            icon="ios-search"
+            :data="searchResult"
+            @on-search="handleSearch"
+            @on-select="handleSelect"
+            placeholder="输入拼音、代码、转债、正股名称检索"
+            style="width: 20%">
+          </AutoComplete>
           <Button type="success" @click="addToOption">添加到自选</Button>
-          <Button type="success" :loading="loading" @click="refreshMyCb">刷新实时价格</Button>
         </Card>
         <Card>
              <p slot="title" class="card-title">最近15日上市转债查询  <i-switch :value="showCbondBasic" @on-change="showCbondBasic=!showCbondBasic">关闭</i-switch></p> 
@@ -40,6 +41,7 @@
             <Option value="20" key="20">ma20</Option>
           </Select>
          <span style="font-weight:bold">转债数量：{{tableData.length}}</span>
+         <Button type="success" :loading="loading" @click="refreshMyCb">刷新实时价格</Button>
         </Card>
         <Card>
              
@@ -71,7 +73,8 @@ import {
     queryOptCbDealDetail,
     delOptCbDealDetail,
     saveOptCbDealDetail,
-    queryRecentCbBasicInfo
+    queryRecentCbBasicInfo,
+    searchCb
 } from '../../service/getData'
 export default {
     name: 'cbStopProfit',
@@ -90,6 +93,7 @@ export default {
             firstProfit: '20',
             optCbsDetail: {},
             showCbondBasic: true,
+            searchResult: [],
             cbColumns: [
                 {
                     title: '个股代码',
@@ -356,7 +360,7 @@ export default {
         async addToOption () {
             if (!this.stock) {
                 this.$Message.warning({
-                    content: '请输入可转债代码，多个代码直接逗号间隔'
+                    content: '请输入可转债代码，支持拼音、代码、汉字检索'
                 })
                 return
             }
@@ -376,6 +380,8 @@ export default {
             const ret = await saveOptCbs({ codes: this.optCbs })
             if (ret.data.code !== 1) {
                 this.$Message.error(ret.data.msg)
+            } else {
+                this.$Message.success('添加成功')
             }
             await this.refreshMyCb()
         },
@@ -392,6 +398,35 @@ export default {
             if (data.data.code === 1) {
                 this.cbTable = JSON.parse(data.data.data)
                 this.cbTable = this.cbTable.filter(cb => !this.optCbs.includes(cb.BONDCODE))
+            }
+        },
+        async handleSearch (value) {
+            this.searchResult = []
+            let cbArray = []
+            const ret = await searchCb({ content: value })
+            if (ret.data.code !== 1) {
+                this.$Message.error(ret.data.msg)
+            } else {
+                cbArray = ret.data.data
+            }
+            cbArray.forEach(cb => {
+                this.searchResult.push(`${cb.bondname}|${cb.bondcode}`)
+            })
+        },
+        handleSelect (value) {
+            if (!value || value.indexOf('|') < 0) {
+                return
+            }
+            const selectedVal = value.split('|')
+            const code = selectedVal[1]
+            if (isIntNum(code) && code.length === 6) {
+                if (this.optCbs) {
+                    if (!this.optCbs.includes(code)) {
+                        this.optCbs += `,${code}`
+                    }
+                } else {
+                    this.optCbs = code
+                }
             }
         }
     },

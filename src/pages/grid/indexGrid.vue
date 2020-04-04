@@ -8,11 +8,7 @@
 		<Row>
 			<Col span="24" class="padding-left-10 height-100">
 				<Card>
-					<p slot="title" class="card-title">网格行情</p>
-					<br />
-				</Card>
-
-				<Card>
+                    <p slot="title" class="card-title">网格行情</p>
 					<span style="color:#2db7f5">提示：网格需要买入时对应标的蓝色(buy)</span>&nbsp;&nbsp;&nbsp;&nbsp;
 					<span style="color:#e08a18">网格需要卖出时对应标的橙黄色(sell)</span>
 					<Button type="success" :loading="loading" @click="refreshMyGrid">刷新实时价格</Button>
@@ -50,7 +46,7 @@ export default {
             loading: false,
             stock: '',
             tableData: [],
-            gridIndex: '399905,399975,162411,399006,399300',
+            gridIndex: '399905,399975,399006,399300',
             columnsList: [
                 {
                     title: '名称',

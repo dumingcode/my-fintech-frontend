@@ -10,14 +10,16 @@
 			<Col span="24" class="padding-left-10 height-100">
 				<Card>
 					<p slot="title" class="card-title">大数投资补仓查询</p>
-					<Input
-						v-model="stock"
-						type="textarea"
-						:rows="4"
-						placeholder="输入实例(逗号间隔):600010,002013,002011"
-						clearable
-						style="width: 40%"
-					></Input>
+					<AutoComplete
+                        v-model="stock"
+                        clearable
+                        icon="ios-search"
+                        :data="searchResult"
+                        @on-search="handleSearch"
+                        @on-select="handleSelect"
+                        placeholder="输入拼音、代码、股票名称检索"
+                        style="width: 20%">
+                    </AutoComplete>
 					<Button type="success" @click="addToOption">添加到自选</Button>
 					<Button type="success" :loading="loading" @click="refreshMyStock">刷新实时价格</Button>
 				</Card>
@@ -54,7 +56,8 @@ import {
     queryOptStockDealDetail,
     saveOptStocks,
     delOptStockDealDetail,
-    saveOptStockDealDetail
+    saveOptStockDealDetail,
+    searchStock
 } from '../../service/getData'
 import { deepCopy } from '../../utils/utils'
 export default {
@@ -70,6 +73,7 @@ export default {
             csvFileName: '',
             myStocksTargetPrice: [],
             optStocksDetail: {},
+            searchResult: [],
             columnsList: [
                 {
                     title: '个股名称',
@@ -330,57 +334,33 @@ export default {
             this.$store.commit('changeOpStocks', this.optStocks)
             this.refreshMyStock()
         },
-        // 将本地自选股代码同步到云端
-        async syncLocalStorageToCloud () {
-            const myLocalStocks = getStore('myStocks')
-            if (!this.optStocks && myLocalStocks) {
-                const stockArr = myLocalStocks.split(',')
-                stockArr.forEach(code => {
-                    if (isIntNum(code) && code.length === 6) {
-                        if (this.optStocks) {
-                            if (!this.optStocks.includes(code)) {
-                                this.optStocks += `,${code}`
-                            }
-                        } else {
-                            this.optStocks = code
-                        }
+        async handleSearch (value) {
+            this.searchResult = []
+            let cbArray = []
+            const ret = await searchStock({ content: value })
+            if (ret.data.code !== 1) {
+                this.$Message.error(ret.data.msg)
+            } else {
+                cbArray = ret.data.data
+            }
+            cbArray.forEach(cb => {
+                this.searchResult.push(`${cb.stockname}|${cb.stockcode}`)
+            })
+        },
+        handleSelect (value) {
+            if (!value || value.indexOf('|') < 0) {
+                return
+            }
+            const selectedVal = value.split('|')
+            const code = selectedVal[1]
+            if (isIntNum(code) && code.length === 6) {
+                if (this.optStocks) {
+                    if (!this.optStocks.includes(code)) {
+                        this.optStocks += `,${code}`
                     }
-                })
-                await saveOptStocks({ 'codes': this.optStocks })
-                this.$store.commit('changeOpStocks', this.optStocks)
-                // 从storageClient中找出止盈次数并同步到云端
-                const myLocalStocksProfitTime = getStore('myStocksCoverTime')
-                let myLocalStocksProfitTimeJson = ''
-                if (myLocalStocksProfitTime) {
-                    myLocalStocksProfitTimeJson = JSON.parse(myLocalStocksProfitTime)
+                } else {
+                    this.optStocks = code
                 }
-                const myLocalStocksCost = getStore('myStocksCost')
-                let myLocalStocksCostJson = ''
-                if (myLocalStocksCost) {
-                    myLocalStocksCostJson = JSON.parse(myLocalStocksCost)
-                }
-                const stockArr_ = this.optStocks.split(',')
-                // eslint-disable-next-line prefer-const
-                let syncProcArr = []
-                stockArr_.forEach((code) => {
-                    const syncObj = {
-                        'code': code
-                    }
-                    if (myLocalStocksProfitTimeJson[code]) {
-                        syncObj['coverTime'] = myLocalStocksProfitTimeJson[code]
-                    }
-                    if (myLocalStocksCostJson[code]) {
-                        syncObj['cost'] = myLocalStocksCostJson[code]
-                    }
-                    if (syncObj['cost'] || syncObj['coverTime']) {
-                        syncProcArr.push(saveOptStockDealDetail(syncObj))
-                    }
-                })
-                Promise.all(syncProcArr).then(function (values) {
-                    console.log(values)
-                }).catch((reason) => {
-                    console.log(reason)
-                })
             }
         }
     },
@@ -395,7 +375,6 @@ export default {
             this.$Message.error(optStockRet.data.msg)
             return
         }
-        await this.syncLocalStorageToCloud()
         this.refreshMyStock()
     }
 }

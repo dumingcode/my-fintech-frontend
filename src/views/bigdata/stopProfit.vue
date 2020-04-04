@@ -9,16 +9,16 @@
 			<Col span="24" class="padding-left-10 height-100">
 				<Card>
 					<p slot="title" class="card-title">大数投资止盈查询</p>
-				<!-- </Card>
-				<Card> -->
-					<Input
-						v-model="stock"
-						type="textarea"
-						:rows="4"
-						placeholder="输入实例(逗号间隔):600010,002013,002011"
-						clearable
-						style="width: 40%"
-					></Input>
+                    <AutoComplete
+                        v-model="stock"
+                        clearable
+                        icon="ios-search"
+                        :data="searchResult"
+                        @on-search="handleSearch"
+                        @on-select="handleSelect"
+                        placeholder="输入拼音、代码、股票名称检索"
+                        style="width: 20%">
+                    </AutoComplete>
 					<Button type="success" @click="addToOption">添加到自选</Button>
 					<Button type="success" :loading="loading" @click="refreshMyStock">刷新实时价格</Button>
 				</Card>
@@ -64,7 +64,7 @@ import axios from 'axios';
 import canEditTable from '../tables/components/canEditTable.vue'
 import { isIntNum } from '../../utils/validate'
 import { deepCopy } from '../../utils/utils'
-import { queryOptStocks, queryOptStockDealDetail, saveOptStocks, saveOptStockDealDetail, delOptStockDealDetail, queryTotalStopProfitTime, saveTotalStopProfitTime } from '../../service/getData'
+import { queryOptStocks, queryOptStockDealDetail, saveOptStocks, saveOptStockDealDetail, delOptStockDealDetail, searchStock } from '../../service/getData'
 export default {
     name: 'stopProfit',
     components: { canEditTable },
@@ -77,6 +77,7 @@ export default {
             loading: false,
             stock: '',
             optStocks: '',
+            searchResult: [],
             optStocksDetail: {},
             tableData: [],
             excelFileName: 'myStock',
@@ -487,6 +488,35 @@ export default {
             }
             this.$store.commit('changeOpStocks', this.optStocks)
             this.refreshMyStock()
+        },
+        async handleSearch (value) {
+            this.searchResult = []
+            let cbArray = []
+            const ret = await searchStock({ content: value })
+            if (ret.data.code !== 1) {
+                this.$Message.error(ret.data.msg)
+            } else {
+                cbArray = ret.data.data
+            }
+            cbArray.forEach(cb => {
+                this.searchResult.push(`${cb.stockname}|${cb.stockcode}`)
+            })
+        },
+        handleSelect (value) {
+            if (!value || value.indexOf('|') < 0) {
+                return
+            }
+            const selectedVal = value.split('|')
+            const code = selectedVal[1]
+            if (isIntNum(code) && code.length === 6) {
+                if (this.optStocks) {
+                    if (!this.optStocks.includes(code)) {
+                        this.optStocks += `,${code}`
+                    }
+                } else {
+                    this.optStocks = code
+                }
+            }
         }
     },
     // 页面初始加载时 将本地localstorage写的代码同步到云端

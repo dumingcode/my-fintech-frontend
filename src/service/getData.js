@@ -62,6 +62,11 @@ module.exports = {
     // 保存用户设定的止盈总次数
     saveTotalStopProfitTime: (data) => { return http.post('api/user/saveTotalStopProfitTime.json', data, false) },
     // 查询转债基本数据信息
-    queryRecentCbBasicInfo: (data) => { return http.get('api/cBond/queryRecentCbBasicInfo.json', data) }
+    queryRecentCbBasicInfo: (data) => { return http.get('api/cBond/queryRecentCbBasicInfo.json', data) },
+    // 检索转债名称
+    searchCb: (data) => { return http.post('api/cBond/searchCb.json', data, false) },
+    // 检索股票名称
+    searchStock: (data) => { return http.post('api/stock/searchStock.json', data, false) }
+
 }
 
