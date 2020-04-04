@@ -381,6 +381,7 @@ export default {
             if (ret.data.code !== 1) {
                 this.$Message.error(ret.data.msg)
             } else {
+                this.stock = ''
                 this.$Message.success('添加成功')
             }
             await this.refreshMyCb()

@@ -485,6 +485,9 @@ export default {
             const ret = await saveOptStocks({ 'codes': this.optStocks })
             if (ret.data.code !== 1) {
                 this.$Message.error(ret.data.msg)
+            } else {
+                this.stock = ''
+                this.$Message.success('添加成功')
             }
             this.$store.commit('changeOpStocks', this.optStocks)
             this.refreshMyStock()
