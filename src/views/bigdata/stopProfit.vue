@@ -493,6 +493,9 @@ export default {
             this.refreshMyStock()
         },
         async handleSearch (value) {
+            if (!value) {
+                return false
+            }
             this.searchResult = []
             let cbArray = []
             const ret = await searchStock({ content: value })
