@@ -402,10 +402,10 @@ export default {
             }
         },
         async handleSearch (value) {
+            this.searchResult = []
             if (!value) {
                 return false
             }
-            this.searchResult = []
             let cbArray = []
             const ret = await searchCb({ content: value })
             if (ret.data.code !== 1) {
