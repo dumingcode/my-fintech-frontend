@@ -436,11 +436,8 @@ export default {
             }
         },
         handleFocus () {
-            this.searchResult = []
         },
         handleBlur () {
-            this.searchResult = []
-            this.stock = ''
         }
     },
     async created () {
