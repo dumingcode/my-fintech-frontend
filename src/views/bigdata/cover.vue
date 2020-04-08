@@ -17,6 +17,8 @@
                         :data="searchResult"
                         @on-search="handleSearch"
                         @on-select="handleSelect"
+                        @on-focus="handleFocus"
+                        @on-blur="handleBlur"
                         placeholder="输入拼音、代码、股票名称检索"
                         style="width: 20%">
                     </AutoComplete>
@@ -368,6 +370,13 @@ export default {
                     this.optStocks = code
                 }
             }
+        },
+        handleFocus () {
+            this.searchResult = []
+        },
+        handleBlur () {
+            this.searchResult = []
+            this.stock = ''
         }
     },
     async created () {

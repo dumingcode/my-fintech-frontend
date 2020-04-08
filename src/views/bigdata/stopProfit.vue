@@ -531,6 +531,7 @@ export default {
         },
         handleBlur () {
             this.searchResult = []
+            this.stock = ''
         }
     },
     // 页面初始加载时 将本地localstorage写的代码同步到云端
