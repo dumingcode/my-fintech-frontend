@@ -8,7 +8,7 @@
 		<Row>
 			<Col span="24" class="padding-left-10 height-100">
 				<Card>
-					<p slot="title" class="card-title">理性人数据北京时间{{dealDate}}，且慢数据更新北京时间{{qmDealDate}}</p>
+					<p slot="title" class="card-title">理性人数据北京时间{{dealDate}}</p>
 					<p
 						slot="title"
 						class="card-title"
@@ -184,7 +184,6 @@ export default {
                 '000300',
                 '399701',
                 '000978',
-                '000991',
                 '000932',
                 '399005',
                 '399006',
@@ -291,7 +290,9 @@ export default {
 
         composeIndexData (stockIndex) {
             stockIndex['baseMoney'] = 1000
-            stockIndex['pe'] = stockIndex['pe'].toFixed(2)
+            if (stockIndex['pe']) {
+                stockIndex['pe'] = stockIndex['pe'].toFixed(2)
+            }
             if (stockIndex['pb']) {
                 stockIndex['pb'] = stockIndex['pb'].toFixed(2)
             }
@@ -407,7 +408,6 @@ export default {
         // 可在此从服务端获取表格数据
         this.getIndexData()
         this.getDealDate()
-        this.getQmDealDate()
         this.sumBaseMoney = 0
         this.sumInvestMoney = 0
     }
