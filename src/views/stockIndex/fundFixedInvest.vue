@@ -8,7 +8,7 @@
 		<Row>
 			<Col span="24" class="padding-left-10 height-100">
 				<Card>
-					<p slot="title" class="card-title">理性人数据北京时间{{dealDate}}</p>
+					<p slot="title" class="card-title">理性人数据北京时间{{dealDate}}---且慢数据北京时间{{qmDealDate}}</p>
 					<p
 						slot="title"
 						class="card-title"
@@ -408,6 +408,7 @@ export default {
         // 可在此从服务端获取表格数据
         this.getIndexData()
         this.getDealDate()
+        this.getQmDealDate()
         this.sumBaseMoney = 0
         this.sumInvestMoney = 0
     }
