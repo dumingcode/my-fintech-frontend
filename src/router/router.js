@@ -106,9 +106,10 @@ export const appRouter = [{
     title: '指数投资',
     component: Main,
     children: [{
-        path: 'text-editor',
+        path: 'mutualFund',
         icon: 'compose',
-        name: 'text-editor',
+        name: 'mutualFund',
+        login: false,
         title: '场外指数基金',
         component: () =>
             import('@/views/stockIndex/mutualFund.vue')
@@ -133,6 +134,7 @@ export const appRouter = [{
         path: 'cover',
         icon: 'compose',
         name: 'cover',
+        login: true,
         title: '补仓查询',
         component: () =>
             import('@/views/bigdata/cover.vue')
@@ -140,6 +142,7 @@ export const appRouter = [{
     {
         path: 'stopProfit',
         icon: 'compose',
+        login: true,
         name: 'stopProfit',
         title: '止盈查询',
         component: () =>
@@ -148,6 +151,7 @@ export const appRouter = [{
     {
         path: 'industry',
         icon: 'compose',
+        login: true,
         name: 'industry',
         title: '行业查询',
         component: () =>
@@ -156,6 +160,7 @@ export const appRouter = [{
     {
         path: 'indexSample',
         icon: 'earth',
+        login: true,
         name: 'indexSample',
         title: '持仓与指数成分',
         component: () =>
@@ -164,6 +169,7 @@ export const appRouter = [{
     {
         path: 'alphabeta',
         icon: 'earth',
+        login: true,
         name: 'alphabeta',
         title: '个股阿尔法贝塔',
         component: () =>
@@ -188,6 +194,7 @@ export const appRouter = [{
     children: [{
         path: 'cbStopProfit',
         icon: 'compose',
+        login: true,
         name: 'cbStopProfit',
         title: '转债止盈',
         component: () =>
@@ -212,6 +219,7 @@ export const appRouter = [{
     children: [{
         path: 'indexGrid',
         icon: 'compose',
+        login: true,
         name: 'indexGrid',
         title: '网格行情',
         component: () =>
@@ -236,6 +244,7 @@ export const appRouter = [{
     children: [{
         path: 'bjHouse',
         icon: 'compose',
+        login: false,
         name: 'bjHouse',
         title: '北京二手房',
         component: () =>
