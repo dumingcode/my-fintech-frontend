@@ -118,18 +118,39 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '当前时间',
-                    key: 'time',
-                    fixed: 'left',
-                    width: 160,
-                    align: 'center'
-                },
-                {
                     title: '现价',
                     key: 'price',
                     fixed: 'left',
                     width: 120,
                     align: 'center'
+                },
+                {
+                    title: '涨幅',
+                    key: 'chg',
+                    width: 80,
+                    fixed: 'left',
+                    align: 'center',
+                    sortable: true,
+                    sortMethod: function (a, b, type) {
+                        if (a && b) {
+                            const aa = parseFloat(a)
+                            const bb = parseFloat(b)
+                            if (type === 'asc') {
+                                return aa - bb
+                            } else {
+                                return bb - aa
+                            }
+                        }
+                    },
+                    render: (h, params) => {
+                        const tmpStr = params.row.chg
+                        const rise = parseFloat(tmpStr.replace('%', '')) > 0
+                        return h('span', {
+                            style: {
+                                color: (rise) ? '#ed3f14' : '#19be6b'
+                            }
+                        }, tmpStr)
+                    }
                 },
                 {
                     title: '52周最低价',
@@ -143,6 +164,12 @@ export default {
                     key: 'targetPrice',
                     fixed: 'left',
                     width: 120,
+                    align: 'center'
+                },
+                {
+                    title: '当前时间',
+                    key: 'time',
+                    width: 160,
                     align: 'center'
                 },
                 {
@@ -453,6 +480,16 @@ export default {
                     for (let i = 0; i < pTable.length; i++) {
                         const element = pTable[i]
                         const code = element['code']
+                        if (element['price'] && element['close'] && element['close'] !== '0' && element['price'] !== '0') {
+                            const price = parseFloat(element['price']).toFixed(3)
+                            const close = parseFloat(element['close']).toFixed(3)
+                            const res = parseFloat(
+                                ((price - close) / close) * 100
+                            ).toFixed(2)
+                            element['chg'] = res + '%'
+                        } else {
+                            element['chg'] = '0%'
+                        }
                         if (lMap[code]) {
                             element['yearLow'] = lMap[code]
                         }

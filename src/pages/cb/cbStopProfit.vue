@@ -176,6 +176,33 @@ export default {
                     }
                 },
                 {
+                    title: '涨幅',
+                    key: 'chg',
+                    width: 80,
+                    align: 'center',
+                    sortable: true,
+                    sortMethod: function (a, b, type) {
+                        if (a && b) {
+                            const aa = parseFloat(a)
+                            const bb = parseFloat(b)
+                            if (type === 'asc') {
+                                return aa - bb
+                            } else {
+                                return bb - aa
+                            }
+                        }
+                    },
+                    render: (h, params) => {
+                        const tmpStr = params.row.chg
+                        const rise = parseFloat(tmpStr.replace('%', '')) > 0
+                        return h('span', {
+                            style: {
+                                color: (rise) ? '#ed3f14' : '#19be6b'
+                            }
+                        }, tmpStr)
+                    }
+                },
+                {
                     title: 'ma5',
                     key: 'ma5',
                     width: 80,
@@ -347,6 +374,16 @@ export default {
                     for (let i = 0; i < pTable.length; i++) {
                         const element = pTable[i]
                         const code = element['code']
+                        if (element['price'] && element['close'] && element['close'] !== '0' && element['price'] !== '0') {
+                            const price = parseFloat(element['price']).toFixed(3)
+                            const close = parseFloat(element['close']).toFixed(3)
+                            const res = parseFloat(
+                                ((price - close) / close) * 100
+                            ).toFixed(2)
+                            element['chg'] = res + '%'
+                        } else {
+                            element['chg'] = '0%'
+                        }
                         if (lMap[code]) {
                             element['ma20'] = lMap[code + 'ma20']
                             element['ma10'] = lMap[code + 'ma10']
@@ -457,4 +494,13 @@ export default {
   background-color: #2db7f5;
   color: #fff;
 }
+.ivu-table .demo-table-info-row-cell-fall   {
+    background-color: #2db7f5;
+    color: #fff;
+}
+.ivu-table .demo-table-info-row-cell-rise {
+	background-color: #e08a18;
+	color: #fff;
+}
+
 </style>
