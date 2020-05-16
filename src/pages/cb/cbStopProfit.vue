@@ -25,7 +25,7 @@
           <Button type="success" @click="addToOption">添加到自选</Button>
         </Card>
         <Card>
-             <p slot="title" class="card-title">最近15日上市转债查询  <i-switch :value="showCbondBasic" @on-change="showCbondBasic=!showCbondBasic">关闭</i-switch></p> 
+             <p slot="title" class="card-title">最近7日上市转债查询  <i-switch :value="showCbondBasic" @on-change="showCbondBasic=!showCbondBasic">关闭</i-switch></p> 
             
             <can-edit-table  v-show="showCbondBasic" style="width:480px"
                 :editIncell="true"
@@ -433,11 +433,12 @@ export default {
             }
         },
         async queryCbInfo () {
-            const data = await queryRecentCbBasicInfo({ 'diff': 15 })
+            const data = await queryRecentCbBasicInfo({ 'diff': 7 })
             console.log(data)
             if (data.data.code === 1) {
                 this.cbTable = JSON.parse(data.data.data)
                 this.cbTable = this.cbTable.filter(cb => !this.optCbs.includes(cb.BONDCODE))
+                this.cbTable = this.cbTable.sort((a, b) => { return a.LISTDATE < b.LISTDATE ? 1 : -1 })
             }
         },
         async handleSearch (value) {
