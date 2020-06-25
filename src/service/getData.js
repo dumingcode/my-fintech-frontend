@@ -66,7 +66,11 @@ module.exports = {
     // 检索转债名称
     searchCb: (data) => { return http.post('api/cBond/searchCb.json', data, false) },
     // 检索股票名称
-    searchStock: (data) => { return http.post('api/stock/searchStock.json', data, false) }
+    searchStock: (data) => { return http.post('api/stock/searchStock.json', data, false) },
+    // 检索公募基金概要信息
+    queryFundOutLineInfo: (data) => { return http.post('api/fund/queryFundOutLineInfo.json', data, false) },
+    // 查询公募基金详情数据
+    queryFundExtraInfo: (data) => { return http.get('api/fund/queryFundExtraInfo.json', data) }
 
 }
 

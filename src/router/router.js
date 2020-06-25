@@ -103,16 +103,25 @@ export const appRouter = [{
     path: '/component',
     icon: 'social-buffer',
     name: 'component',
-    title: '指数投资',
+    title: '基金投资',
     component: Main,
     children: [{
-        path: 'mutualFund',
+        path: 'indexFund',
         icon: 'compose',
-        name: 'mutualFund',
+        name: 'indexFund',
         login: false,
         title: '场外指数基金',
         component: () =>
-            import('@/views/stockIndex/mutualFund.vue')
+            import('@/views/stockIndex/indexFund.vue')
+    },
+    {
+        path: 'mutualFund',
+        icon: 'compose',
+        login: true,
+        name: 'mutualFund',
+        title: '场外开放基金',
+        component: () =>
+            import('@/pages/fund/mutualFund.vue')
     },
     {
         path: 'md-editor',
