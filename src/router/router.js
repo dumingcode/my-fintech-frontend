@@ -110,7 +110,7 @@ export const appRouter = [{
         icon: 'compose',
         name: 'indexFund',
         login: false,
-        title: '场外指数基金',
+        title: '指数基金',
         component: () =>
             import('@/views/stockIndex/indexFund.vue')
     },

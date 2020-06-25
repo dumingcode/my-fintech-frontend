@@ -12,6 +12,144 @@
           <p  slot="title" class="card-title">开放式基金检索</p>
         </Card>
         <Card>
+            <Form  :label-width="120" inline>
+            <Row>
+                <FormItem  style="font-weight:bold" :label-width="60"  label="基本信息">
+                </FormItem>
+                <FormItem  label="基金名称">
+                    <Input  style="width:200px" placeholder="请输入基金名称"></Input>
+                </FormItem>
+                <FormItem  label="经理姓名">
+                    <Input  style="width:200px" placeholder="请输入基金经理姓名"></Input>
+                </FormItem>
+            </Row>
+            
+            <Row>
+                <FormItem  style="font-weight:bold" :label-width="60">
+                </FormItem>
+                <FormItem  label="任职起始日期">
+                    <DatePicker type="date"  placeholder="基金经理任职起始日期" style="width: 200px"></DatePicker>
+                </FormItem>
+                <FormItem  label="基金成立起始日期">
+                    <DatePicker type="date"  placeholder="基金成立起始日期" style="width: 200px"></DatePicker>
+                </FormItem>
+            </Row>
+
+            <Row>
+                    <FormItem  style="font-weight:bold" :label-width="60">
+                    </FormItem>
+                    <FormItem  label="基金类型">
+                        <Select  clearable style="width:200px" placeholder="选择基金类型">
+                            <Option value="5" key="5">ma5</Option>
+                            <Option value="10" key="10">ma10</Option>
+                            <Option value="20" key="20">ma20</Option>
+                          </Select>
+                    </FormItem>
+                    <FormItem  label="三年晨星评级">
+                        <Select  clearable style="width:200px" placeholder="三年晨星评级">
+                            <Option value="5" key="5">三年晨星评级3星及以上</Option>
+                            <Option value="10" key="10">三年晨星评级3星以下</Option>
+                          </Select>
+                    </FormItem>
+            </Row>
+            <Row>
+                    <FormItem  style="font-weight:bold" :label-width="60">
+                    </FormItem>
+                    <FormItem  label="五年晨星评级">
+                        <Select  clearable style="width:200px" placeholder="五年晨星评级">
+                            <Option value="5" key="5">五年晨星评级3星及以上</Option>
+                            <Option value="10" key="10">五年晨星评级3星以下</Option>
+                          </Select>
+                    </FormItem>
+                    <FormItem  label="十年晨星评级">
+                        <Select  clearable style="width:200px" placeholder="十年晨星评级">
+                            <Option value="5" key="5">十年晨星评级3星及以上</Option>
+                            <Option value="10" key="10">十  年晨星评级3星以下</Option>
+                          </Select>
+                    </FormItem>
+            </Row>
+            <Row>
+                <FormItem  style="font-weight:bold" :label-width="60" label="资产配置">
+                </FormItem>
+                <FormItem  label="股票比例大于">
+                    <InputNumber style="width:50px"></InputNumber>
+                    小于
+                    <InputNumber style="width:50px"></InputNumber>
+                </FormItem>
+                <FormItem  label="债券比例大于">
+                    <InputNumber style="width:50px"></InputNumber>
+                    小于
+                    <InputNumber style="width:50px"></InputNumber>
+                </FormItem>
+            </Row>
+            <Row>
+                <FormItem  style="font-weight:bold" :label-width="60">
+                </FormItem>
+                <FormItem  label="前十大股票比例大于">
+                    <InputNumber style="width:50px"></InputNumber>
+                    小于
+                    <InputNumber style="width:50px"></InputNumber>
+                </FormItem>
+                <FormItem  label="前五大债券比例大于">
+                    <InputNumber style="width:50px"></InputNumber>
+                    小于
+                    <InputNumber style="width:50px"></InputNumber>
+                </FormItem>
+            </Row>
+            <Row>
+               
+                <FormItem  style="font-weight:bold" :label-width="60" label="年化收益">
+                </FormItem>
+                <FormItem  label="2020年收益大于">
+                    <InputNumber style="width:50px"></InputNumber>
+                </FormItem>
+                <FormItem  label="2019年收益大于">
+                    <InputNumber style="width:50px"></InputNumber>
+                </FormItem>
+                <FormItem  label="2018年收益大于">
+                    <InputNumber style="width:50px"></InputNumber>
+                </FormItem>
+                <FormItem  label="2017年收益大于">
+                    <InputNumber style="width:50px"></InputNumber>
+                </FormItem>
+            </Row>
+            <Row>
+                
+                <FormItem  style="font-weight:bold" :label-width="60">
+                </FormItem>
+                <FormItem  label="2016年收益大于">
+                    <InputNumber style="width:50px"></InputNumber>
+                </FormItem>
+                <FormItem  label="2015年收益大于">
+                    <InputNumber style="width:50px"></InputNumber>
+                </FormItem>
+                <FormItem  label="2014年收益大于">
+                    <InputNumber style="width:50px"></InputNumber>
+                </FormItem>
+                <FormItem  label="2013年收益大于">
+                    <InputNumber style="width:50px"></InputNumber>
+                </FormItem>
+            </Row>
+            
+            <Row>
+                <FormItem  style="font-weight:bold" :label-width="60">
+                </FormItem>
+                <FormItem  label="今年以来收益大于">
+                    <InputNumber style="width:50px"></InputNumber>
+                </FormItem>
+                <FormItem  label="近三年收益大于">
+                    <InputNumber style="width:50px"></InputNumber>
+                </FormItem>
+                <FormItem  label="近五年收益大于">
+                    <InputNumber style="width:50px"></InputNumber>
+                </FormItem>
+                <FormItem  label="近十年收益大于">
+                    <InputNumber style="width:50px"></InputNumber>
+                </FormItem>
+            </Row>
+        </Form>  
+        </Card>
+        <Card>
           <can-edit-table
             refs="fundTable"
             :editIncell="true"
@@ -98,49 +236,49 @@ export default {
                     align: 'left'
                 },
                 {
-                    title: '2020回报(%)',
+                    title: '2020收益(%)',
                     key: '2020',
                     width: 120,
                     align: 'left'
                 },
                 {
-                    title: '2019回报(%)',
+                    title: '2019收益(%)',
                     key: '2019',
                     width: 120,
                     align: 'left'
                 },
                 {
-                    title: '2018回报(%)',
+                    title: '2018收益(%)',
                     key: '2018',
                     width: 120,
                     align: 'left'
                 },
                 {
-                    title: '2017回报(%)',
+                    title: '2017收益(%)',
                     key: '2017',
                     width: 120,
                     align: 'left'
                 },
                 {
-                    title: '2016回报(%)',
+                    title: '2016收益(%)',
                     key: '2016',
                     width: 120,
                     align: 'left'
                 },
                 {
-                    title: '2015回报(%)',
+                    title: '2015收益(%)',
                     key: '2015',
                     width: 120,
                     align: 'left'
                 },
                 {
-                    title: '2014回报(%)',
+                    title: '2014收益(%)',
                     key: '2014',
                     width: 120,
                     align: 'left'
                 },
                 {
-                    title: '2013回报(%)',
+                    title: '2013收益(%)',
                     key: '2013',
                     width: 120,
                     align: 'left'
@@ -194,13 +332,13 @@ export default {
                     align: 'left'
                 },
                 {
-                    title: '最差3月回报(%)',
+                    title: '最差3月收益(%)',
                     key: 'Worst3MonReturn',
                     width: 120,
                     align: 'left'
                 },
                 {
-                    title: '最差6月回报(%)',
+                    title: '最差6月收益(%)',
                     key: 'Worst6MonReturn',
                     width: 120,
                     align: 'left'
@@ -244,6 +382,7 @@ export default {
         },
         changeFundPageSize (pageSize) {
             this.pageSize = pageSize
+            this.current = 1
             this.refreshFund()
         }
     },
