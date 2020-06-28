@@ -17,10 +17,10 @@
                 <FormItem  style="font-weight:bold" :label-width="60"  label="基本信息">
                 </FormItem>
                 <FormItem  label="基金名称">
-                    <Input  style="width:200px" placeholder="请输入基金名称"></Input>
+                    <Input  v-model="form.FundName" style="width:200px" placeholder="请输入基金名称"></Input>
                 </FormItem>
                 <FormItem  label="经理姓名">
-                    <Input  style="width:200px" placeholder="请输入基金经理姓名"></Input>
+                    <Input  v-model="form.ManagerName" style="width:200px" placeholder="请输入基金经理姓名"></Input>
                 </FormItem>
             </Row>
             
@@ -28,10 +28,10 @@
                 <FormItem  style="font-weight:bold" :label-width="60">
                 </FormItem>
                 <FormItem  label="任职起始日期">
-                    <DatePicker type="date"  placeholder="基金经理任职起始日期" style="width: 200px"></DatePicker>
+                    <DatePicker v-model="form.ManagerTime" format="yyyy-MM-dd" type="date"  placeholder="基金经理任职起始日期" style="width: 200px"></DatePicker>
                 </FormItem>
                 <FormItem  label="基金成立起始日期">
-                    <DatePicker type="date"  placeholder="基金成立起始日期" style="width: 200px"></DatePicker>
+                    <DatePicker v-model="form.InceptionDate" format="yyyy-MM-dd" type="date"  placeholder="基金成立起始日期" style="width: 200px"></DatePicker>
                 </FormItem>
             </Row>
 
@@ -147,6 +147,10 @@
                     <InputNumber style="width:50px"></InputNumber>
                 </FormItem>
             </Row>
+            <Row>
+                <Button type="default" size="large" style="margin-left:200px;" @click="queryFund">重置</Button>
+                <Button type="primary" size="large" style="margin-left:40px;width:200px;" @click="queryFund">查询</Button>
+            </Row>
         </Form>  
         </Card>
         <Card>
@@ -169,7 +173,7 @@
 <script>
 import canEditTable from '@/views/tables/components/canEditTable.vue'
 // import { isIntNum } from '@/utils/validate'
-// import { deepCopy } from '../../utils/utils'
+import { formatDate } from '../../utils/utils'
 import {
     queryFundOutLineInfo
     // queryFundExtraInfo
@@ -186,6 +190,17 @@ export default {
             current: 1,
             total: 0,
             pageSize: 10,
+            form: {},
+            matchPhrase: {
+                'FundName': 'FundName',
+                'ManagerName': 'ManagerName'
+            },
+            rangeParam: {
+                'InceptionDate': 'InceptionDate',
+                'ManagerTime': 'ManagerTime',
+                'Bond': 'Bond',
+                'Stock': 'Stock'
+            },
             columnsList: [
                 {
                     title: '名称',
@@ -356,17 +371,38 @@ export default {
                     minWidth: 200,
                     width: 120,
                     key: 'handle',
-                    handle: ['delete']
+                    handle: ['']
                 }
             ]
         }
     },
     methods: {
+        async queryFund () {
+            this.current = 1
+            await this.refreshFund()
+        },
         async refreshFund () {
             this.loading = true
             this.loadingText = '数据加载中...'
+            const arr = []
+            for (const key in this.form) {
+                const param = {}
+                param[key] = this.form[key]
+                if (key === 'InceptionDate' || key === 'ManagerTime') {
+                    param[key] = { 'gt': formatDate(this.form[key]) }
+                }
+                if (this.form[key]) {
+                    if (this.matchPhrase[key]) {
+                        arr.push({ 'match_phrase': param })
+                    } else if (this.rangeParam[key]) {
+                        arr.push({ 'range': param })
+                    } else {
+                        arr.push({ 'match': param })
+                    }
+                }
+            }
             const param = {
-                'queryParameters': [],
+                'queryParameters': arr,
                 'sortParameters': [{ '2018': 'desc' }],
                 'from': (this.current - 1) * this.pageSize,
                 'size': this.pageSize

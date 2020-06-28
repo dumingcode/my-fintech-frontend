@@ -40,4 +40,29 @@ function objToArr (obj) {
     }
     return arr
 }
-export { deepCopy, isNull, objToArr }
+function formatDate (date, format = 'yyyy-MM-dd') {
+    if (!date) return ''
+    if (typeof date === 'number') {
+        date = new Date(date)
+    }
+    date = new Date(date)
+    const d = {
+        'M+': date.getMonth() + 1,
+        'd+': date.getDate(),
+        'h+': date.getHours(),
+        'm+': date.getMinutes(),
+        's+': date.getSeconds(),
+        'q+': Math.floor((date.getMonth() + 3) / 3),
+        'S+': date.getMilliseconds()
+    }
+    if (/(y+)/i.test(format)) {
+        format = format.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
+    }
+    for (const k in d) {
+        if (new RegExp('(' + k + ')').test(format)) {
+            format = format.replace(RegExp.$1, RegExp.$1.length === 1 ? d[k] : ('00' + d[k]).substr(('' + d[k]).length))
+        }
+    }
+    return format
+}
+export { deepCopy, isNull, objToArr, formatDate }
