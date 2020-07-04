@@ -208,15 +208,26 @@ export default {
             total: 0,
             pageSize: 10,
             form: {},
-            matchPhrase: {
-                'FundName': 'FundName',
-                'ManagerName': 'ManagerName'
-            },
-            rangeParam: {
-                'InceptionDate': 'InceptionDate',
-                'ManagerTime': 'ManagerTime',
-                'Bond': 'Bond',
-                'Stock': 'Stock'
+            fundCategory: {
+                'PGSZD1': '激进配置型基金',
+                'PGSZ01': '股票型基金',
+                'PGSZB1': '行业股票-医药',
+                'PGSZC1': '行业股票-科技传媒及通讯',
+                'PGSZA1': '沪港深股票型基金',
+                'PGSZE1': '香港股票型基金',
+                'PGSZF3': '灵活配置型基金',
+                'PGSZC3': '标准混合型基金',
+                'PGSZG3': '沪港深混合型基金',
+                'PGSZD3': '保守混合型基金',
+                'PGSZE3': '可转债基金',
+                'PGSZC2': '激进债券型基金',
+                'PGSZA2': '普通债券型基金',
+                'PGSZD2': '纯债基金',
+                'PGSZB2': '短债基金',
+                'PGSZ04': '货币市场基金',
+                'PGSZM6': '市场中性策略',
+                'PGSZ0F': '商品',
+                'PGSZ0X': '其他'
             },
             columnsList: [
                 {
@@ -234,8 +245,11 @@ export default {
                 {
                     title: '类别',
                     key: 'CategoryId',
-                    width: 120,
-                    align: 'left'
+                    width: 180,
+                    align: 'left',
+                    render: (h, params) => {
+                        return h('span', this.fundCategory[params.row.CategoryId])
+                    }
                 },
                 {
                     title: '基金经理',
@@ -271,49 +285,89 @@ export default {
                     title: '2020收益(%)',
                     key: '2020',
                     width: 120,
-                    align: 'left'
+                    align: 'left',
+                    render: (h, params) => {
+                        return h('span', {
+                            class: params.row.ManagerTime.substring(0, 4) === '2020' ? 'demo-table-info-row-cell' : ''
+                        }, params.row['2020']);
+                    }
                 },
                 {
                     title: '2019收益(%)',
                     key: '2019',
                     width: 120,
-                    align: 'left'
+                    align: 'left',
+                    render: (h, params) => {
+                        return h('span', {
+                            class: params.row.ManagerTime.substring(0, 4) === '2019' ? 'demo-table-info-row-cell' : ''
+                        }, params.row['2019']);
+                    }
                 },
                 {
                     title: '2018收益(%)',
                     key: '2018',
                     width: 120,
-                    align: 'left'
+                    align: 'left',
+                    render: (h, params) => {
+                        return h('span', {
+                            class: params.row.ManagerTime.substring(0, 4) === '2018' ? 'demo-table-info-row-cell' : ''
+                        }, params.row['2018']);
+                    }
                 },
                 {
                     title: '2017收益(%)',
                     key: '2017',
                     width: 120,
-                    align: 'left'
+                    align: 'left',
+                    render: (h, params) => {
+                        return h('span', {
+                            class: params.row.ManagerTime.substring(0, 4) === '2017' ? 'demo-table-info-row-cell' : ''
+                        }, params.row['2017']);
+                    }
                 },
                 {
                     title: '2016收益(%)',
                     key: '2016',
                     width: 120,
-                    align: 'left'
+                    align: 'left',
+                    render: (h, params) => {
+                        return h('span', {
+                            class: params.row.ManagerTime.substring(0, 4) === '2016' ? 'demo-table-info-row-cell' : ''
+                        }, params.row['2016']);
+                    }
                 },
                 {
                     title: '2015收益(%)',
                     key: '2015',
                     width: 120,
-                    align: 'left'
+                    align: 'left',
+                    render: (h, params) => {
+                        return h('span', {
+                            class: params.row.ManagerTime.substring(0, 4) === '2015' ? 'demo-table-info-row-cell' : ''
+                        }, params.row['2015']);
+                    }
                 },
                 {
                     title: '2014收益(%)',
                     key: '2014',
                     width: 120,
-                    align: 'left'
+                    align: 'left',
+                    render: (h, params) => {
+                        return h('span', {
+                            class: params.row.ManagerTime.substring(0, 4) === '2014' ? 'demo-table-info-row-cell' : ''
+                        }, params.row['2014']);
+                    }
                 },
                 {
                     title: '2013收益(%)',
                     key: '2013',
                     width: 120,
-                    align: 'left'
+                    align: 'left',
+                    render: (h, params) => {
+                        return h('span', {
+                            class: params.row.ManagerTime.substring(0, 4) <= '2013' ? 'demo-table-info-row-cell' : ''
+                        }, params.row['2013']);
+                    }
                 },
                 {
                     title: '晨星3年评级',
@@ -547,5 +601,10 @@ export default {
 	background-color: #e08a18;
 	color: #fff;
 }
+
+.ivu-table .demo-table-info-row-cell   {
+        background-color: #2db7f5;
+        color: #fff;
+    }
 
 </style>
