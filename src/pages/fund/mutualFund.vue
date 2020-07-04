@@ -27,11 +27,11 @@
             <Row>
                 <FormItem  style="font-weight:bold" :label-width="60">
                 </FormItem>
-                <FormItem  label="任职起始日期">
-                    <DatePicker v-model="form.ManagerTime" format="yyyy-MM-dd" type="date"  placeholder="基金经理任职起始日期" style="width: 200px"></DatePicker>
+                <FormItem  label="任职日期早于">
+                    <DatePicker v-model="form.ManagerTime" format="yyyy-MM-dd" type="date"  placeholder="任职日期早于" style="width: 200px"></DatePicker>
                 </FormItem>
-                <FormItem  label="基金成立起始日期">
-                    <DatePicker v-model="form.InceptionDate" format="yyyy-MM-dd" type="date"  placeholder="基金成立起始日期" style="width: 200px"></DatePicker>
+                <FormItem  label="基金成立日期早于">
+                    <DatePicker v-model="form.InceptionDate" format="yyyy-MM-dd" type="date"  placeholder="基金成立日期早于" style="width: 200px"></DatePicker>
                 </FormItem>
             </Row>
 
@@ -176,7 +176,7 @@
             :inputType="inputType"
             v-model="tableData"
             :loading="loading"
-            :no-data-text="loadingText ? loadingText : '暂无数据'"
+            :noDataText="loadingText"
             :columns-list="columnsList"
           ></can-edit-table>
           <Page show-total :total="total" :page-size-opts="[10, 20, 30, 40, 50, 100]" @on-change="changeFundPage" @on-page-size-change="changeFundPageSize" :page-size="pageSize" :current="current" style="margin-left:60%;margin-top:20px;" show-sizer />
@@ -403,10 +403,10 @@ export default {
             this.loadingText = '数据加载中...'
             const arr = []
             if (this.form.InceptionDate) {
-                arr.push({ 'range': { 'InceptionDate': { 'gte': formatDate(this.form.InceptionDate) }}})
+                arr.push({ 'range': { 'InceptionDate': { 'lte': formatDate(this.form.InceptionDate) }}})
             }
             if (this.form.ManagerTime) {
-                arr.push({ 'range': { 'ManagerTime': { 'gte': formatDate(this.form.ManagerTime) }}})
+                arr.push({ 'range': { 'ManagerTime': { 'lte': formatDate(this.form.ManagerTime) }}})
             }
             if (this.form.FundName) {
                 arr.push({ 'match_phrase': { 'FundName': this.form.FundName }})
@@ -513,6 +513,7 @@ export default {
             this.tableData = retData.data.data.data
             this.total = retData.data.data.total
             this.loading = false
+            this.loadingText = ''
         },
         changeFundPage (page) {
             this.current = page

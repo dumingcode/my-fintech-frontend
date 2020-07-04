@@ -6,7 +6,9 @@
 	<div>
 		<Table
 			:ref="refs"
-			:columns="columnsList"
+            :columns="columnsList"
+            :loading="loading"
+            :no-data-text="noDataText"
 			:data="thisTableData"
 			:row-class-name="rowClassName"
 			border
@@ -229,7 +231,9 @@ export default {
         inputType: {
             type: String,
             default: 'text'
-        }
+        },
+        noDataText: String,
+        loading: Boolean
     },
     data () {
         return {
