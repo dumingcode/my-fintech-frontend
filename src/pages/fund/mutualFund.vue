@@ -39,16 +39,32 @@
                     <FormItem  style="font-weight:bold" :label-width="60">
                     </FormItem>
                     <FormItem  label="基金类型">
-                        <Select  clearable style="width:200px" placeholder="选择基金类型">
-                            <Option value="5" key="5">ma5</Option>
-                            <Option value="10" key="10">ma10</Option>
-                            <Option value="20" key="20">ma20</Option>
+                        <Select  v-model="form.CategoryId"  clearable style="width:200px" placeholder="选择基金类型">
+                            <Option value="PGSZD1" key="PGSZD1">激进配置型基金</Option>
+                            <Option value="PGSZ01" key="PGSZ01">股票型基金</Option>
+                            <Option value="PGSZB1" key="PGSZB1">行业股票-医药</Option>
+                            <Option value="PGSZC1" key="PGSZC1">行业股票-科技传媒及通讯</Option>
+                            <Option value="PGSZA1" key="PGSZA1">沪港深股票型基金</Option>
+                            <Option value="PGSZE1" key="PGSZE1">香港股票型基金</Option>
+                            <Option value="PGSZF3" key="PGSZF3">灵活配置型基金</Option>
+                            <Option value="PGSZC3" key="PGSZC3">标准混合型基金</Option>
+                            <Option value="PGSZG3" key="PGSZG3">沪港深混合型基金</Option>
+                            <Option value="PGSZD3" key="PGSZD3">保守混合型基金</Option>
+                            <Option value="PGSZE3" key="PGSZE3">可转债基金</Option>
+                            <Option value="PGSZC2" key="PGSZC2">激进债券型基金</Option>
+                            <Option value="PGSZA2" key="PGSZA2">普通债券型基金</Option>
+                            <Option value="PGSZD2" key="PGSZD2">纯债基金</Option>
+                            <Option value="PGSZB2" key="PGSZB2">短债基金</Option>
+                            <Option value="PGSZ04" key="PGSZ04">货币市场基金</Option>
+                            <Option value="PGSZM6" key="PGSZM6">市场中性策略</Option>
+                            <Option value="PGSZ0F" key="PGSZ0F">商品</Option>
+                            <Option value="PGSZ0X" key="PGSZ0X">其他</Option>
                           </Select>
                     </FormItem>
                     <FormItem  label="三年晨星评级">
-                        <Select  clearable style="width:200px" placeholder="三年晨星评级">
-                            <Option value="5" key="5">三年晨星评级3星及以上</Option>
-                            <Option value="10" key="10">三年晨星评级3星以下</Option>
+                        <Select v-model="form.Rating3Year" clearable style="width:200px" placeholder="三年晨星评级">
+                            <Option value="1" key="Rating3Year1">三年晨星评级3星及以上</Option>
+                            <Option value="2" key="Rating3Year2">三年晨星评级3星以下</Option>
                           </Select>
                     </FormItem>
             </Row>
@@ -56,100 +72,100 @@
                     <FormItem  style="font-weight:bold" :label-width="60">
                     </FormItem>
                     <FormItem  label="五年晨星评级">
-                        <Select  clearable style="width:200px" placeholder="五年晨星评级">
-                            <Option value="5" key="5">五年晨星评级3星及以上</Option>
-                            <Option value="10" key="10">五年晨星评级3星以下</Option>
+                        <Select  v-model="form.Rating5Year" clearable style="width:200px" placeholder="五年晨星评级">
+                            <Option value="1" key="Rating5Year5">五年晨星评级3星及以上</Option>
+                            <Option value="2" key="Rating5Year10">五年晨星评级3星以下</Option>
                           </Select>
                     </FormItem>
                     <FormItem  label="十年晨星评级">
-                        <Select  clearable style="width:200px" placeholder="十年晨星评级">
-                            <Option value="5" key="5">十年晨星评级3星及以上</Option>
-                            <Option value="10" key="10">十  年晨星评级3星以下</Option>
+                        <Select  v-model="form.Rating10Year" clearable style="width:200px" placeholder="十年晨星评级">
+                            <Option value="1" key="Rating10Year5">十年晨星评级3星及以上</Option>
+                            <Option value="2" key="Rating10Year10">十  年晨星评级3星以下</Option>
                           </Select>
                     </FormItem>
             </Row>
             <Row>
                 <FormItem  style="font-weight:bold" :label-width="60" label="资产配置">
                 </FormItem>
-                <FormItem  label="股票比例大于">
-                    <InputNumber style="width:50px"></InputNumber>
-                    小于
-                    <InputNumber style="width:50px"></InputNumber>
+                <FormItem  label="股票比例大于(%)">
+                    <Input v-model="form.gtStock" style="width:50px"></Input>
+                    小于(%)
+                    <Input v-model="form.ltStock" style="width:50px"></Input>
                 </FormItem>
-                <FormItem  label="债券比例大于">
-                    <InputNumber style="width:50px"></InputNumber>
-                    小于
-                    <InputNumber style="width:50px"></InputNumber>
+                <FormItem  label="债券比例大于(%)">
+                    <Input v-model="form.gtBond" style="width:50px"></Input>
+                    小于(%)
+                    <Input v-model="form.ltBond" style="width:50px"></Input>
                 </FormItem>
             </Row>
             <Row>
                 <FormItem  style="font-weight:bold" :label-width="60">
                 </FormItem>
-                <FormItem  label="前十大股票比例大于">
-                    <InputNumber style="width:50px"></InputNumber>
-                    小于
-                    <InputNumber style="width:50px"></InputNumber>
+                <FormItem  label="重仓股票比例大于">
+                    <Input  v-model="form.gtTopStockWeight" style="width:50px"></Input>
+                    小于(%)
+                    <Input  v-model="form.ltTopStockWeight" style="width:50px"></Input>
                 </FormItem>
-                <FormItem  label="前五大债券比例大于">
-                    <InputNumber style="width:50px"></InputNumber>
-                    小于
-                    <InputNumber style="width:50px"></InputNumber>
+                <FormItem  label="重仓债券比例大于">
+                    <Input v-model="form.gtTopBondsWeight" style="width:50px"></Input>
+                    小于(%)
+                    <Input v-model="form.ltTopBondsWeight" style="width:50px"></Input>
                 </FormItem>
             </Row>
             <Row>
                
                 <FormItem  style="font-weight:bold" :label-width="60" label="年化收益">
                 </FormItem>
-                <FormItem  label="2020年收益大于">
-                    <InputNumber style="width:50px"></InputNumber>
+                <FormItem  label="2020年收益大于(%)">
+                    <Input v-model="form.gt2020" style="width:50px"></Input>
                 </FormItem>
-                <FormItem  label="2019年收益大于">
-                    <InputNumber style="width:50px"></InputNumber>
+                <FormItem  label="2019年收益大于(%)">
+                    <Input v-model="form.gt2019" style="width:50px"></Input>
                 </FormItem>
-                <FormItem  label="2018年收益大于">
-                    <InputNumber style="width:50px"></InputNumber>
+                <FormItem  label="2018年收益大于(%)">
+                    <Input v-model="form.gt2018" style="width:50px"></Input>
                 </FormItem>
-                <FormItem  label="2017年收益大于">
-                    <InputNumber style="width:50px"></InputNumber>
+                <FormItem  label="2017年收益大于(%)">
+                    <Input v-model="form.gt2017" style="width:50px"></Input>
                 </FormItem>
             </Row>
             <Row>
-                
                 <FormItem  style="font-weight:bold" :label-width="60">
                 </FormItem>
-                <FormItem  label="2016年收益大于">
-                    <InputNumber style="width:50px"></InputNumber>
+                <FormItem  label="2016年收益大于(%)">
+                    <Input  v-model="form.gt2016" style="width:50px"></Input>
                 </FormItem>
-                <FormItem  label="2015年收益大于">
-                    <InputNumber style="width:50px"></InputNumber>
+                <FormItem  label="2015年收益大于(%)">
+                    <Input  v-model="form.gt2015" style="width:50px"></Input>
                 </FormItem>
-                <FormItem  label="2014年收益大于">
-                    <InputNumber style="width:50px"></InputNumber>
+                <FormItem  label="2014年收益大于(%)">
+                    <Input  v-model="form.gt2014" style="width:50px"></Input>
                 </FormItem>
-                <FormItem  label="2013年收益大于">
-                    <InputNumber style="width:50px"></InputNumber>
+                <FormItem  label="2013年收益大于(%)">
+                    <Input  v-model="form.gt2013" style="width:50px"></Input>
                 </FormItem>
             </Row>
             
             <Row>
                 <FormItem  style="font-weight:bold" :label-width="60">
                 </FormItem>
-                <FormItem  label="今年以来收益大于">
-                    <InputNumber style="width:50px"></InputNumber>
+                <FormItem  label="今年收益大于(%)">
+                    <Input v-model="form.gt2020" style="width:50px"></Input>
                 </FormItem>
-                <FormItem  label="近三年收益大于">
-                    <InputNumber style="width:50px"></InputNumber>
+                <FormItem  label="近三年收益大于(%)">
+                    <Input v-model="form.Return3Year" style="width:50px"></Input>
                 </FormItem>
-                <FormItem  label="近五年收益大于">
-                    <InputNumber style="width:50px"></InputNumber>
+                <FormItem  label="近五年收益大于(%)">
+                    <Input v-model="form.Return5Year" style="width:50px"></Input>
                 </FormItem>
-                <FormItem  label="近十年收益大于">
-                    <InputNumber style="width:50px"></InputNumber>
+                <FormItem  label="近十年收益大于(%)">
+                    <Input v-model="form.Return10Year" style="width:50px"></Input>
                 </FormItem>
             </Row>
             <Row>
-                <Button type="default" size="large" style="margin-left:200px;" @click="queryFund">重置</Button>
+                <Button type="default" size="large" style="margin-left:200px;" @click="reset">重置</Button>
                 <Button type="primary" size="large" style="margin-left:40px;width:200px;" @click="queryFund">查询</Button>
+                
             </Row>
         </Form>  
         </Card>
@@ -163,7 +179,8 @@
             :no-data-text="loadingText ? loadingText : '暂无数据'"
             :columns-list="columnsList"
           ></can-edit-table>
-           <Page :total="total" :page-size-opts="[10, 20, 30, 40, 50, 100]" @on-change="changeFundPage" @on-page-size-change="changeFundPageSize" :page-size="pageSize" :current="current" style="margin-left:60%;margin-top:20px;" show-sizer />
+          <Page show-total :total="total" :page-size-opts="[10, 20, 30, 40, 50, 100]" @on-change="changeFundPage" @on-page-size-change="changeFundPageSize" :page-size="pageSize" :current="current" style="margin-left:60%;margin-top:20px;" show-sizer />
+        
         </Card>
       </Col>
     </Row>
@@ -385,22 +402,107 @@ export default {
             this.loading = true
             this.loadingText = '数据加载中...'
             const arr = []
-            for (const key in this.form) {
-                const param = {}
-                param[key] = this.form[key]
-                if (key === 'InceptionDate' || key === 'ManagerTime') {
-                    param[key] = { 'gt': formatDate(this.form[key]) }
-                }
-                if (this.form[key]) {
-                    if (this.matchPhrase[key]) {
-                        arr.push({ 'match_phrase': param })
-                    } else if (this.rangeParam[key]) {
-                        arr.push({ 'range': param })
-                    } else {
-                        arr.push({ 'match': param })
-                    }
-                }
+            if (this.form.InceptionDate) {
+                arr.push({ 'range': { 'InceptionDate': { 'gte': formatDate(this.form.InceptionDate) }}})
             }
+            if (this.form.ManagerTime) {
+                arr.push({ 'range': { 'ManagerTime': { 'gte': formatDate(this.form.ManagerTime) }}})
+            }
+            if (this.form.FundName) {
+                arr.push({ 'match_phrase': { 'FundName': this.form.FundName }})
+            }
+            if (this.form.ManagerName) {
+                arr.push({ 'match_phrase': { 'ManagerName': this.form.ManagerName }})
+            }
+            if (this.form.CategoryId) {
+                arr.push({ 'match': { 'CategoryId.keyword': this.form.CategoryId }})
+            }
+
+            if (this.form.gt2013) {
+                arr.push({ 'range': { '2013': { 'gte': this.form.gt2013 }}})
+            }
+            if (this.form.gt2014) {
+                arr.push({ 'range': { '2014': { 'gte': this.form.gt2014 }}})
+            }
+            if (this.form.gt2015) {
+                arr.push({ 'range': { '2015': { 'gte': this.form.gt2015 }}})
+            }
+            if (this.form.gt2016) {
+                arr.push({ 'range': { '2016': { 'gte': this.form.gt2016 }}})
+            }
+            if (this.form.gt2017) {
+                arr.push({ 'range': { '2017': { 'gte': this.form.gt2017 }}})
+            }
+            if (this.form.gt2018) {
+                arr.push({ 'range': { '2018': { 'gte': this.form.gt2018 }}})
+            }
+            if (this.form.gt2019) {
+                arr.push({ 'range': { '2019': { 'gte': this.form.gt2019 }}})
+            }
+            if (this.form.gt2020) {
+                arr.push({ 'range': { '2020': { 'gte': this.form.gt2020 }}})
+            }
+            if (this.form.Rating3Year) {
+                arr.push({ 'range': { 'Rating3Year': this.form.Rating3Year === '1' ? { 'gte': 3 } : { 'lt': 3 }}})
+            }
+            if (this.form.Rating5Year) {
+                arr.push({ 'range': { 'Rating5Year': this.form.Rating5Year === '1' ? { 'gte': 3 } : { 'lt': 3 }}})
+            }
+            if (this.form.Rating10Year) {
+                arr.push({ 'range': { 'Rating10Year': this.form.Rating10Year === '1' ? { 'gte': 3 } : { 'lt': 3 }}})
+            }
+            if (this.form.Return3Year) {
+                arr.push({ 'range': { 'Return3Year': { 'gte': this.form.Return3Year }}})
+            }
+            if (this.form.Return5Year) {
+                arr.push({ 'range': { 'Return5Year': { 'gte': this.form.Return5Year }}})
+            }
+            if (this.form.Return10Year) {
+                arr.push({ 'range': { 'Return10Year': { 'gte': this.form.Return10Year }}})
+            }
+
+            if (this.form.gtBond || this.form.ltBond) {
+                const rObj = {}
+                if (this.form.gtBond) {
+                    rObj['gte'] = this.form.gtBond
+                }
+                if (this.form.ltBond) {
+                    rObj['lt'] = this.form.ltBond
+                }
+                arr.push({ 'range': { 'Bond': rObj }})
+            }
+            if (this.form.gtStock || this.form.ltStock) {
+                const rObj = {}
+                if (this.form.gtStock) {
+                    rObj['gte'] = this.form.gtStock
+                }
+                if (this.form.ltStock) {
+                    rObj['lt'] = this.form.ltStock
+                }
+                arr.push({ 'range': { 'Stock': rObj }})
+            }
+            if (this.form.gtTopStockWeight || this.form.ltTopStockWeight) {
+                const rObj = {}
+                if (this.form.gtTopStockWeight) {
+                    rObj['gte'] = this.form.gtTopStockWeight
+                }
+                if (this.form.ltTopStockWeight) {
+                    rObj['lt'] = this.form.ltTopStockWeight
+                }
+                arr.push({ 'range': { 'TopStockWeight': rObj }})
+            }
+            if (this.form.gtTopBondsWeight || this.form.ltTopBondsWeight) {
+                const rObj = {}
+                if (this.form.gtTopBondsWeight) {
+                    rObj['gte'] = this.form.gtTopBondsWeight
+                }
+                if (this.form.ltTopBondsWeight) {
+                    rObj['lt'] = this.form.ltTopBondsWeight
+                }
+                arr.push({ 'range': { 'TopBondsWeight': rObj }})
+            }
+            // arr.push({ 'match': param })
+
             const param = {
                 'queryParameters': arr,
                 'sortParameters': [{ '2018': 'desc' }],
@@ -420,9 +522,13 @@ export default {
             this.pageSize = pageSize
             this.current = 1
             this.refreshFund()
+        },
+        reset () {
+            this.form = {}
         }
     },
     async created () {
+        this.reset()
         this.refreshFund()
     }
 }

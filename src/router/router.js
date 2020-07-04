@@ -119,7 +119,7 @@ export const appRouter = [{
         icon: 'compose',
         login: true,
         name: 'mutualFund',
-        title: '场外开放基金',
+        title: '场外基金',
         component: () =>
             import('@/pages/fund/mutualFund.vue')
     },
