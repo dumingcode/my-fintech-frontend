@@ -19,19 +19,19 @@
                 <FormItem  label="基金名称">
                     <Input  v-model="form.FundName" style="width:200px" placeholder="请输入基金名称"></Input>
                 </FormItem>
-                <FormItem  label="经理姓名">
-                    <Input  v-model="form.ManagerName" style="width:200px" placeholder="请输入基金经理姓名"></Input>
+                <FormItem  label="基金代码">
+                    <Input  v-model="form.Code" style="width:200px" placeholder="请输入基金代码"></Input>
                 </FormItem>
             </Row>
             
             <Row>
                 <FormItem  style="font-weight:bold" :label-width="60">
                 </FormItem>
+                <FormItem  label="经理姓名">
+                    <Input  v-model="form.ManagerName" style="width:200px" placeholder="请输入基金经理姓名"></Input>
+                </FormItem>
                 <FormItem  label="任职日期早于">
                     <DatePicker v-model="form.ManagerTime" format="yyyy-MM-dd" type="date"  placeholder="任职日期早于" style="width: 200px"></DatePicker>
-                </FormItem>
-                <FormItem  label="基金成立日期早于">
-                    <DatePicker v-model="form.InceptionDate" format="yyyy-MM-dd" type="date"  placeholder="基金成立日期早于" style="width: 200px"></DatePicker>
                 </FormItem>
             </Row>
 
@@ -83,7 +83,14 @@
                             <Option value="2" key="Rating10Year10">十  年晨星评级3星以下</Option>
                           </Select>
                     </FormItem>
-                    <a href="http://cn.morningstar.com/help/data/fundrating.html#use" target="_blank">晨星评级说明</a>
+            </Row>
+            <Row>
+                <FormItem  style="font-weight:bold" :label-width="60">
+                </FormItem>
+                <FormItem  label="基金成立日期早于">
+                    <DatePicker v-model="form.InceptionDate" format="yyyy-MM-dd" type="date"  placeholder="基金成立日期早于" style="width: 200px"></DatePicker>
+                </FormItem>
+                <a href="http://cn.morningstar.com/help/data/fundrating.html#use" target="_blank">晨星评级说明</a>
             </Row>
             <Row>
                 <FormItem  style="font-weight:bold" :label-width="60" label="资产配置">
@@ -210,6 +217,7 @@ export default {
             total: 0,
             pageSize: 10,
             form: {},
+            showAdvanced: false,
             fundCategory: {
                 'PGSZD1': '激进配置型基金',
                 'PGSZ01': '股票型基金',
@@ -235,6 +243,7 @@ export default {
                 {
                     type: 'expand',
                     width: 50,
+                    fixed: 'left',
                     render: (h, params) => {
                         return h(expandFund, {
                             props: { row: params.row }
@@ -247,6 +256,7 @@ export default {
                     title: '名称',
                     key: 'FundName',
                     width: 220,
+                    fixed: 'left',
                     align: 'left'
                 },
                 {
@@ -514,7 +524,9 @@ export default {
             if (this.form.CategoryId) {
                 arr.push({ 'match': { 'CategoryId.keyword': this.form.CategoryId }})
             }
-
+            if (this.form.Code) {
+                arr.push({ 'match': { 'Code.keyword': this.form.Code }})
+            }
             if (this.form.gt2013) {
                 arr.push({ 'range': { '2013': { 'gte': this.form.gt2013 }}})
             }

@@ -78,7 +78,10 @@
         },
         async created () {
             this.loading = true
-            const data = await queryFundExtraInfo({ code: this.row.Code, PortfolioEffectiveDate: '2020-03-31' })
+            if (!this.row.PortfolioEffectiveDate) {
+                this.row.PortfolioEffectiveDate = '2020-03-31'
+            }
+            const data = await queryFundExtraInfo({ code: this.row.Code, PortfolioEffectiveDate: this.row.PortfolioEffectiveDate })
             this.loading = false
             this.extraFund = data.data.data
             this.portfolioData = []
