@@ -83,6 +83,7 @@
                             <Option value="2" key="Rating10Year10">十  年晨星评级3星以下</Option>
                           </Select>
                     </FormItem>
+                    <a href="http://cn.morningstar.com/help/data/fundrating.html#use" target="_blank">晨星评级说明</a>
             </Row>
             <Row>
                 <FormItem  style="font-weight:bold" :label-width="60" label="资产配置">
@@ -189,6 +190,7 @@
 
 <script>
 import canEditTable from '@/views/tables/components/canEditTable.vue'
+import expandFund from './expandFund.vue'
 // import { isIntNum } from '@/utils/validate'
 import { formatDate } from '../../utils/utils'
 import {
@@ -231,6 +233,17 @@ export default {
             },
             columnsList: [
                 {
+                    type: 'expand',
+                    width: 50,
+                    render: (h, params) => {
+                        return h(expandFund, {
+                            props: { row: params.row }
+                            // on:    {  click: () => { this.expand(params.row, params.index)} }
+
+                        })
+                    }
+                },
+                {
                     title: '名称',
                     key: 'FundName',
                     width: 220,
@@ -266,25 +279,29 @@ export default {
                 {
                     title: '股票比例(%)',
                     key: 'Stock',
-                    width: 120,
+                    width: 150,
+                    sortable: true,
                     align: 'left'
                 },
                 {
                     title: '债券比例(%)',
                     key: 'Bond',
-                    width: 120,
+                    width: 150,
+                    sortable: true,
                     align: 'left'
                 },
                 {
                     title: '现金比例(%)',
                     key: 'Cash',
-                    width: 120,
+                    width: 150,
+                    sortable: true,
                     align: 'left'
                 },
                 {
                     title: '2020收益(%)',
                     key: '2020',
-                    width: 120,
+                    sortable: true,
+                    width: 150,
                     align: 'left',
                     render: (h, params) => {
                         return h('span', {
@@ -295,7 +312,8 @@ export default {
                 {
                     title: '2019收益(%)',
                     key: '2019',
-                    width: 120,
+                    width: 150,
+                    sortable: true,
                     align: 'left',
                     render: (h, params) => {
                         return h('span', {
@@ -306,8 +324,9 @@ export default {
                 {
                     title: '2018收益(%)',
                     key: '2018',
-                    width: 120,
+                    width: 150,
                     align: 'left',
+                    sortable: true,
                     render: (h, params) => {
                         return h('span', {
                             class: params.row.ManagerTime.substring(0, 4) === '2018' ? 'demo-table-info-row-cell' : ''
@@ -317,8 +336,9 @@ export default {
                 {
                     title: '2017收益(%)',
                     key: '2017',
-                    width: 120,
+                    width: 150,
                     align: 'left',
+                    sortable: true,
                     render: (h, params) => {
                         return h('span', {
                             class: params.row.ManagerTime.substring(0, 4) === '2017' ? 'demo-table-info-row-cell' : ''
@@ -328,8 +348,9 @@ export default {
                 {
                     title: '2016收益(%)',
                     key: '2016',
-                    width: 120,
+                    width: 150,
                     align: 'left',
+                    sortable: true,
                     render: (h, params) => {
                         return h('span', {
                             class: params.row.ManagerTime.substring(0, 4) === '2016' ? 'demo-table-info-row-cell' : ''
@@ -339,8 +360,9 @@ export default {
                 {
                     title: '2015收益(%)',
                     key: '2015',
-                    width: 120,
+                    width: 150,
                     align: 'left',
+                    sortable: true,
                     render: (h, params) => {
                         return h('span', {
                             class: params.row.ManagerTime.substring(0, 4) === '2015' ? 'demo-table-info-row-cell' : ''
@@ -350,8 +372,9 @@ export default {
                 {
                     title: '2014收益(%)',
                     key: '2014',
-                    width: 120,
+                    width: 150,
                     align: 'left',
+                    sortable: true,
                     render: (h, params) => {
                         return h('span', {
                             class: params.row.ManagerTime.substring(0, 4) === '2014' ? 'demo-table-info-row-cell' : ''
@@ -361,7 +384,8 @@ export default {
                 {
                     title: '2013收益(%)',
                     key: '2013',
-                    width: 120,
+                    width: 150,
+                    sortable: true,
                     align: 'left',
                     render: (h, params) => {
                         return h('span', {
@@ -372,61 +396,80 @@ export default {
                 {
                     title: '晨星3年评级',
                     key: 'Rating3Year',
-                    width: 120,
-                    align: 'left'
+                    width: 150,
+                    sortable: true,
+                    align: 'left',
+                    render: (h, params) => {
+                        return h('span', params.row.Rating3Year === 0 ? '' : params.row.Rating3Year)
+                    }
                 },
                 {
                     title: '晨星5年评级',
                     key: 'Rating5Year',
-                    width: 120,
-                    align: 'left'
+                    width: 150,
+                    sortable: true,
+                    align: 'left',
+                    render: (h, params) => {
+                        return h('span', params.row.Rating5Year === 0 ? '' : params.row.Rating5Year)
+                    }
                 },
                 {
                     title: '晨星10年评级',
                     key: 'Rating10Year',
-                    width: 120,
-                    align: 'left'
+                    width: 150,
+                    sortable: true,
+                    align: 'left',
+                    render: (h, params) => {
+                        return h('span', params.row.Rating10Year === 0 ? '' : params.row.Rating10Year)
+                    }
                 },
                 {
                     title: '3年年化(%)',
                     key: 'Return3Year',
-                    width: 120,
+                    width: 150,
+                    sortable: true,
                     align: 'left'
                 },
                 {
                     title: '5年年化(%)',
                     key: 'Return5Year',
-                    width: 120,
+                    width: 150,
+                    sortable: true,
                     align: 'left'
                 },
                 {
                     title: '10年年化(%)',
                     key: 'Return10Year',
-                    width: 120,
+                    width: 150,
+                    sortable: true,
                     align: 'left'
                 },
                 {
                     title: '10大股票比例(%)',
                     key: 'TopStockWeight',
-                    width: 120,
+                    width: 150,
+                    sortable: true,
                     align: 'left'
                 },
                 {
                     title: '5大债券比例(%)',
                     key: 'TopBondsWeight',
-                    width: 120,
+                    width: 150,
+                    sortable: true,
                     align: 'left'
                 },
                 {
                     title: '最差3月收益(%)',
                     key: 'Worst3MonReturn',
-                    width: 120,
+                    width: 150,
+                    sortable: true,
                     align: 'left'
                 },
                 {
                     title: '最差6月收益(%)',
                     key: 'Worst6MonReturn',
-                    width: 120,
+                    width: 150,
+                    sortable: true,
                     align: 'left'
                 },
                 {
