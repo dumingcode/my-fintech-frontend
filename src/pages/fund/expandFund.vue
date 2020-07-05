@@ -90,8 +90,8 @@
             stockPortfolio.forEach(portfolio => {
                 portfolio['type'] = '股票'
             })
-            this.portfolioData = this.portfolioData.concat(bondPortfolio)
             this.portfolioData = this.portfolioData.concat(stockPortfolio)
+            this.portfolioData = this.portfolioData.concat(bondPortfolio)
         },
         methods: {
 
