@@ -174,6 +174,30 @@
                     <Input v-model="form.Return10Year" style="width:50px"></Input>
                 </FormItem>
             </Row>
+            <Row  v-if="showAdvanced">
+                <FormItem style="font-weight:bold" :label-width="60" label="排序选择">
+                </FormItem>     
+                <FormItem :label-width="60">
+                    <div v-for="(item,index) in orders" :key="index" class="section-content-item-list">
+                        <Row class="row-wide">
+                            <Col>
+                                    按照
+                                <Select size="small" v-model="item.col" style="width:160px">
+                                    <Option v-for="col in colList" :value="col.value" :key="col.value">{{ col.label }}</Option>
+                                </Select>
+                                <Select size="small" v-model="item.type" style="width:60px">
+                                    <Option v-for="col in ordList" :value="col.value" :key="col.value">{{ col.label }}</Option>
+                                </Select>
+                                排序
+                                <Icon type='ios-close' style="padding-left:10px;" size="24" @click.native="delOrder(index)"></Icon>
+                            </Col>
+                        </Row>
+                </div>
+                <Button type="text" @click="addOrder()" icon='plus-circled' class="section-content-item-btn">添加排序项</Button>
+                </nobr>
+                </FormItem>
+            </Row>
+
             <Row>
                 <Button type="default" size="large" style="margin-left:200px;" @click="reset">重置</Button>
                 <Button type="primary" size="large" style="margin-left:40px;width:200px;" @click="queryFund">查询</Button>
@@ -221,6 +245,9 @@ export default {
             pageSize: 10,
             form: {},
             showAdvanced: false,
+            orders: [{
+                type: 'order'
+            }],
             fundCategory: {
                 'PGSZD1': '激进配置型基金',
                 'PGSZ01': '股票型基金',
@@ -500,6 +527,98 @@ export default {
                     key: 'handle',
                     handle: ['']
                 }
+            ],
+            ordList: [
+                {
+                    value: 'asc',
+                    label: '升序'
+                },
+                {
+                    value: 'desc',
+                    label: '降序'
+                }],
+            colList: [
+                {
+                    value: 'InceptionDate',
+                    label: '成立日期'
+                },
+                {
+                    value: 'ManagerTime',
+                    label: '基金经理任职日期'
+                },
+
+                {
+                    value: '2020',
+                    label: '2020年收益'
+                },
+                {
+                    value: '2019',
+                    label: '2019年收益'
+                },
+                {
+                    value: '2018',
+                    label: '2018年收益'
+                },
+                {
+                    value: '2017',
+                    label: '2017年收益'
+                },
+                {
+                    value: '2016',
+                    label: '2016年收益'
+                },
+                {
+                    value: '2015',
+                    label: '2015年收益'
+                },
+                {
+                    value: '2014',
+                    label: '2014年收益'
+                },
+                {
+                    value: '2013',
+                    label: '2013年收益'
+                },
+                {
+                    value: 'Rating3Year',
+                    label: '晨星3年评级'
+                },
+                {
+                    value: 'Rating5Year',
+                    label: '晨星5年评级'
+                },
+                {
+                    value: 'Rating10Year',
+                    label: '晨星10年评级'
+                },
+                {
+                    value: 'Return3Year',
+                    label: '3年年化收益'
+                },
+                {
+                    value: 'Return5Year',
+                    label: '5年年化收益'
+                },
+                {
+                    value: 'Return10Year',
+                    label: '10年年化收益'
+                },
+                {
+                    value: 'Stock',
+                    label: '股票比例'
+                },
+                {
+                    value: 'TopStockWeight',
+                    label: '重仓股比例'
+                },
+                {
+                    value: 'Bond',
+                    label: '债券比例'
+                },
+                {
+                    value: 'TopBondsWeight',
+                    label: '重仓债券比例'
+                }
             ]
         }
     },
@@ -614,10 +733,19 @@ export default {
                 arr.push({ 'range': { 'TopBondsWeight': rObj }})
             }
             // arr.push({ 'match': param })
-
+            const orderArr = []
+            this.orders.forEach(orderObj => {
+                const col = '' + orderObj['col']
+                const type = orderObj['type']
+                const obj = {}
+                obj[col] = type
+                if (orderObj['col']) {
+                    orderArr.push(obj)
+                }
+            })
             const param = {
                 'queryParameters': arr,
-                'sortParameters': [{ '2018': 'desc' }],
+                'sortParameters': orderArr,
                 'from': (this.current - 1) * this.pageSize,
                 'size': this.pageSize
             }
@@ -638,6 +766,7 @@ export default {
         },
         reset () {
             this.form = {}
+            this.orders = [{ type: 'order' }]
         },
         changeAdvancedOptionStatus () {
             this.showAdvanced = !this.showAdvanced
@@ -661,7 +790,16 @@ export default {
                 delete this.form.Return3Year
                 delete this.form.Return5Year
                 delete this.form.Return10Year
+                this.orders = [{ type: 'order' }]
             }
+        },
+        addOrder () {
+            this.orders.push({
+                type: 'order'
+            })
+        },
+        delOrder (index) {
+            this.orders.splice(index, 1)
         }
     },
     async created () {
