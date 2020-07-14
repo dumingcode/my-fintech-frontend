@@ -8,6 +8,7 @@
 			:ref="refs"
             :columns="columnsList"
             :loading="loading"
+            :height="height"
             :no-data-text="noDataText"
 			:data="thisTableData"
 			:row-class-name="rowClassName"
@@ -233,7 +234,8 @@ export default {
             default: 'text'
         },
         noDataText: String,
-        loading: Boolean
+        loading: Boolean,
+        height: Number
     },
     data () {
         return {

@@ -80,7 +80,7 @@
                     <FormItem  label="十年晨星评级">
                         <Select  v-model="form.Rating10Year" clearable style="width:200px" placeholder="十年晨星评级">
                             <Option value="1" key="Rating10Year5">十年晨星评级3星及以上</Option>
-                            <Option value="2" key="Rating10Year10">十  年晨星评级3星以下</Option>
+                            <Option value="2" key="Rating10Year10">十年晨星评级3星以下</Option>
                           </Select>
                     </FormItem>
             </Row>
@@ -90,9 +90,13 @@
                 <FormItem  label="基金成立日期早于">
                     <DatePicker v-model="form.InceptionDate" format="yyyy-MM-dd" type="date"  placeholder="基金成立日期早于" style="width: 200px"></DatePicker>
                 </FormItem>
-                <a href="http://cn.morningstar.com/help/data/fundrating.html#use" target="_blank">晨星评级说明</a>
-            </Row>
-            <Row>
+                <a style="margin-left:30px;" href="http://cn.morningstar.com/help/data/fundrating.html#use" target="_blank">晨星评级说明</a>
+                <i-switch  style="width:100px;margin-left:20px;" :value="showAdvanced" @on-change="changeAdvancedOptionStatus"  size="large">
+                    <span  slot="open">隐藏高级检索</span>
+                    <span  slot="close">显示高级检索</span>
+                </i-switch>
+            </Row>      
+            <Row v-if="showAdvanced">
                 <FormItem  style="font-weight:bold" :label-width="60" label="资产配置">
                 </FormItem>
                 <FormItem  label="股票比例大于(%)">
@@ -106,7 +110,7 @@
                     <Input v-model="form.ltBond" style="width:50px"></Input>
                 </FormItem>
             </Row>
-            <Row>
+            <Row  v-if="showAdvanced">
                 <FormItem  style="font-weight:bold" :label-width="60">
                 </FormItem>
                 <FormItem  label="重仓股票比例大于">
@@ -120,7 +124,7 @@
                     <Input v-model="form.ltTopBondsWeight" style="width:50px"></Input>
                 </FormItem>
             </Row>
-            <Row>
+            <Row  v-if="showAdvanced">
                
                 <FormItem  style="font-weight:bold" :label-width="60" label="年化收益">
                 </FormItem>
@@ -137,7 +141,7 @@
                     <Input v-model="form.gt2017" style="width:50px"></Input>
                 </FormItem>
             </Row>
-            <Row>
+            <Row  v-if="showAdvanced">
                 <FormItem  style="font-weight:bold" :label-width="60">
                 </FormItem>
                 <FormItem  label="2016年收益大于(%)">
@@ -154,7 +158,7 @@
                 </FormItem>
             </Row>
             
-            <Row>
+            <Row  v-if="showAdvanced">
                 <FormItem  style="font-weight:bold" :label-width="60">
                 </FormItem>
                 <FormItem  label="今年收益大于(%)">
@@ -173,7 +177,6 @@
             <Row>
                 <Button type="default" size="large" style="margin-left:200px;" @click="reset">重置</Button>
                 <Button type="primary" size="large" style="margin-left:40px;width:200px;" @click="queryFund">查询</Button>
-                
             </Row>
         </Form>  
         </Card>
@@ -635,6 +638,30 @@ export default {
         },
         reset () {
             this.form = {}
+        },
+        changeAdvancedOptionStatus () {
+            this.showAdvanced = !this.showAdvanced
+            if (!this.showAdvanced) {
+                delete this.form.gtStock
+                delete this.form.ltStock
+                delete this.form.gtBond
+                delete this.form.ltBond
+                delete this.form.gtTopStockWeight
+                delete this.form.ltTopStockWeight
+                delete this.form.gtTopBondsWeight
+                delete this.form.ltTopBondsWeight
+                delete this.form.gt2020
+                delete this.form.gt2019
+                delete this.form.gt2018
+                delete this.form.gt2017
+                delete this.form.gt2016
+                delete this.form.gt2015
+                delete this.form.gt2014
+                delete this.form.gt2013
+                delete this.form.Return3Year
+                delete this.form.Return5Year
+                delete this.form.Return10Year
+            }
         }
     },
     async created () {
