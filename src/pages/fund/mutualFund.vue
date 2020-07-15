@@ -22,80 +22,79 @@
                 <FormItem  label="基金代码">
                     <Input  v-model="form.Code" style="width:200px" placeholder="请输入基金代码"></Input>
                 </FormItem>
+                <FormItem  label="经理姓名">
+                    <Input  v-model="form.ManagerName" style="width:200px" placeholder="请输入基金经理姓名"></Input>
+                </FormItem>
             </Row>
             
+
             <Row>
                 <FormItem  style="font-weight:bold" :label-width="60">
                 </FormItem>
-                <FormItem  label="经理姓名">
-                    <Input  v-model="form.ManagerName" style="width:200px" placeholder="请输入基金经理姓名"></Input>
+                <FormItem  label="基金类型">
+                    <Select  v-model="form.CategoryId"  clearable style="width:200px" placeholder="选择基金类型">
+                        <Option value="PGSZD1" key="PGSZD1">激进配置型基金</Option>
+                        <Option value="PGSZ01" key="PGSZ01">股票型基金</Option>
+                        <Option value="PGSZB1" key="PGSZB1">行业股票-医药</Option>
+                        <Option value="PGSZC1" key="PGSZC1">行业股票-科技传媒及通讯</Option>
+                        <Option value="PGSZA1" key="PGSZA1">沪港深股票型基金</Option>
+                        <Option value="PGSZE1" key="PGSZE1">香港股票型基金</Option>
+                        <Option value="PGSZF3" key="PGSZF3">灵活配置型基金</Option>
+                        <Option value="PGSZC3" key="PGSZC3">标准混合型基金</Option>
+                        <Option value="PGSZG3" key="PGSZG3">沪港深混合型基金</Option>
+                        <Option value="PGSZD3" key="PGSZD3">保守混合型基金</Option>
+                        <Option value="PGSZE3" key="PGSZE3">可转债基金</Option>
+                        <Option value="PGSZC2" key="PGSZC2">激进债券型基金</Option>
+                        <Option value="PGSZA2" key="PGSZA2">普通债券型基金</Option>
+                        <Option value="PGSZD2" key="PGSZD2">纯债基金</Option>
+                        <Option value="PGSZB2" key="PGSZB2">短债基金</Option>
+                        <Option value="PGSZ04" key="PGSZ04">货币市场基金</Option>
+                        <Option value="PGSZM6" key="PGSZM6">市场中性策略</Option>
+                        <Option value="PGSZ0F" key="PGSZ0F">商品</Option>
+                        <Option value="PGSZ0X" key="PGSZ0X">其他</Option>
+                    </Select>
                 </FormItem>
                 <FormItem  label="任职日期早于">
                     <DatePicker v-model="form.ManagerTime" format="yyyy-MM-dd" type="date"  placeholder="任职日期早于" style="width: 200px"></DatePicker>
                 </FormItem>
-            </Row>
-
-            <Row>
-                    <FormItem  style="font-weight:bold" :label-width="60">
-                    </FormItem>
-                    <FormItem  label="基金类型">
-                        <Select  v-model="form.CategoryId"  clearable style="width:200px" placeholder="选择基金类型">
-                            <Option value="PGSZD1" key="PGSZD1">激进配置型基金</Option>
-                            <Option value="PGSZ01" key="PGSZ01">股票型基金</Option>
-                            <Option value="PGSZB1" key="PGSZB1">行业股票-医药</Option>
-                            <Option value="PGSZC1" key="PGSZC1">行业股票-科技传媒及通讯</Option>
-                            <Option value="PGSZA1" key="PGSZA1">沪港深股票型基金</Option>
-                            <Option value="PGSZE1" key="PGSZE1">香港股票型基金</Option>
-                            <Option value="PGSZF3" key="PGSZF3">灵活配置型基金</Option>
-                            <Option value="PGSZC3" key="PGSZC3">标准混合型基金</Option>
-                            <Option value="PGSZG3" key="PGSZG3">沪港深混合型基金</Option>
-                            <Option value="PGSZD3" key="PGSZD3">保守混合型基金</Option>
-                            <Option value="PGSZE3" key="PGSZE3">可转债基金</Option>
-                            <Option value="PGSZC2" key="PGSZC2">激进债券型基金</Option>
-                            <Option value="PGSZA2" key="PGSZA2">普通债券型基金</Option>
-                            <Option value="PGSZD2" key="PGSZD2">纯债基金</Option>
-                            <Option value="PGSZB2" key="PGSZB2">短债基金</Option>
-                            <Option value="PGSZ04" key="PGSZ04">货币市场基金</Option>
-                            <Option value="PGSZM6" key="PGSZM6">市场中性策略</Option>
-                            <Option value="PGSZ0F" key="PGSZ0F">商品</Option>
-                            <Option value="PGSZ0X" key="PGSZ0X">其他</Option>
-                          </Select>
-                    </FormItem>
-                    <FormItem  label="三年晨星评级">
-                        <Select v-model="form.Rating3Year" clearable style="width:200px" placeholder="三年晨星评级">
-                            <Option value="1" key="Rating3Year1">三年晨星评级3星及以上</Option>
-                            <Option value="2" key="Rating3Year2">三年晨星评级3星以下</Option>
-                          </Select>
-                    </FormItem>
-            </Row>
-            <Row>
-                    <FormItem  style="font-weight:bold" :label-width="60">
-                    </FormItem>
-                    <FormItem  label="五年晨星评级">
-                        <Select  v-model="form.Rating5Year" clearable style="width:200px" placeholder="五年晨星评级">
-                            <Option value="1" key="Rating5Year5">五年晨星评级3星及以上</Option>
-                            <Option value="2" key="Rating5Year10">五年晨星评级3星以下</Option>
-                          </Select>
-                    </FormItem>
-                    <FormItem  label="十年晨星评级">
-                        <Select  v-model="form.Rating10Year" clearable style="width:200px" placeholder="十年晨星评级">
-                            <Option value="1" key="Rating10Year5">十年晨星评级3星及以上</Option>
-                            <Option value="2" key="Rating10Year10">十年晨星评级3星以下</Option>
-                          </Select>
-                    </FormItem>
-            </Row>
-            <Row>
-                <FormItem  style="font-weight:bold" :label-width="60">
-                </FormItem>
                 <FormItem  label="基金成立日期早于">
                     <DatePicker v-model="form.InceptionDate" format="yyyy-MM-dd" type="date"  placeholder="基金成立日期早于" style="width: 200px"></DatePicker>
                 </FormItem>
-                <a style="margin-left:30px;" href="http://cn.morningstar.com/help/data/fundrating.html#use" target="_blank">晨星评级说明</a>
-                <i-switch  style="width:100px;margin-left:20px;" :value="showAdvanced" @on-change="changeAdvancedOptionStatus"  size="large">
+                
+            </Row> 
+            <Row>
+                <FormItem  style="font-weight:bold" :label-width="60">
+                </FormItem>
+                <FormItem  label="三年晨星评级">
+                    <Select v-model="form.Rating3Year" clearable style="width:200px" placeholder="三年晨星评级">
+                        <Option value="1" key="Rating3Year1">三年晨星评级3星及以上</Option>
+                        <Option value="2" key="Rating3Year2">三年晨星评级3星以下</Option>
+                        </Select>
+                </FormItem>
+                <FormItem  label="五年晨星评级">
+                    <Select  v-model="form.Rating5Year" clearable style="width:200px" placeholder="五年晨星评级">
+                        <Option value="1" key="Rating5Year5">五年晨星评级3星及以上</Option>
+                        <Option value="2" key="Rating5Year10">五年晨星评级3星以下</Option>
+                        </Select>
+                </FormItem>
+                <FormItem  label="十年晨星评级">
+                    <Select  v-model="form.Rating10Year" clearable style="width:200px" placeholder="十年晨星评级">
+                        <Option value="1" key="Rating10Year5">十年晨星评级3星及以上</Option>
+                        <Option value="2" key="Rating10Year10">十年晨星评级3星以下</Option>
+                        </Select>
+                </FormItem>
+            </Row>
+             <Row>
+                <FormItem  style="font-weight:bold" :label-width="60">
+                </FormItem>
+                
+                <i-switch  style="width:100px;margin-left:120px;margin-bottom:10px;" :value="showAdvanced" @on-change="changeAdvancedOptionStatus"  size="large">
                     <span  slot="open">隐藏高级检索</span>
                     <span  slot="close">显示高级检索</span>
                 </i-switch>
-            </Row>      
+             </Row>
+            
+               
             <Row v-if="showAdvanced">
                 <FormItem  style="font-weight:bold" :label-width="60" label="资产配置">
                 </FormItem>
@@ -201,6 +200,8 @@
             <Row>
                 <Button type="default" size="large" style="margin-left:200px;" @click="reset">重置</Button>
                 <Button type="primary" size="large" style="margin-left:40px;width:200px;" @click="queryFund">查询</Button>
+                <a style="margin-left:40px;margin-bottom:10px;" href="http://cn.morningstar.com/help/data/fundrating.html#use" target="_blank">晨星评级说明</a>
+                
             </Row>
         </Form>  
         </Card>
