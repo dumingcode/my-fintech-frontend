@@ -92,6 +92,7 @@
                     <span  slot="open">隐藏高级检索</span>
                     <span  slot="close">显示高级检索</span>
                 </i-switch>
+                <span style="color:#2db7f5;margin-left:20px;margin-bottom:10px;">年份收益为蓝色字体表示基金经理于当年任职</span>
              </Row>
             
                
