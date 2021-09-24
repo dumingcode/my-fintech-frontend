@@ -237,7 +237,9 @@ export default {
                     key: 'memo',
                     width: 400,
                     align: 'center',
-                    editable: true
+                    editable: true,
+                    sortable: true,
+                    sortType: 'asc'
                 },
                 {
                     title: '操作',

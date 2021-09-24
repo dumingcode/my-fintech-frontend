@@ -22,77 +22,81 @@
                 <FormItem  label="基金代码">
                     <Input  v-model="form.Code" style="width:200px" placeholder="请输入基金代码"></Input>
                 </FormItem>
+                <FormItem  label="经理姓名">
+                    <Input  v-model="form.ManagerName" style="width:200px" placeholder="请输入基金经理姓名"></Input>
+                </FormItem>
             </Row>
             
+
             <Row>
                 <FormItem  style="font-weight:bold" :label-width="60">
                 </FormItem>
-                <FormItem  label="经理姓名">
-                    <Input  v-model="form.ManagerName" style="width:200px" placeholder="请输入基金经理姓名"></Input>
+                <FormItem  label="基金类型">
+                    <Select  v-model="form.CategoryId"  clearable style="width:200px" placeholder="选择基金类型">
+                        <Option value="PGSZD1" key="PGSZD1">激进配置型基金</Option>
+                        <Option value="PGSZ01" key="PGSZ01">股票型基金</Option>
+                        <Option value="PGSZB1" key="PGSZB1">行业股票-医药</Option>
+                        <Option value="PGSZC1" key="PGSZC1">行业股票-科技传媒及通讯</Option>
+                        <Option value="PGSZA1" key="PGSZA1">沪港深股票型基金</Option>
+                        <Option value="PGSZE1" key="PGSZE1">香港股票型基金</Option>
+                        <Option value="PGSZF3" key="PGSZF3">灵活配置型基金</Option>
+                        <Option value="PGSZC3" key="PGSZC3">标准混合型基金</Option>
+                        <Option value="PGSZG3" key="PGSZG3">沪港深混合型基金</Option>
+                        <Option value="PGSZD3" key="PGSZD3">保守混合型基金</Option>
+                        <Option value="PGSZE3" key="PGSZE3">可转债基金</Option>
+                        <Option value="PGSZC2" key="PGSZC2">激进债券型基金</Option>
+                        <Option value="PGSZA2" key="PGSZA2">普通债券型基金</Option>
+                        <Option value="PGSZD2" key="PGSZD2">纯债基金</Option>
+                        <Option value="PGSZB2" key="PGSZB2">短债基金</Option>
+                        <Option value="PGSZ04" key="PGSZ04">货币市场基金</Option>
+                        <Option value="PGSZM6" key="PGSZM6">市场中性策略</Option>
+                        <Option value="PGSZ0F" key="PGSZ0F">商品</Option>
+                        <Option value="PGSZ0X" key="PGSZ0X">其他</Option>
+                    </Select>
                 </FormItem>
                 <FormItem  label="任职日期早于">
                     <DatePicker v-model="form.ManagerTime" format="yyyy-MM-dd" type="date"  placeholder="任职日期早于" style="width: 200px"></DatePicker>
                 </FormItem>
-            </Row>
-
-            <Row>
-                    <FormItem  style="font-weight:bold" :label-width="60">
-                    </FormItem>
-                    <FormItem  label="基金类型">
-                        <Select  v-model="form.CategoryId"  clearable style="width:200px" placeholder="选择基金类型">
-                            <Option value="PGSZD1" key="PGSZD1">激进配置型基金</Option>
-                            <Option value="PGSZ01" key="PGSZ01">股票型基金</Option>
-                            <Option value="PGSZB1" key="PGSZB1">行业股票-医药</Option>
-                            <Option value="PGSZC1" key="PGSZC1">行业股票-科技传媒及通讯</Option>
-                            <Option value="PGSZA1" key="PGSZA1">沪港深股票型基金</Option>
-                            <Option value="PGSZE1" key="PGSZE1">香港股票型基金</Option>
-                            <Option value="PGSZF3" key="PGSZF3">灵活配置型基金</Option>
-                            <Option value="PGSZC3" key="PGSZC3">标准混合型基金</Option>
-                            <Option value="PGSZG3" key="PGSZG3">沪港深混合型基金</Option>
-                            <Option value="PGSZD3" key="PGSZD3">保守混合型基金</Option>
-                            <Option value="PGSZE3" key="PGSZE3">可转债基金</Option>
-                            <Option value="PGSZC2" key="PGSZC2">激进债券型基金</Option>
-                            <Option value="PGSZA2" key="PGSZA2">普通债券型基金</Option>
-                            <Option value="PGSZD2" key="PGSZD2">纯债基金</Option>
-                            <Option value="PGSZB2" key="PGSZB2">短债基金</Option>
-                            <Option value="PGSZ04" key="PGSZ04">货币市场基金</Option>
-                            <Option value="PGSZM6" key="PGSZM6">市场中性策略</Option>
-                            <Option value="PGSZ0F" key="PGSZ0F">商品</Option>
-                            <Option value="PGSZ0X" key="PGSZ0X">其他</Option>
-                          </Select>
-                    </FormItem>
-                    <FormItem  label="三年晨星评级">
-                        <Select v-model="form.Rating3Year" clearable style="width:200px" placeholder="三年晨星评级">
-                            <Option value="1" key="Rating3Year1">三年晨星评级3星及以上</Option>
-                            <Option value="2" key="Rating3Year2">三年晨星评级3星以下</Option>
-                          </Select>
-                    </FormItem>
-            </Row>
-            <Row>
-                    <FormItem  style="font-weight:bold" :label-width="60">
-                    </FormItem>
-                    <FormItem  label="五年晨星评级">
-                        <Select  v-model="form.Rating5Year" clearable style="width:200px" placeholder="五年晨星评级">
-                            <Option value="1" key="Rating5Year5">五年晨星评级3星及以上</Option>
-                            <Option value="2" key="Rating5Year10">五年晨星评级3星以下</Option>
-                          </Select>
-                    </FormItem>
-                    <FormItem  label="十年晨星评级">
-                        <Select  v-model="form.Rating10Year" clearable style="width:200px" placeholder="十年晨星评级">
-                            <Option value="1" key="Rating10Year5">十年晨星评级3星及以上</Option>
-                            <Option value="2" key="Rating10Year10">十  年晨星评级3星以下</Option>
-                          </Select>
-                    </FormItem>
-            </Row>
-            <Row>
-                <FormItem  style="font-weight:bold" :label-width="60">
-                </FormItem>
                 <FormItem  label="基金成立日期早于">
                     <DatePicker v-model="form.InceptionDate" format="yyyy-MM-dd" type="date"  placeholder="基金成立日期早于" style="width: 200px"></DatePicker>
                 </FormItem>
-                <a href="http://cn.morningstar.com/help/data/fundrating.html#use" target="_blank">晨星评级说明</a>
-            </Row>
+                
+            </Row> 
             <Row>
+                <FormItem  style="font-weight:bold" :label-width="60">
+                </FormItem>
+                <FormItem  label="三年晨星评级">
+                    <Select v-model="form.Rating3Year" clearable style="width:200px" placeholder="三年晨星评级">
+                        <Option value="1" key="Rating3Year1">三年晨星评级3星及以上</Option>
+                        <Option value="2" key="Rating3Year2">三年晨星评级3星以下</Option>
+                        </Select>
+                </FormItem>
+                <FormItem  label="五年晨星评级">
+                    <Select  v-model="form.Rating5Year" clearable style="width:200px" placeholder="五年晨星评级">
+                        <Option value="1" key="Rating5Year5">五年晨星评级3星及以上</Option>
+                        <Option value="2" key="Rating5Year10">五年晨星评级3星以下</Option>
+                        </Select>
+                </FormItem>
+                <FormItem  label="十年晨星评级">
+                    <Select  v-model="form.Rating10Year" clearable style="width:200px" placeholder="十年晨星评级">
+                        <Option value="1" key="Rating10Year5">十年晨星评级3星及以上</Option>
+                        <Option value="2" key="Rating10Year10">十年晨星评级3星以下</Option>
+                        </Select>
+                </FormItem>
+            </Row>
+             <Row>
+                <FormItem  style="font-weight:bold" :label-width="60">
+                </FormItem>
+                
+                <i-switch  style="width:100px;margin-left:120px;margin-bottom:10px;" :value="showAdvanced" @on-change="changeAdvancedOptionStatus"  size="large">
+                    <span  slot="open">隐藏高级检索</span>
+                    <span  slot="close">显示高级检索</span>
+                </i-switch>
+                <span style="color:#2db7f5;margin-left:20px;margin-bottom:10px;">年份收益为蓝色字体表示基金经理于当年任职</span>
+             </Row>
+            
+               
+            <Row v-if="showAdvanced">
                 <FormItem  style="font-weight:bold" :label-width="60" label="资产配置">
                 </FormItem>
                 <FormItem  label="股票比例大于(%)">
@@ -106,7 +110,7 @@
                     <Input v-model="form.ltBond" style="width:50px"></Input>
                 </FormItem>
             </Row>
-            <Row>
+            <Row  v-if="showAdvanced">
                 <FormItem  style="font-weight:bold" :label-width="60">
                 </FormItem>
                 <FormItem  label="重仓股票比例大于">
@@ -120,7 +124,7 @@
                     <Input v-model="form.ltTopBondsWeight" style="width:50px"></Input>
                 </FormItem>
             </Row>
-            <Row>
+            <Row  v-if="showAdvanced">
                
                 <FormItem  style="font-weight:bold" :label-width="60" label="年化收益">
                 </FormItem>
@@ -137,7 +141,7 @@
                     <Input v-model="form.gt2017" style="width:50px"></Input>
                 </FormItem>
             </Row>
-            <Row>
+            <Row  v-if="showAdvanced">
                 <FormItem  style="font-weight:bold" :label-width="60">
                 </FormItem>
                 <FormItem  label="2016年收益大于(%)">
@@ -154,7 +158,7 @@
                 </FormItem>
             </Row>
             
-            <Row>
+            <Row  v-if="showAdvanced">
                 <FormItem  style="font-weight:bold" :label-width="60">
                 </FormItem>
                 <FormItem  label="今年收益大于(%)">
@@ -170,9 +174,34 @@
                     <Input v-model="form.Return10Year" style="width:50px"></Input>
                 </FormItem>
             </Row>
+            <Row  v-if="showAdvanced">
+                <FormItem style="font-weight:bold" :label-width="60" label="排序选择">
+                </FormItem>     
+                <FormItem :label-width="60">
+                    <div v-for="(item,index) in orders" :key="index" class="section-content-item-list">
+                        <Row class="row-wide">
+                            <Col>
+                                    按照
+                                <Select size="small" v-model="item.col" style="width:160px">
+                                    <Option v-for="col in colList" :value="col.value" :key="col.value">{{ col.label }}</Option>
+                                </Select>
+                                <Select size="small" v-model="item.type" style="width:60px">
+                                    <Option v-for="col in ordList" :value="col.value" :key="col.value">{{ col.label }}</Option>
+                                </Select>
+                                排序
+                                <Icon type='ios-close' style="padding-left:10px;" size="24" @click.native="delOrder(index)"></Icon>
+                            </Col>
+                        </Row>
+                </div>
+                <Button type="text" @click="addOrder()" icon='plus-circled' class="section-content-item-btn">添加排序项</Button>
+                </nobr>
+                </FormItem>
+            </Row>
+
             <Row>
                 <Button type="default" size="large" style="margin-left:200px;" @click="reset">重置</Button>
                 <Button type="primary" size="large" style="margin-left:40px;width:200px;" @click="queryFund">查询</Button>
+                <a style="margin-left:40px;margin-bottom:10px;" href="http://cn.morningstar.com/help/data/fundrating.html#use" target="_blank">晨星评级说明</a>
                 
             </Row>
         </Form>  
@@ -218,6 +247,9 @@ export default {
             pageSize: 10,
             form: {},
             showAdvanced: false,
+            orders: [{
+                type: 'order'
+            }],
             fundCategory: {
                 'PGSZD1': '激进配置型基金',
                 'PGSZ01': '股票型基金',
@@ -497,6 +529,98 @@ export default {
                     key: 'handle',
                     handle: ['']
                 }
+            ],
+            ordList: [
+                {
+                    value: 'asc',
+                    label: '升序'
+                },
+                {
+                    value: 'desc',
+                    label: '降序'
+                }],
+            colList: [
+                {
+                    value: 'InceptionDate',
+                    label: '成立日期'
+                },
+                {
+                    value: 'ManagerTime',
+                    label: '基金经理任职日期'
+                },
+
+                {
+                    value: '2020',
+                    label: '2020年收益'
+                },
+                {
+                    value: '2019',
+                    label: '2019年收益'
+                },
+                {
+                    value: '2018',
+                    label: '2018年收益'
+                },
+                {
+                    value: '2017',
+                    label: '2017年收益'
+                },
+                {
+                    value: '2016',
+                    label: '2016年收益'
+                },
+                {
+                    value: '2015',
+                    label: '2015年收益'
+                },
+                {
+                    value: '2014',
+                    label: '2014年收益'
+                },
+                {
+                    value: '2013',
+                    label: '2013年收益'
+                },
+                {
+                    value: 'Rating3Year',
+                    label: '晨星3年评级'
+                },
+                {
+                    value: 'Rating5Year',
+                    label: '晨星5年评级'
+                },
+                {
+                    value: 'Rating10Year',
+                    label: '晨星10年评级'
+                },
+                {
+                    value: 'Return3Year',
+                    label: '3年年化收益'
+                },
+                {
+                    value: 'Return5Year',
+                    label: '5年年化收益'
+                },
+                {
+                    value: 'Return10Year',
+                    label: '10年年化收益'
+                },
+                {
+                    value: 'Stock',
+                    label: '股票比例'
+                },
+                {
+                    value: 'TopStockWeight',
+                    label: '重仓股比例'
+                },
+                {
+                    value: 'Bond',
+                    label: '债券比例'
+                },
+                {
+                    value: 'TopBondsWeight',
+                    label: '重仓债券比例'
+                }
             ]
         }
     },
@@ -611,10 +735,19 @@ export default {
                 arr.push({ 'range': { 'TopBondsWeight': rObj }})
             }
             // arr.push({ 'match': param })
-
+            const orderArr = []
+            this.orders.forEach(orderObj => {
+                const col = '' + orderObj['col']
+                const type = orderObj['type']
+                const obj = {}
+                obj[col] = type
+                if (orderObj['col']) {
+                    orderArr.push(obj)
+                }
+            })
             const param = {
                 'queryParameters': arr,
-                'sortParameters': [{ '2018': 'desc' }],
+                'sortParameters': orderArr,
                 'from': (this.current - 1) * this.pageSize,
                 'size': this.pageSize
             }
@@ -635,6 +768,40 @@ export default {
         },
         reset () {
             this.form = {}
+            this.orders = [{ type: 'order' }]
+        },
+        changeAdvancedOptionStatus () {
+            this.showAdvanced = !this.showAdvanced
+            if (!this.showAdvanced) {
+                delete this.form.gtStock
+                delete this.form.ltStock
+                delete this.form.gtBond
+                delete this.form.ltBond
+                delete this.form.gtTopStockWeight
+                delete this.form.ltTopStockWeight
+                delete this.form.gtTopBondsWeight
+                delete this.form.ltTopBondsWeight
+                delete this.form.gt2020
+                delete this.form.gt2019
+                delete this.form.gt2018
+                delete this.form.gt2017
+                delete this.form.gt2016
+                delete this.form.gt2015
+                delete this.form.gt2014
+                delete this.form.gt2013
+                delete this.form.Return3Year
+                delete this.form.Return5Year
+                delete this.form.Return10Year
+                this.orders = [{ type: 'order' }]
+            }
+        },
+        addOrder () {
+            this.orders.push({
+                type: 'order'
+            })
+        },
+        delOrder (index) {
+            this.orders.splice(index, 1)
         }
     },
     async created () {

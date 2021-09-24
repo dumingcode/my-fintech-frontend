@@ -141,16 +141,17 @@ export default {
                                 return bb - aa
                             }
                         }
-                    },
-                    render: (h, params) => {
-                        const tmpStr = params.row.chg
-                        const rise = parseFloat(tmpStr.replace('%', '')) > 0
-                        return h('span', {
-                            style: {
-                                color: (rise) ? '#ed3f14' : '#19be6b'
-                            }
-                        }, tmpStr)
                     }
+                    // ,
+                    // render: (h, params) => {
+                    //     const tmpStr = params.row.chg
+                    //     const rise = parseFloat(tmpStr.replace('%', '')) > 0
+                    //     return h('span', {
+                    //         style: {
+                    //             color: (rise) ? '#ed3f14' : '#19be6b'
+                    //         }
+                    //     }, tmpStr)
+                    // }
                 },
                 {
                     title: '52周最低价',
